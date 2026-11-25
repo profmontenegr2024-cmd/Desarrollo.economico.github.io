@@ -1,0 +1,2948 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="artifact-type" content="narrative">
+  <meta name="design-style" content="charter">
+  <title>Desarrollando la IA con DSI: El Renacimiento Económico y Social</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Noto+Sans+SC:wght@400;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js"></script>
+  <script src="https://unpkg.com/lucide@1.43.0/dist/umd/lucide.min.js"></script>
+  <style>
+    :root {
+      color-scheme: light;
+
+      /* Charter base surfaces & ink */
+      --background: #f7f4ec;
+      --surface-container-low: #fffdf8;
+      --surface-container: #ece5d4;
+      --surface-container-high: #e3dac4;
+      --on-surface: #1c1f26;
+      --on-surface-variant: #4f5360;
+
+      /* Rules & accents */
+      --outline: #b08d57;
+      --outline-variant: #d9cfb8;
+      --primary: #14213d;
+      --on-primary: #f7f4ec;
+      --primary-container: #e3e6ee;
+      --on-primary-container: #14213d;
+      --secondary: #2d5a4a;
+      --tertiary: #8a6a35;
+      --error: #9b2c2c;
+      --on-error: #f7f4ec;
+
+      /* Differentiated section & header backgrounds (high contrast >= 7:1) */
+      --sec-nav-bg: #e9e1cf;
+      --sec-crisis-bg: #f7f4ec;
+      --sec-crisis-head: #2b1a22;
+      --sec-dsi-bg: #fffdf8;
+      --sec-dsi-head: #193b30;
+      --sec-muni-bg: #eef2f7;
+      --sec-muni-head: #14213d;
+      --sec-dual-bg: #f3ede0;
+      --sec-dual-head: #4d3614;
+      --sec-work-bg: #edf4f0;
+      --sec-work-head: #1b4332;
+      --sec-demo-bg: #f6f4ef;
+      --sec-demo-head: #1b365d;
+      --sec-f5-bg: #ece5d4;
+      --sec-f5-head: #2c241d;
+      --sec-gallery-bg: #172136;
+      --sec-gallery-head: #0f172a;
+      --sec-video-bg: #0f1626;
+      --sec-video-head: #1d2b44;
+      --sec-buy-bg: #fffdf8;
+      --sec-buy-head: #14213d;
+      --sec-diff-bg: #e7dfd0;
+      --sec-diff-head: #244a3d;
+      --head-ink: #f7f4ec;
+      --head-sub-ink: #d9cfb8;
+      --gallery-ink: #f7f4ec;
+      --gallery-muted: #c8d0e0;
+      --overlay-scrim: rgba(12, 18, 32, 0.92);
+      --brass-on-navy: #d9be8c;
+      --btn-navy-hover: #1e3159;
+
+      /* Data series */
+      --data-1: #14213d;
+      --data-2: #8a6a35;
+      --data-3: #2d5a4a;
+      --data-4: #5b7aa0;
+      --data-context: #c2bba9;
+
+      /* Semantic */
+      --positive: #1f5c44;
+      --warning: #8a6a35;
+      --focus: #14213d;
+
+      /* Typography */
+      --font-headline: 'Libre Caslon Text', 'Noto Sans SC', Georgia, serif;
+      --font-body: 'Inter', 'Noto Sans SC', system-ui, sans-serif;
+      --font-label: 'JetBrains Mono', 'Noto Sans SC', monospace;
+
+      /* Type scale (Narrative) */
+      --display-size: clamp(2.1rem, 1.3rem + 3.2vw, 3.6rem);
+      --headline-size: clamp(1.55rem, 1.15rem + 1.6vw, 2.35rem);
+      --subhead-size: clamp(1.15rem, 1.02rem + 0.5vw, 1.4rem);
+      --body-size: clamp(1rem, 0.96rem + 0.2vw, 1.125rem);
+      --label-size: clamp(0.75rem, 0.72rem + 0.12vw, 0.8125rem);
+
+      /* Shape & rules */
+      --rounded: 0.125rem;
+      --rounded-lg: 0.25rem;
+      --brass-rule: 2px solid var(--outline);
+      --brass-thick: 3px solid var(--outline);
+      --hairline: 1px solid var(--outline-variant);
+
+      /* Spacing scale */
+      --space-xs: 0.25rem;
+      --space-sm: 0.5rem;
+      --space-md: 1rem;
+      --space-lg: 1.5rem;
+      --space-xl: 2.5rem;
+      --space-2xl: 4rem;
+
+      /* Motion */
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+      --dur-micro: 120ms;
+      --dur-short: 240ms;
+      --dur-long: 440ms;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body {
+      overflow-x: clip;
+      margin: 0;
+      padding: 0;
+      background: var(--background);
+      color: var(--on-surface);
+      font-family: var(--font-body);
+      font-size: var(--body-size);
+      line-height: 1.6;
+      scroll-behavior: smooth;
+    }
+
+    button, input, select, textarea { font-family: inherit; }
+
+    :focus-visible {
+      outline: 3px solid var(--outline);
+      outline-offset: 2px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding-inline: var(--space-lg);
+    }
+
+    /* Language switcher bar inside Title Band */
+    .lang-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-md);
+      padding-bottom: var(--space-lg);
+      margin-bottom: var(--space-lg);
+      border-bottom: 1px solid var(--outline);
+    }
+
+    .lang-brand {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--brass-on-navy);
+      font-weight: 600;
+    }
+
+    .lang-group {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--space-xs);
+    }
+
+    .lang-label {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      color: var(--head-sub-ink);
+      margin-right: var(--space-xs);
+    }
+
+    .lang-btn {
+      min-height: 44px;
+      padding: 0 var(--space-md);
+      border: 1px solid var(--outline);
+      border-radius: var(--rounded);
+      background: transparent;
+      color: var(--head-ink);
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color var(--dur-micro) var(--ease-out), color var(--dur-micro) var(--ease-out);
+    }
+
+    .lang-btn:hover {
+      background: var(--btn-navy-hover);
+    }
+
+    .lang-btn.active {
+      background: var(--outline);
+      color: var(--primary);
+    }
+
+    /* Title Band (Charter Hero) */
+    .title-band {
+      background: var(--primary);
+      color: var(--on-primary);
+      padding: var(--space-xl) 0 var(--space-2xl);
+      border-bottom: var(--brass-thick);
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.45fr) minmax(0, 0.85fr);
+      gap: var(--space-2xl);
+      align-items: center;
+    }
+
+    .hero-kicker {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      color: var(--brass-on-navy);
+      margin: 0 0 var(--space-sm);
+      font-weight: 600;
+    }
+
+    .title-band h1 {
+      font-family: var(--font-headline);
+      font-weight: 400;
+      font-size: var(--display-size);
+      line-height: 1.08;
+      letter-spacing: -0.015em;
+      margin: 0 0 var(--space-md);
+      color: var(--on-primary);
+    }
+
+    .hero-subtitle {
+      font-size: var(--subhead-size);
+      color: var(--head-sub-ink);
+      margin: 0 0 var(--space-lg);
+      max-width: 60ch;
+      line-height: 1.45;
+    }
+
+    .hero-meta-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(180px, 100%), 1fr));
+      gap: var(--space-md);
+      border-top: 1px solid var(--outline);
+      padding-top: var(--space-md);
+      margin-bottom: var(--space-lg);
+    }
+
+    .hero-meta-item dt {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--brass-on-navy);
+    }
+
+    .hero-meta-item dd {
+      margin: var(--space-xs) 0 0;
+      font-weight: 500;
+      color: var(--on-primary);
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-md);
+    }
+
+    .btn-primary-brass {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-sm);
+      min-height: 44px;
+      padding: 0 var(--space-lg);
+      background: var(--outline);
+      color: var(--primary);
+      border: 1px solid var(--outline);
+      border-radius: var(--rounded);
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background-color var(--dur-micro) var(--ease-out);
+    }
+
+    .btn-primary-brass:hover { background: var(--brass-on-navy); }
+
+    .btn-outline-light {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-sm);
+      min-height: 44px;
+      padding: 0 var(--space-lg);
+      background: transparent;
+      color: var(--on-primary);
+      border: 1px solid var(--brass-on-navy);
+      border-radius: var(--rounded);
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background-color var(--dur-micro) var(--ease-out);
+    }
+
+    .btn-outline-light:hover { background: var(--btn-navy-hover); }
+
+    .hero-cover-card {
+      background: var(--surface-container-low);
+      border-top: var(--brass-thick);
+      border-radius: var(--rounded);
+      padding: var(--space-md);
+      color: var(--on-surface);
+    }
+
+    .hero-cover-card img {
+      width: 100%;
+      height: auto;
+      max-height: 460px;
+      object-fit: contain;
+      display: block;
+      cursor: zoom-in;
+      border-radius: var(--rounded);
+    }
+
+    .hero-cover-caption {
+      margin-top: var(--space-sm);
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      color: var(--on-surface-variant);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+
+    /* Navigation menu IMMEDIATELY after the title section */
+    .main-nav {
+      background: var(--sec-nav-bg);
+      border-bottom: var(--brass-rule);
+      padding: var(--space-md) 0;
+    }
+
+    .nav-inner {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+
+    .nav-link {
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px;
+      padding: 0 var(--space-md);
+      color: var(--primary);
+      text-decoration: none;
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border-bottom: 2px solid transparent;
+      transition: background-color var(--dur-micro) var(--ease-out), border-color var(--dur-micro) var(--ease-out);
+    }
+
+    .nav-link:hover {
+      background: var(--surface-container-high);
+      border-bottom-color: var(--outline);
+    }
+
+    /* Differentiated Section Blocks & Title Headers */
+    .section-band {
+      padding: var(--space-2xl) 0;
+      border-bottom: var(--hairline);
+    }
+
+    .sec-crisis { background: var(--sec-crisis-bg); }
+    .sec-dsi { background: var(--sec-dsi-bg); }
+    .sec-muni { background: var(--sec-muni-bg); }
+    .sec-dual { background: var(--sec-dual-bg); }
+    .sec-work { background: var(--sec-work-bg); }
+    .sec-demo { background: var(--sec-demo-bg); }
+    .sec-f5 { background: var(--sec-f5-bg); }
+    .sec-gallery { background: var(--sec-gallery-bg); color: var(--gallery-ink); }
+    .sec-video { background: var(--sec-video-bg); color: var(--gallery-ink); }
+    .sec-buy { background: var(--sec-buy-bg); }
+    .sec-diff { background: var(--sec-diff-bg); }
+
+    .section-title-block {
+      padding: var(--space-lg) var(--space-xl);
+      border-top: var(--brass-thick);
+      border-bottom: var(--brass-rule);
+      border-radius: var(--rounded);
+      margin-bottom: var(--space-xl);
+      color: var(--head-ink);
+    }
+
+    .head-crisis { background: var(--sec-crisis-head); }
+    .head-dsi { background: var(--sec-dsi-head); }
+    .head-muni { background: var(--sec-muni-head); }
+    .head-dual { background: var(--sec-dual-head); }
+    .head-work { background: var(--sec-work-head); }
+    .head-demo { background: var(--sec-demo-head); }
+    .head-f5 { background: var(--sec-f5-head); }
+    .head-gallery { background: var(--sec-gallery-head); }
+    .head-video { background: var(--sec-video-head); }
+    .head-buy { background: var(--sec-buy-head); }
+    .head-diff { background: var(--sec-diff-head); }
+
+    .section-kicker {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--brass-on-navy);
+      margin: 0 0 var(--space-xs);
+      font-weight: 600;
+    }
+
+    .section-title-block h2 {
+      font-family: var(--font-headline);
+      font-weight: 400;
+      font-size: var(--headline-size);
+      line-height: 1.14;
+      margin: 0 0 var(--space-xs);
+      color: var(--head-ink);
+    }
+
+    .section-title-block p {
+      margin: 0;
+      color: var(--head-sub-ink);
+      max-width: 72ch;
+    }
+
+    /* Editorial grids & cards */
+    .split-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+      gap: var(--space-xl);
+      align-items: start;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+      gap: var(--space-lg);
+    }
+
+    .figure-card {
+      background: var(--surface-container-low);
+      border-top: var(--brass-rule);
+      border-bottom: var(--hairline);
+      border-radius: var(--rounded);
+      padding: var(--space-lg);
+      color: var(--on-surface);
+    }
+
+    .figure-card h3 {
+      font-family: var(--font-headline);
+      font-weight: 700;
+      font-size: var(--subhead-size);
+      margin: 0 0 var(--space-sm);
+      color: var(--primary);
+    }
+
+    .figure-label {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--tertiary);
+      margin-bottom: var(--space-xs);
+      display: block;
+      font-weight: 600;
+    }
+
+    .figure-value {
+      font-family: var(--font-headline);
+      font-size: clamp(1.7rem, 1.3rem + 1.2vw, 2.4rem);
+      font-variant-numeric: tabular-nums lining-nums;
+      color: var(--primary);
+      line-height: 1.1;
+      margin: var(--space-xs) 0;
+    }
+
+    .figure-delta {
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: var(--secondary);
+    }
+
+    .prose-col {
+      max-width: 68ch;
+    }
+
+    .prose-col p {
+      margin: 0 0 var(--space-md);
+    }
+
+    .quote-rule {
+      border-left: 3px solid var(--outline);
+      padding: var(--space-sm) var(--space-lg);
+      margin: var(--space-lg) 0;
+      background: var(--surface-container-low);
+      font-family: var(--font-headline);
+      font-style: italic;
+      color: var(--primary);
+    }
+
+    /* Plate card (clickable image with zoom indicator) */
+    .plate-figure {
+      background: var(--surface-container-low);
+      border-top: var(--brass-rule);
+      border-bottom: var(--hairline);
+      border-radius: var(--rounded);
+      padding: var(--space-md);
+      margin: 0;
+      color: var(--on-surface);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+    }
+
+    .plate-img-wrap {
+      position: relative;
+      background: var(--surface-container-low);
+      border: var(--hairline);
+      border-radius: var(--rounded);
+      overflow: hidden;
+      cursor: zoom-in;
+    }
+
+    .plate-img-wrap img {
+      width: 100%;
+      height: auto;
+      display: block;
+      max-height: 360px;
+      object-fit: contain;
+      background: var(--surface-container-low);
+    }
+
+    .plate-zoom-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      min-height: 44px;
+      padding: var(--space-xs) var(--space-sm);
+      background: var(--surface-container);
+      color: var(--primary);
+      border: 1px solid var(--outline-variant);
+      border-radius: var(--rounded);
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      font-weight: 600;
+      cursor: pointer;
+      text-align: left;
+      transition: background-color var(--dur-micro) var(--ease-out);
+    }
+
+    .plate-zoom-btn:hover {
+      background: var(--surface-container-high);
+    }
+
+    .plate-caption {
+      font-size: 0.92rem;
+      color: var(--on-surface-variant);
+      line-height: 1.45;
+    }
+
+    .plates-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr));
+      gap: var(--space-lg);
+      margin-top: var(--space-xl);
+    }
+
+    /* Dual 70/30 Table & Simulator */
+    .dual-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--surface-container-low);
+      margin: var(--space-lg) 0;
+      font-size: 0.95rem;
+    }
+
+    .dual-table th, .dual-table td {
+      padding: var(--space-md);
+      text-align: left;
+      border-bottom: var(--hairline);
+      vertical-align: top;
+    }
+
+    .dual-table th {
+      background: var(--surface-container-high);
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--primary);
+      border-top: var(--brass-rule);
+    }
+
+    .dual-table td.num, .dual-table th.num {
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+
+    .sim-panel {
+      background: var(--surface-container-low);
+      border-top: var(--brass-thick);
+      border-bottom: var(--hairline);
+      padding: var(--space-lg);
+      border-radius: var(--rounded);
+    }
+
+    .sim-controls {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
+      gap: var(--space-lg);
+      margin-bottom: var(--space-lg);
+    }
+
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+    }
+
+    .field-group label {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--primary);
+    }
+
+    .input-pair {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 92px;
+      gap: var(--space-sm);
+      align-items: center;
+    }
+
+    .input-pair input[type="range"] {
+      width: 100%;
+      min-height: 44px;
+      accent-color: var(--primary);
+    }
+
+    .input-pair input[type="number"] {
+      min-height: 44px;
+      padding: 0 var(--space-sm);
+      border: 1px solid var(--outline-variant);
+      border-radius: var(--rounded);
+      background: var(--background);
+      color: var(--on-surface);
+      font-family: var(--font-label);
+      font-weight: 600;
+    }
+
+    .chart-box {
+      position: relative;
+      min-height: 320px;
+      width: 100%;
+      margin-top: var(--space-lg);
+      background: var(--surface-container-low);
+      border: var(--hairline);
+      padding: var(--space-md);
+    }
+
+    /* Filter tabs for Gallery */
+    .filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+      margin-bottom: var(--space-xl);
+    }
+
+    .filter-btn {
+      min-height: 44px;
+      padding: 0 var(--space-md);
+      border: 1px solid var(--outline);
+      border-radius: var(--rounded);
+      background: transparent;
+      color: var(--gallery-ink);
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color var(--dur-micro) var(--ease-out), color var(--dur-micro) var(--ease-out);
+    }
+
+    .filter-btn:hover { background: var(--btn-navy-hover); }
+    .filter-btn.active { background: var(--outline); color: var(--primary); }
+
+    /* Video Autoplay Presentation Stage */
+    .video-stage {
+      background: var(--sec-gallery-head);
+      border: 2px solid var(--outline);
+      border-radius: var(--rounded);
+      overflow: hidden;
+    }
+
+    .video-viewport {
+      position: relative;
+      min-height: 420px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.3fr) minmax(0, 0.9fr);
+      gap: 0;
+      background: var(--sec-video-bg);
+    }
+
+    .video-visual-pane {
+      position: relative;
+      background: var(--sec-gallery-head);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: var(--space-lg);
+      min-height: 360px;
+    }
+
+    .video-visual-pane img {
+      width: 100%;
+      max-height: 390px;
+      object-fit: contain;
+      border-radius: var(--rounded);
+      cursor: zoom-in;
+      transition: opacity var(--dur-short) var(--ease-out), transform var(--dur-long) var(--ease-out);
+    }
+
+    .video-status-badge {
+      position: absolute;
+      top: var(--space-md);
+      left: var(--space-md);
+      background: var(--outline);
+      color: var(--primary);
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      font-weight: 700;
+      padding: var(--space-xs) var(--space-sm);
+      border-radius: var(--rounded);
+    }
+
+    .video-script-pane {
+      padding: var(--space-xl);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border-left: 1px solid var(--outline);
+      background: var(--sec-gallery-bg);
+    }
+
+    .video-chapter-tag {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      color: var(--brass-on-navy);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .video-script-pane h3 {
+      font-family: var(--font-headline);
+      font-size: var(--subhead-size);
+      color: var(--head-ink);
+      margin: var(--space-sm) 0;
+      font-weight: 400;
+    }
+
+    .video-subtitle-box {
+      font-size: 1.05rem;
+      line-height: 1.55;
+      color: var(--gallery-muted);
+      margin: var(--space-md) 0;
+    }
+
+    .video-controls-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--space-md);
+      padding: var(--space-md) var(--space-lg);
+      background: var(--sec-video-head);
+      border-top: 1px solid var(--outline);
+    }
+
+    .video-progress-track {
+      flex: 1 1 200px;
+      height: 8px;
+      background: var(--primary);
+      border: 1px solid var(--outline);
+      border-radius: var(--rounded);
+      overflow: hidden;
+    }
+
+    .video-progress-fill {
+      height: 100%;
+      width: 0%;
+      background: var(--outline);
+      transition: width var(--dur-short) linear;
+    }
+
+    /* Purchase & QR Section */
+    .buy-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr));
+      gap: var(--space-xl);
+    }
+
+    .store-card {
+      background: var(--surface-container-low);
+      border-top: var(--brass-thick);
+      border-bottom: var(--hairline);
+      border-left: var(--hairline);
+      border-right: var(--hairline);
+      border-radius: var(--rounded);
+      padding: var(--space-xl);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+    }
+
+    .qr-showcase {
+      display: grid;
+      grid-template-columns: 160px minmax(0, 1fr);
+      gap: var(--space-lg);
+      align-items: center;
+      background: var(--surface-container);
+      padding: var(--space-md);
+      border-radius: var(--rounded);
+    }
+
+    .qr-showcase img {
+      width: 100%;
+      height: auto;
+      background: var(--surface-container-low);
+      padding: var(--space-xs);
+      border: 1px solid var(--outline);
+      cursor: zoom-in;
+    }
+
+    .btn-navy {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-sm);
+      min-height: 44px;
+      padding: 0 var(--space-lg);
+      background: var(--primary);
+      color: var(--on-primary);
+      border: 1px solid var(--primary);
+      border-radius: var(--rounded);
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color var(--dur-micro) var(--ease-out);
+    }
+
+    .btn-navy:hover { background: var(--btn-navy-hover); }
+
+    .btn-secondary-outline {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-sm);
+      min-height: 44px;
+      padding: 0 var(--space-lg);
+      background: transparent;
+      color: var(--primary);
+      border: 1px solid var(--primary);
+      border-radius: var(--rounded);
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color var(--dur-micro) var(--ease-out);
+    }
+
+    .btn-secondary-outline:hover { background: var(--primary-container); }
+
+    .inline-feedback {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      color: var(--positive);
+      font-weight: 600;
+      min-height: 1.25rem;
+    }
+
+    /* Lightbox Modal */
+    .lightbox-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: var(--overlay-scrim);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: var(--space-lg);
+    }
+
+    .lightbox-backdrop.open {
+      display: flex;
+    }
+
+    .lightbox-dialog {
+      background: var(--surface-container-low);
+      color: var(--on-surface);
+      border-top: var(--brass-thick);
+      border-radius: var(--rounded);
+      max-width: 1040px;
+      width: 100%;
+      max-height: 92vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .lightbox-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: var(--space-md);
+      padding: var(--space-md) var(--space-lg);
+      background: var(--primary);
+      color: var(--on-primary);
+      border-bottom: 2px solid var(--outline);
+    }
+
+    .lightbox-body {
+      padding: var(--space-lg);
+      overflow: auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-md);
+      background: var(--background);
+    }
+
+    .lightbox-img-stage {
+      max-width: 100%;
+      overflow: auto;
+      display: flex;
+      justify-content: center;
+    }
+
+    .lightbox-img-stage img {
+      max-width: 100%;
+      max-height: 62vh;
+      object-fit: contain;
+      transition: transform var(--dur-short) var(--ease-out);
+      transform-origin: center center;
+    }
+
+    .lightbox-img-stage.zoomed img {
+      transform: scale(1.65);
+      max-height: none;
+    }
+
+    .lightbox-footer {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: var(--space-md);
+      padding: var(--space-md) var(--space-lg);
+      background: var(--surface-container);
+      border-top: var(--hairline);
+    }
+
+    footer {
+      background: var(--primary);
+      color: var(--head-sub-ink);
+      padding: var(--space-xl) 0;
+      border-top: var(--brass-thick);
+      font-size: 0.92rem;
+    }
+
+    @media (max-width: 820px) {
+      .hero-grid, .split-grid, .video-viewport {
+        grid-template-columns: 1fr;
+      }
+      .video-script-pane {
+        border-left: 0;
+        border-top: 1px solid var(--outline);
+      }
+    }
+
+    @media (max-width: 640px) {
+      .container { padding-inline: var(--space-md); }
+      .section-title-block { padding: var(--space-md); }
+      .qr-showcase { grid-template-columns: 1fr; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SECTION 0: OPENING TITLE BAND -->
+  <header id="inicio" class="title-band">
+    <div class="container">
+      <div class="lang-bar">
+        <span class="lang-brand" data-i18n="brandTag">EDICIÓN 2026 · PARADIGMA 4.0 &amp; DSI</span>
+        <div class="lang-group" role="group" aria-label="Selector de idioma">
+          <span class="lang-label" data-i18n="langLabel">Idioma:</span>
+          <button type="button" class="lang-btn active" data-lang="es" onclick="setLanguage('es')">ES</button>
+          <button type="button" class="lang-btn" data-lang="en" onclick="setLanguage('en')">EN</button>
+          <button type="button" class="lang-btn" data-lang="it" onclick="setLanguage('it')">IT</button>
+          <button type="button" class="lang-btn" data-lang="de" onclick="setLanguage('de')">DE</button>
+          <button type="button" class="lang-btn" data-lang="ru" onclick="setLanguage('ru')">RU</button>
+          <button type="button" class="lang-btn" data-lang="zh" onclick="setLanguage('zh')">ZH</button>
+        </div>
+      </div>
+
+      <div class="hero-grid">
+        <div>
+          <p class="hero-kicker" data-i18n="heroKicker">Un Nuevo Paradigma Socioeconómico en la Era 4.0</p>
+          <h1 data-i18n="heroTitle">Desarrollando la IA con DSI: El Renacimiento Económico y Social</h1>
+          <p class="hero-subtitle" data-i18n="heroSubtitle">La Doctrina Social de la Iglesia inspirando el desarrollo socioeconómico local, la democracia directa Web 3.0A y la economía solidaria con el apoyo de la Inteligencia Artificial.</p>
+
+          <dl class="hero-meta-grid">
+            <div class="hero-meta-item">
+              <dt data-i18n="metaAuthorLabel">Autor</dt>
+              <dd>C. P. N. y Docente Ariel Ivan Montenegro</dd>
+            </div>
+            <div class="hero-meta-item">
+              <dt data-i18n="metaPlatesLabel">Archivo Visual</dt>
+              <dd data-i18n="metaPlatesVal">23 Láminas + Portada + QR + Video</dd>
+            </div>
+            <div class="hero-meta-item">
+              <dt data-i18n="metaAxisLabel">Eje Rector</dt>
+              <dd data-i18n="metaAxisVal">La dignidad humana sobre el capital</dd>
+            </div>
+          </dl>
+
+          <div class="hero-actions">
+            <a href="#esquema-dual" class="btn-primary-brass" data-i18n="heroBtnSim">Explorar Esquema Dual 70/30</a>
+            <a href="#laminas" class="btn-outline-light" data-i18n="heroBtnGallery">Ver Todas las Láminas (27)</a>
+            <a href="#comprar" class="btn-outline-light" data-i18n="heroBtnBuy">Adquirir el Libro</a>
+          </div>
+        </div>
+
+        <div class="hero-cover-card">
+          <img src="[SOURCE_IMAGE_27]" alt="Portada oficial del libro Desarrollando la IA con DSI" onclick="openLightboxById('cover')">
+          <div class="hero-cover-caption">
+            <span data-i18n="coverCaption">Portada Oficial en Alta Resolución</span>
+            <button type="button" class="plate-zoom-btn" style="width:auto;" onclick="openLightboxById('cover')">
+              <span data-i18n="zoomBtn">Ampliar</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- NAVIGATION MENU IMMEDIATELY AFTER THE TITLE SECTION -->
+  <nav id="main-nav" class="main-nav" aria-label="Navegación principal">
+    <div class="container nav-inner">
+      <a class="nav-link" href="#crisis" data-i18n="navCrisis">1. Crisis Era 4.0</a>
+      <a class="nav-link" href="#principios" data-i18n="navDsi">2. Principios DSI</a>
+      <a class="nav-link" href="#municipal" data-i18n="navMuni">3. Modelo Municipal</a>
+      <a class="nav-link" href="#esquema-dual" data-i18n="navDual">4. Esquema Dual 70/30</a>
+      <a class="nav-link" href="#capital-trabajo" data-i18n="navWork">5. Capital y Gremios</a>
+      <a class="nav-link" href="#democracia" data-i18n="navDemo">6. Democracia Web 3.0A</a>
+      <a class="nav-link" href="#factor-cinco" data-i18n="navF5">7. 5.º Factor</a>
+      <a class="nav-link" href="#laminas" data-i18n="navPlates">8. Láminas (27)</a>
+      <a class="nav-link" href="#video" data-i18n="navVideo">9. Video</a>
+      <a class="nav-link" href="#comprar" data-i18n="navBuy">10. Comprar</a>
+      <a class="nav-link" href="#difusion" data-i18n="navDiff">11. Difusión</a>
+    </div>
+  </nav>
+
+  <main>
+    <!-- SECTION 1: ERA 4.0 CRISIS -->
+    <section id="crisis" class="section-band sec-crisis">
+      <div class="container">
+        <div class="section-title-block head-crisis">
+          <p class="section-kicker" data-i18n="s1Kicker">Capítulo I · Diagnóstico</p>
+          <h2 data-i18n="s1Title">La Aceleración Exponencial y el Riesgo del «First AI» sin Ética</h2>
+          <p data-i18n="s1Lead">Cuando la tecnología crece de manera exponencial y la sociedad solo se adapta de forma reactiva, la dignidad humana queda subordinada a la reducción de costos.</p>
+        </div>
+
+        <div class="split-grid">
+          <div class="prose-col">
+            <p data-i18n="s1P1">En la Cuarta Revolución Industrial, la inteligencia artificial y la robótica avanzan bajo el Principio de Aceleración y la Ley de Rendimientos Acelerados: cada innovación impulsa la siguiente antes de que las comunidades puedan asimilar la anterior.</p>
+            <p data-i18n="s1P2">El modelo «First AI» —reemplazar todo proceso humano por automatización para abaratar costos— ignora su consecuencia macroeconómica: genera despidos, contrae el ingreso de los hogares, desploma la demanda agregada y debilita el financiamiento de los sistemas jubilatorios ante una baja natalidad agravada por la precariedad económica.</p>
+            <blockquote class="quote-rule" data-i18n="s1Quote">«Falta un punto de inflexión ético y moral previo que acomode las nuevas tecnologías al bien común, poniendo a la IA y la robótica al servicio del hombre y no al revés.»</blockquote>
+          </div>
+
+          <div class="card-grid">
+            <div class="figure-card">
+              <span class="figure-label" data-i18n="s1Stat1Label">Asimetría de Ritmos</span>
+              <div class="figure-value" data-i18n="s1Stat1Val">Exponencial vs. Social</div>
+              <div class="figure-delta" data-i18n="s1Stat1Desc">La innovación tecnológica supera la capacidad de adaptación normativa sin marco DSI previo.</div>
+            </div>
+            <div class="figure-card">
+              <span class="figure-label" data-i18n="s1Stat2Label">Trampa «First AI»</span>
+              <div class="figure-value" data-i18n="s1Stat2Val">Menor Demanda Agregada</div>
+              <div class="figure-delta" data-i18n="s1Stat2Desc">Sin trabajadores activos ni familias sostenibles, caen el consumo, las ventas y las jubilaciones.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="plates-row">
+          <figure class="plate-figure">
+            <div class="plate-img-wrap" onclick="openLightboxById('p1')">
+              <img src="[SOURCE_IMAGE_1]" alt="Lámina 1: Apertura del Paradigma 4.0 con DSI">
+            </div>
+            <button type="button" class="plate-zoom-btn" onclick="openLightboxById('p1')">
+              <span data-i18n="p1Title">Lámina 01 · Portadilla del Paradigma 4.0</span>
+              <span>+</span>
+            </button>
+          </figure>
+          <figure class="plate-figure">
+            <div class="plate-img-wrap" onclick="openLightboxById('p2')">
+              <img src="[SOURCE_IMAGE_2]" alt="Lámina 2: Brecha entre aceleración tecnológica y adaptación social">
+            </div>
+            <button type="button" class="plate-zoom-btn" onclick="openLightboxById('p2')">
+              <span data-i18n="p2Title">Lámina 02 · Aceleración Tecnológica vs. Sociedad</span>
+              <span>+</span>
+            </button>
+          </figure>
+          <figure class="plate-figure">
+            <div class="plate-img-wrap" onclick="openLightboxById('p3')">
+              <img src="[SOURCE_IMAGE_3]" alt="Lámina 3: Análisis de la problemática Era 4.0">
+            </div>
+            <button type="button" class="plate-zoom-btn" onclick="openLightboxById('p3')">
+              <span data-i18n="p3Title">Lámina 03 · Riqueza vs. Dignidad en la Era 4.0</span>
+              <span>+</span>
+            </button>
+          </figure>
+          <figure class="plate-figure">
+            <div class="plate-img-wrap" onclick="openLightboxById('p4')">
+              <img src="[SOURCE_IMAGE_4]" alt="Lámina 4: Ciclo de despidos, caída de demanda y sistema previsional">
+            </div>
+            <button type="button" class="plate-zoom-btn" onclick="openLightboxById('p4')">
+              <span data-i18n="p4Title">Lámina 04 · Impacto del First AI en Demanda y Natalidad</span>
+              <span>+</span>
+            </button>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: DSI PRINCIPLES -->
+    <section id="principios" class="section-band sec-dsi">
+      <div class="container">
+        <div class="section-title-block head-dsi">
+          <p class="section-kicker" data-i18n="s2Kicker">Capítulo II · Fundamento Ético</p>
+          <h2 data-i18n="s2Title">La Doctrina Social de la Iglesia como Brújula de la Dignidad Humana</h2>
+          <p data-i18n="s2Lead">Desde León XIII (1891) hasta *Magnifica Humanitas* (2026), la DSI aporta el marco moral perenne para humanizar la economía y gobernar la IA.</p>
+        </div>
+
+        <div class="split-grid">
+          <div class="card-grid">
+            <article class="figure-card">
+              <span class="figure-label">01</span>
+              <h3 data-i18n="dsi1Title">Bien Común</h3>
+              <p data-i18n="dsi1Desc">Conjunto de condiciones sociales que permiten a personas y asociaciones alcanzar su perfección plena sin exclusiones.</p>
+            </article>
+            <article class="figure-card">
+              <span class="figure-label">02</span>
+              <h3 data-i18n="dsi2Title">Destino Universal de los Bienes</h3>
+              <p data-i18n="dsi2Desc">Los recursos naturales, culturales y tecnológicos sirven a toda la familia humana; la propiedad privada tiene función social.</p>
+            </article>
+            <article class="figure-card">
+              <span class="figure-label">03</span>
+              <h3 data-i18n="dsi3Title">Subsidiariedad</h3>
+              <p data-i18n="dsi3Desc">Lo que pueden decidir familias, municipios y cuerpos intermedios no debe ser absorbido por instancias superiores.</p>
+            </article>
+            <article class="figure-card">
+              <span class="figure-label">04</span>
+              <h3 data-i18n="dsi4Title">Solidaridad</h3>
+              <p data-i18n="dsi4Desc">Reconocer que nadie se salva solo: el destino propio está unido al del prójimo vulnerable, evitando asistencialismos pasivos.</p>
+            </article>
+            <article class="figure-card">
+              <span class="figure-label">05</span>
+              <h3 data-i18n="dsi5Title">Justicia Social</h3>
+              <p data-i18n="dsi5Desc">Órdenes económicos y digitales que protejan el trabajo humano como fuente de dignidad e impidan nuevas exclusiones algorítmicas.</p>
+            </article>
+            <article class="figure-card">
+              <span class="figure-label">06</span>
+              <h3 data-i18n="dsi6Title">Desarrollo Humano Integral</h3>
+              <p data-i18n="dsi6Desc">Promover a todo el hombre y a todos los hombres: el tiempo libre ganado con IA nutre el espíritu, la familia, las artes y la ciencia.</p>
+            </article>
+          </div>
+
+          <figure class="plate-figure">
+            <div class="plate-img-wrap" onclick="openLightboxById('p5')">
+              <img src="[SOURCE_IMAGE_5]" alt="Lámina 5: Brújula de la Dignidad Humana y Principios de la DSI">
+            </div>
+            <button type="button" class="plate-zoom-btn" onclick="openLightboxById('p5')">
+              <span data-i18n="p5Title">Lámina 05 · Brújula de la Dignidad Humana y Principios DSI</span>
+              <span>+</span>
+            </button>
+            <figcaption class="plate-caption" data-i18n="p5Cap">Síntesis de los principios fundamentales: Dignidad humana, Igualdad, Bien Común, Destino Universal, Subsidiariedad, Solidaridad, Justicia Social y Desarrollo Integral.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3: MUNICIPAL TERRITORY & AGENTS -->
+    <section id="municipal" class="section-band sec-muni">
+      <div class="container">
+        <div class="section-title-block head-muni">
+          <p class="section-kicker" data-i18n="s3Kicker">Capítulo III · Territorio y Gobernanza Local</p>
+          <h2 data-i18n="s3Title">El Estado Municipal, sus Comunas y los Puentes de Colaboración Fraterna</h2>
+          <p data-i18n="s3Lead">La microeconomía justa arraiga en el municipio por su cercanía directa con los ciudadanos, articulando Estado local, ONG, universidades, gremios y empresas.</p>
+        </div>
+
+        <div class="prose-col">
+          <p data-i18n="s3P1">Tanto el Estado Municipal —mediante ordenanzas, cesión gratuita de tierras, tasa cero y transparencia— como los agentes no estatales (asociaciones civiles sin fines de lucro, gremios, parroquias, clubes barriales, universidades y escuelas secundarias) pueden iniciar esta transformación sin esperar soluciones lejanas.</p>
+          <p data-i18n="s3P2">Los acuerdos estratégicos se forjan de manera presencial y el trabajo operativo se multiplica mediante plataformas virtuales, conectando cada comuna para construir un proceso productivo circular orientado por un armador guía.</p>
+        </div>
+
+        <div class="plates-row">
+          <figure class="plate-figure">
+            <div class="plate-img-wrap" onclick="openLightboxById('p6')">
+              <img src="[SOURCE_IMAGE_6]" alt="Lámina 6: Bases en el Estado Municipal">
+            </div>
+            <button type="button" class="plate-zoom-btn" onclick="openLightboxById('p6')">
+              <span data-i18n="p6Title">Lámina 06 · Bases en el Estado Municipal y Comunas</span>
+              <span>+</span>
+            </button>
+          </figure>
+          <figure class="plate-figure">
+            <div class="plate-img-wrap" onclick="openLightboxById('p7')">
+              <img src="[SOURCE_IMAGE_7]" alt="Lámina 7: El Municipio como agente iniciador">
+            </div>
+            <button type="button" class="plate-zoom-btn" onclick="openLightboxById('p7')">
+              <span data-i18n="p7Title">Lámina 07 · Agente Iniciador Municipal</span>
+              <span>+</span>
+            </button>
+          </figure>
+          <figure class="plate-figure">
+            <div class="plate-img-wrap" onclick="openLightboxById('p8')">
+              <img src="[SOURCE_IMAGE_8]" alt="Lámina 8: Agentes comunitarios y foros virtuales">
+            </div>
+            <button type="button" class="plate-zoom-btn" onclick="openLightboxById('p8')">
+              <span data-i18n="p8Title">Lámina 08 · Agentes Sociales y Foros Comunales</span>
+              <span>+</span>
+            </button>
+          </figure>
+          <figure class="plate-figure">
+            <div class="plate-img-wrap" onclick="openLightboxById('p9')">
+              <img src="[SOURCE_IMAGE_9]" alt="Lámina 9: Modelo económico de desarrollo múltiple">
+            </div>
+            <button type="button" class="plate-zoom-btn" onclick="openLightboxById('p9')">
+              <span data-i18n="p9Title">Lámina 09 · Desarrollo Múltiple Territorial</span>
+              <span>+</span>
+            </button>
+          </figure>
+          <figure class="plate-figure">
+            <div class="plate-img-wrap" onclick="openLightboxById('p10')">
+              <img src="[SOURCE_IMAGE_10]" alt="Lámina 10: Organización solidaria y puentes fraternos">
+            </div>
+            <button type="button" class="plate-zoom-btn" onclick="openLightboxById('p10')">
+              <span data-i18n="p10Title">Lámina 10 · Puentes de Organización Solidaria</span>
+              <span>+</span>
+            </button>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 4: DUAL SCHEME 70/30 (CORRECTED BREAKDOWN + INTERACTIVE SIMULATOR) -->
+    <section id="esquema-dual" class="section-band sec-dual">
+      <div class="container">
+        <div class="section-title-block head-dual">
+          <p class="section-kicker" data-i18n="s4Kicker">Capítulo IV · Arquitectura Económica</p>
+          <h2 data-i18n="s4Title">Esquema Dual de Distribución y Precios 70 / 30: Impacto Social y Sostenibilidad</h2>
+          <p data-i18n="s4Lead">Desglose exacto del bloque protegido del 70% (50% cobertura social general + 20% cupo preferencial para inversores) y el bloque de mercado abierto del 30%.</p>
+        </div>
+
+        <div class="split-grid">
+          <div>
+            <table class="dual-table" aria-label="Desglose del Esquema Dual 70/30">
+              <thead>
+                <tr>
+                  <th data-i18n="tblColBlock">Bloque / Sub-segmento</th>
+                  <th class="num" data-i18n="tblColShare">Cuota</th>
+                  <th class="num" data-i18n="tblColPrice">Fórmula / Precio</th>
+                  <th data-i18n="tblColPurpose">Propósito Estratégico</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong data-i18n="tblRow1Title">Bloque Social Protegido (70%) — Cobertura Social General</strong></td>
+                  <td class="num"><strong>50%</strong></td>
+                  <td class="num"><strong id="tbl-social-price">$110 / un.</strong></td>
+                  <td data-i18n="tblRow1Desc">Costo ($100) + 10% recargo social: 5% Fondo Trabajador Socio (diferido a 3 años en banco conjunto) + 5% Fondo Reinversión Local (efecto cadena). Libera ingreso familiar hacia la demanda agregada.</td>
+                </tr>
+                <tr>
+                  <td><strong data-i18n="tblRow2Title">Bloque Social Protegido (70%) — Cupo Preferencial Inversores</strong></td>
+                  <td class="num"><strong>20%</strong></td>
+                  <td class="num"><strong id="tbl-inv-price">$155 / un.</strong></td>
+                  <td data-i18n="tblRow2Desc">Precio Promedio: ($110 Social + $200 Mercado) / 2 = $155/un. Otorga un 22.5% de beneficio directo al inversor respecto al precio de mercado.</td>
+                </tr>
+                <tr>
+                  <td><strong data-i18n="tblRow3Title">Bloque Mercado Abierto (30%)</strong></td>
+                  <td class="num"><strong>30%</strong></td>
+                  <td class="num"><strong id="tbl-mkt-price">$200 / un.</strong></td>
+                  <td data-i18n="tblRow3Desc">Venta a precio pleno de mercado ($200/un) para amortización acelerada de capital e intereses mensuales a los microinversores ciudadanos.</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div class="sim-panel">
+              <h3 style="margin-top:0; font-family:var(--font-headline);" data-i18n="simTitle">Simulador Interactivo del Esquema Dual 70 / 30</h3>
+              <div class="sim-controls">
+                <div class="field-group">
+                  <label for="num-cost" data-i18n="simCostLbl">Costo Unitario Base ($)</label>
+                  <div class="input-pair">
+                    <input type="range" id="slider-cost" min="50" max="500" step="5" value="100" oninput="syncCostFromSlider(this.value)">
+                    <input type="number" id="num-cost" min="50" max="500" step="5" value="100" oninput="syncCostFromNumber(this.value)">
+                  </div>
+                </div>
+                <div class="field-group">
+                  <label for="num-market" data-i18n="simMktLbl">Precio Pleno de Mercado ($)</label>
+                  <div class="input-pair">
+                    <input type="range" id="slider-market" min="100" max="1000" step="10" value="200" oninput="syncMarketFromSlider(this.value)">
+                    <input type="number" id="num-market" min="100" max="1000" step="10" value="200" oninput="syncMarketFromNumber(this.value)">
+                  </div>
+                </div>
+                <div class="field-group">
+                  <label for="num-units" data-i18n="simUnitsLbl">Lote de Producción (unidades)</label>
+                  <div class="input-pair">
+                    <input type="range" id="slider-units" min="100" max="10000" step="100" value="1000" oninput="syncUnitsFromSlider(this.value)">
+                    <input type="number" id="num-units" min="100" max="10000" step="100" value="1000" oninput="syncUnitsFromNumber(this.value)">
+                  </div>
+                </div>
+              </div>
+
+              <div class="card-grid">
+                <div class="figure-card">
+                  <span class="figure-label" data-i18n="kpi1Lbl">Ingreso Total del Lote</span>
+                  <div class="figure-value" id="kpi-total-rev">$146,000</div>
+                  <div class="figure-delta" id="kpi-margin">Margen bruto sobre costo: +$46,000</div>
+                </div>
+                <div class="figure-card">
+                  <span class="figure-label" data-i18n="kpi2Lbl">Ahorro Social Liberado (50%)</span>
+                  <div class="figure-value" id="kpi-social-save">$45,000</div>
+                  <div class="figure-delta" id="kpi-social-pct">45.0% de descuento frente a mercado</div>
+                </div>
+                <div class="figure-card">
+                  <span class="figure-label" data-i18n="kpi3Lbl">Beneficio Cupo Inversor (20%)</span>
+                  <div class="figure-value" id="kpi-inv-benefit">22.5%</div>
+                  <div class="figure-delta" id="kpi-inv-save">Ahorro directo: $9,000</div>
+                </div>
+                <div class="figure-card">
+                  <span class="figure-label" data-i18n="kpi4Lbl">Fondos 5% + 5% (Reserva 10%)</span>
+                  <div class="figure-value" id="kpi-reserves">$5,000</div>
+                  <div class="figure-delta" id="kpi-reserves-sub">$2,500 Trabajador + $2,500 Reinversión</div>
+                </div>
+              </div>
+
+              <div class="chart-box">
+                <canvas id="dualSchemeChart"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <figure class="plate-figure">
+            <div class="plate-img-wrap" onclick="openLightboxById('p11')">
+              <img src="[SOURCE_IMAGE_11]" alt="Lámina 11: Esquema Dual 70/30 del Modelo de Producción">
+            </div>
+            <button type="button" class="plate-zoom-btn" onclick="openLightboxById('p11')">
+              <span data-i18n="p11Title">Lámina 11 · Esquema Dual 70 / 30 y Educación Económica</span>
+              <span>+</span>
+            </button>
+            <figcaption class="plate-caption" data-i18n="p11Cap">El 70% protegido (50% cobertura social general a $110/un + 20% cupo preferencial inversores a $155/un) y el 30% en mercado abierto ($200/un) armonizan accesibilidad popular y retorno sostenible del capital.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 5: CAPITAL, LABOR & UNIONS -->
+    <section id="capital-trabajo" class="section-band sec-work">
+      <div class="container">
+        <div class="section-title-block head-work">
+          <p class="section-kicker" data-i18n="s5Kicker">Capítulo V · Factores Productivos</p>
+          <h2 data-i18n="s5Title">Democratización del Capital y Renacimiento Gremial en la Era 4.0</h2>
+          <p data-i18n="s5Lead">Muchos aportes mínimos sin comisiones, empleo rotativo con sorteo transparente y gremios transformados en guardianes del bien común y la negociación algorítmica.</p>
+        </div>
+
+        <div class="card-grid">
+          <article class="figure-card">
+            <span class="figure-label" data-i18n="f5Card1Lbl">Factor Capital</span>
+            <h3 data-i18n="f5Card1Title">Microinversión Ciudadana</h3>
+            <p data-i18n="f5Card1Desc">Acceso libre de comisiones y burocracia para que cada ciudadano capacitado invierta montos mínimos, percibiendo renta mensual proveniente del 30% de mercado.</p>
+          </article>
+          <article class="figure-card">
+            <span class="figure-label" data-i18n="f5Card2Lbl">Factor Trabajo · Necesidades Básicas</span>
+            <h3 data-i18n="f5Card2Title">Rotación 70/30 y Fondo 5%</h3>
+            <p data-i18n="f5Card2Desc">Plantel integrado en 70% por universitarios locales y 30% por ciudadanos sorteados (aprobando capacitación al 90%). Contratos a 3 años con reserva del 5% en cuenta bancaria conjunta.</p>
+          </article>
+          <article class="figure-card">
+            <span class="figure-label" data-i18n="f5Card3Lbl">Gremios 4.0</span>
+            <h3 data-i18n="f5Card3Title">De Sindicato de Oficio a Escuela de IA Ética</h3>
+            <p data-i18n="f5Card3Desc">El trabajador presta servicios mediante unidad IA+robótica conservando salario y derechos. El gremio audita algoritmos, crea fondos de resiliencia e impulsa cooperativas tecnológicas y el Art. 14 ter constitucional.</p>
+          </article>
+        </div>
+
+        <div class="plates-row">
+          <figure class="plate-figure">
+            <div class="plate-img-wrap" onclick="openLightboxById('p12')">
+              <img src="[SOURCE_IMAGE_12]" alt="Lámina 12: Factor Capital y Ahorro Solidario">
+            </div>
+            <button type="button" class="plate-zoom-btn" onclick="openLightboxById('p12')">
+              <span data-i18n="p12Title">Lámina 12 · Factor Capital: Ahorro en Crédito</span>
+              <span>+</span>
+            </button>
+          </figure>
+          <figure class="plate-figure">
+            <div class="plate-img-wrap" onclick="openLightboxById('p13')">
+              <img src="[SOURCE_IMAGE_13]" alt="Lámina 13: Igualdad de oportunidades en microinversiones">
+            </div>
+            <button type="button" class="plate-zoom-btn" onclick="openLightboxById('p13')">
+              <span data-i18n="p13Title">Lámina 13 · Microinversión e Igualdad de Acceso</span>
+              <span>+</span>
+            </button>
+          </figure>
+          <figure class="plate-figure">
+            <div class="plate-img-wrap" onclick="openLightboxById('p14')">
+              <img src="[SOURCE_IMAGE_14]" alt="Lámina 14: Reactivación de demanda agregada">
+            </div>
+            <button type="button" class="plate-zoom-btn" onclick="openLightboxById('p14')">
+              <span data-i18n="p14Title">Lámina 14 · Colaboración Fraterna y Demanda</span>
+              <span>+</span>
+            </button>
+          </figure>
+          <figure class="plate-figure">
+            <div class="plate-img-wrap" onclick="openLightboxById('p15')">
+              <img src="[SOURCE_IMAGE_15]" alt="Lámina 15: Tres roles del Gremio en la Era 4.0">
+            </div>
+            <button type="button" class="plate-zoom-btn" onclick="openLightboxById('p15')">
+              <span data-i18n="p15Title">Lámina 15 · Los 3 Roles del Gremio 4.0</span>
+              <span>+</span>
+            </button>
+          </figure>
+          <figure class="plate-figure">
+            <div class="plate-img-wrap" onclick="openLightboxById('p16')">
+              <img src="[SOURCE_IMAGE_16]" alt="Lámina 16: Consenso social entre entidades locales">
+            </div>
+            <button type="button" class="plate-zoom-btn" onclick="openLightboxById('p16')">
+              <span data-i18n="p16Title">Lámina 16 · Consenso Social Territorial</span>
+              <span>+</span>
+            </button>
+          </figure>
+          <figure class="plate-figure">
+            <div class="plate-img-wrap" onclick="openLightboxById('p17')">
+              <img src="[SOURCE_IMAGE_17]" alt="Lámina 17: Visión estratégica ante natalidad y tecnología">
+            </div>
+            <button type="button" class="plate-zoom-btn" onclick="openLightboxById('p17')">
+              <span data-i18n="p17Title">Lámina 17 · Estrategia Gremial y Previsional</span>
+              <span>+</span>
+            </button>
+          </figure>
+          <figure class="plate-figure">
+            <div class="plate-img-wrap" onclick="openLightboxById('p18')">
+              <img src="[SOURCE_IMAGE_18]" alt="Lámina 18: Modelo ganar-ganar empresa y trabajador">
+            </div>
+            <button type="button" class="plate-zoom-btn" onclick="openLightboxById('p18')">
+              <span data-i18n="p18Title">Lámina 18 · Acuerdos Ganadores y Art. 14 ter</span>
+              <span>+</span>
+            </button>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 6: LEISURE TIME, CARDINAL VIRTUES & WEB 3.0A DIRECT DEMOCRACY -->
+    <section id="democracia" class="section-band sec-demo">
+      <div class="container">
+        <div class="section-title-block head-demo">
+          <p class="section-kicker" data-i18n="s6Kicker">Capítulo VI · Ciudadanía y Democracia Directa</p>
+          <h2 data-i18n="s6Title">Tiempo Libre, Virtudes Cardinales y Arquitectura Web 3.0A</h2>
+          <p data-i18n="s6Lead">Superar el desgaste de la democracia indirecta votando propuestas en foros virtuales comunales, con ciudadanos formados en Prudencia, Justicia, Templanza y Fortaleza.</p>
+        </div>
+
+        <div class="split-grid">
+          <div class="prose-col">
+            <p data-i18n="s6P1">La automatización liberada bajo reglas éticas devuelve tiempo libre al trabajador. Invertido en formación espiritual, familia, filosofía, derecho constitucional, economía y DSI, ese tiempo permite que cada ciudadano ejerza una soberanía intelectual real.</p>
+            <p data-i18n="s6P2">En los foros virtuales municipales de la Web 3.0A —inspirados en la democracia directa de la antigua Grecia y asistidos por IA—, la ciudadanía vota propuestas concretas y no meros candidatos, habilitando ordenanzas al alcanzar el 70% del padrón y priorizando obras públicas con seguimiento transparente.</p>
+            <div class="card-grid" style="margin-top:var(--space-lg);">
+              <div class="figure-card">
+                <span class="figure-label">01</span>
+                <h3 data-i18n="virt1">Prudencia</h3>
+                <p data-i18n="virt1D">Recta razón aplicada a la toma de decisiones públicas y económicas.</p>
+              </div>
+              <div class="figure-card">
+                <span class="figure-label">02</span>
+                <h3 data-i18n="virt2">Justicia</h3>
+                <p data-i18n="virt2D">Dar a cada uno lo suyo y sostener solidariamente al desamparado.</p>
+              </div>
+              <div class="figure-card">
+                <span class="figure-label">03</span>
+                <h3 data-i18n="virt3">Templanza</h3>
+                <p data-i18n="virt3D">Moderación y equilibrio frente a la idolatría del poder y del consumo.</p>
+              </div>
+              <div class="figure-card">
+                <span class="figure-label">04</span>
+                <h3 data-i18n="virt4">Fortaleza</h3>
+                <p data-i18n="virt4D">Firmeza ética para sostener los principios ante cualquier adversidad.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="plates-row" style="margin-top:0;">
+            <figure class="plate-figure">
+              <div class="plate-img-wrap" onclick="openLightboxById('p19')">
+                <img src="[SOURCE_IMAGE_19]" alt="Lámina 19: Uso del tiempo libre y sabiduría ciudadana">
+              </div>
+              <button type="button" class="plate-zoom-btn" onclick="openLightboxById('p19')">
+                <span data-i18n="p19Title">Lámina 19 · Tiempo Libre y Formación DSI</span>
+                <span>+</span>
+              </button>
+            </figure>
+            <figure class="plate-figure">
+              <div class="plate-img-wrap" onclick="openLightboxById('p20')">
+                <img src="[SOURCE_IMAGE_20]" alt="Lámina 20: Arquitectura Web 3.0A y Democracia Directa">
+              </div>
+              <button type="button" class="plate-zoom-btn" onclick="openLightboxById('p20')">
+                <span data-i18n="p20Title">Lámina 20 · Arquitectura Web 3.0A</span>
+                <span>+</span>
+              </button>
+            </figure>
+            <figure class="plate-figure">
+              <div class="plate-img-wrap" onclick="openLightboxById('p21')">
+                <img src="[SOURCE_IMAGE_21]" alt="Lámina 21: Árbol del Nuevo Paradigma y Virtudes">
+              </div>
+              <button type="button" class="plate-zoom-btn" onclick="openLightboxById('p21')">
+                <span data-i18n="p21Title">Lámina 21 · Árbol del Nuevo Paradigma</span>
+                <span>+</span>
+              </button>
+            </figure>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 7: LAND, TECHNOLOGY & THE 5TH FACTOR -->
+    <section id="factor-cinco" class="section-band sec-f5">
+      <div class="container">
+        <div class="section-title-block head-f5">
+          <p class="section-kicker" data-i18n="s7Kicker">Capítulo VII · Síntesis Organizacional</p>
+          <h2 data-i18n="s7Title">Tierra, Invención Tecnológica y el 5.º Factor de Producción</h2>
+          <p data-i18n="s7Lead">La unión del factor trabajo y la IA bajo la ética de la DSI da origen al 5.º factor: capacidad empresarial y administrativa asistida por software solidario.</p>
+        </div>
+
+        <div class="split-grid">
+          <div class="card-grid">
+            <article class="figure-card">
+              <span class="figure-label" data-i18n="f7Card1Lbl">Factor Tierra</span>
+              <h3 data-i18n="f7Card1Title">Cesión Gratuita a 3 Años</h3>
+              <p data-i18n="f7Card1Desc">El municipio u ONG cede terrenos sin costo por períodos renovables de 3 años mediante ordenanza, reduciendo casi a cero la barrera inmobiliaria inicial.</p>
+            </article>
+            <article class="figure-card">
+              <span class="figure-label" data-i18n="f7Card2Lbl">Factor Tecnología</span>
+              <h3 data-i18n="f7Card2Title">Concursos 30 / 40 / 27 / 3</h3>
+              <p data-i18n="f7Card2Desc">Patentes locales protegidas con sociedad municipal (30%), inversión ciudadana (40%), empresas locales (27%) e inventor (3%), rechazando el transhumanismo.</p>
+            </article>
+            <article class="figure-card">
+              <span class="figure-label" data-i18n="f7Card3Lbl">5.º Factor · Etapa 1</span>
+              <h3 data-i18n="f7Card3Title">El Capullo Solidario</h3>
+              <p data-i18n="f7Card3Desc">Equipo interdisciplinario y aplicación IA entrenada en DSI para gestionar legalidad, impuestos, contabilidad y combinación óptima de factores a mínimo costo.</p>
+            </article>
+            <article class="figure-card">
+              <span class="figure-label" data-i18n="f7Card4Lbl">5.º Factor · Etapa 2</span>
+              <h3 data-i18n="f7Card4Title">Regulador Humano-Ético</h3>
+              <p data-i18n="f7Card4Desc">La IA monitorea desvíos de costos en tiempo real y alerta al responsable humano para que decida siempre conforme a la DSI y al fin social sin lucro egoísta.</p>
+            </article>
+          </div>
+
+          <div class="plates-row" style="margin-top:0;">
+            <figure class="plate-figure">
+              <div class="plate-img-wrap" onclick="openLightboxById('p22')">
+                <img src="[SOURCE_IMAGE_22]" alt="Lámina 22: El 5.º Factor de Producción y Tecnología DSI">
+              </div>
+              <button type="button" class="plate-zoom-btn" onclick="openLightboxById('p22')">
+                <span data-i18n="p22Title">Lámina 22 · El 5.º Factor de Producción</span>
+                <span>+</span>
+              </button>
+            </figure>
+            <figure class="plate-figure">
+              <div class="plate-img-wrap" onclick="openLightboxById('p23')">
+                <img src="[SOURCE_IMAGE_23]" alt="Lámina 23: Capullo Organizacional y Ciencia Teológica">
+              </div>
+              <button type="button" class="plate-zoom-btn" onclick="openLightboxById('p23')">
+                <span data-i18n="p23Title">Lámina 23 · Capullo Ético y Síntesis Final</span>
+                <span>+</span>
+              </button>
+            </figure>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 8: COMPLETE ARCHIVE OF ALL 27 PLATES & LIGHTBOX -->
+    <section id="laminas" class="section-band sec-gallery">
+      <div class="container">
+        <div class="section-title-block head-gallery">
+          <p class="section-kicker" data-i18n="s8Kicker">Archivo Gráfico Completo</p>
+          <h2 data-i18n="s8Title">Todas las Láminas, Diagramas, Infografías y Portada del Libro (27 Piezas)</h2>
+          <p data-i18n="s8Lead">Haga clic en cualquier lámina para abrir el visor modal de alta resolución con zoom y navegación secuencial.</p>
+        </div>
+
+        <div class="filter-bar" role="group" aria-label="Filtrar láminas">
+          <button type="button" class="filter-btn active" data-cat="all" onclick="filterGallery('all', this)" data-i18n="fltAll">Todas (27)</button>
+          <button type="button" class="filter-btn" data-cat="diag" onclick="filterGallery('diag', this)" data-i18n="fltDiag">Diagnóstico y DSI (1–5)</button>
+          <button type="button" class="filter-btn" data-cat="econ" onclick="filterGallery('econ', this)" data-i18n="fltEcon">Modelo Municipal y 70/30 (6–14)</button>
+          <button type="button" class="filter-btn" data-cat="social" onclick="filterGallery('social', this)" data-i18n="fltSocial">Gremios, Web 3.0A y 5.º Factor (15–23)</button>
+          <button type="button" class="filter-btn" data-cat="media" onclick="filterGallery('media', this)" data-i18n="fltMedia">Portada, Video y Códigos QR (4)</button>
+        </div>
+
+        <div id="gallery-grid" class="card-grid"></div>
+      </div>
+    </section>
+
+    <!-- SECTION 9: YOUTUBE PROMOTIONAL VIDEO (AUTOPLAY ON SCROLL) -->
+    <section id="video" class="section-band sec-video">
+      <div class="container">
+        <div class="section-title-block head-video">
+          <p class="section-kicker" data-i18n="s9Kicker">Presentación Audiovisual</p>
+          <h2 data-i18n="s9Title">Video Promocional del Libro — Reproducción Automática al Desplazarse</h2>
+          <p data-i18n="s9Lead">Presentación Oficial en YouTube: «Desarrollando la IA con DSI: El Renacimiento Económico y Social» · Autor: Ariel Ivan Montenegro.</p>
+        </div>
+
+        <div class="video-stage" id="video-stage">
+          <div class="video-viewport">
+            <div class="video-visual-pane">
+              <span class="video-status-badge" id="video-status-badge" data-i18n="vidReady">LISTO PARA REPRODUCIR</span>
+              <img id="video-frame-img" src="[SOURCE_IMAGE_26]" alt="Miniatura del video promocional de YouTube" onclick="openLightboxById('yt')">
+            </div>
+            <div class="video-script-pane">
+              <div>
+                <span class="video-chapter-tag" id="video-chapter-tag">ESCENA 01 / 06</span>
+                <h3 id="video-scene-title">Desarrollando la IA con DSI: El Renacimiento Económico y Social</h3>
+                <p class="video-subtitle-box" id="video-scene-subtitle">La Cuarta Revolución Industrial exige un punto de inflexión ético previo: situar la dignidad humana por encima de la rentabilidad a corto plazo.</p>
+              </div>
+              <div style="display:flex; flex-wrap:wrap; gap:var(--space-xs);">
+                <button type="button" class="lang-btn" onclick="jumpVideoScene(0)">01</button>
+                <button type="button" class="lang-btn" onclick="jumpVideoScene(1)">02</button>
+                <button type="button" class="lang-btn" onclick="jumpVideoScene(2)">03</button>
+                <button type="button" class="lang-btn" onclick="jumpVideoScene(3)">04</button>
+                <button type="button" class="lang-btn" onclick="jumpVideoScene(4)">05</button>
+                <button type="button" class="lang-btn" onclick="jumpVideoScene(5)">06</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="video-controls-bar">
+            <button type="button" class="btn-primary-brass" id="video-play-btn" onclick="toggleVideoPlayback()" data-i18n="vidPause">Pausar</button>
+            <button type="button" class="btn-outline-light" id="video-sound-btn" onclick="toggleVideoSound()" data-i18n="vidSoundOff">Activar audio guía</button>
+            <div class="video-progress-track" aria-label="Progreso del video">
+              <div class="video-progress-fill" id="video-progress-fill"></div>
+            </div>
+            <span class="lang-label" id="video-time-label">00:00 / 00:36</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 10: PURCHASE SECTION (LOCATED BEFORE DIFFUSION/COLLABORATION) -->
+    <section id="comprar" class="section-band sec-buy">
+      <div class="container">
+        <div class="section-title-block head-buy">
+          <p class="section-kicker" data-i18n="s10Kicker">Adquisición Oficial · Amazon Kindle &amp; Tapa Blanda</p>
+          <h2 data-i18n="s10Title">Adquiera el Libro con Acceso Directo de 1 Clic y Códigos QR Reales</h2>
+          <p data-i18n="s10Lead">Disponible en edición en Español (Amazon México) y edición en Inglés (Amazon EE.UU.). Escanee el código QR con su dispositivo o utilice los accesos rápidos de 1 clic.</p>
+        </div>
+
+        <div class="buy-grid">
+          <article class="store-card">
+            <span class="figure-label" data-i18n="buyMxTag">Edición en Español · Amazon México</span>
+            <h3 style="font-family:var(--font-headline); margin:0;" data-i18n="buyMxTitle">Amazon México (amazon.com.mx)</h3>
+            <p data-i18n="buyMxDesc">«Desarrollando la IA con DSI: El Renacimiento Económico y Social» — C. P. N. y Docente Ariel Ivan Montenegro (Edición 2026).</p>
+            <div class="qr-showcase">
+              <img src="[SOURCE_IMAGE_24]" alt="Código QR Real Amazon México en Español" onclick="openLightboxById('qr_es')">
+              <div>
+                <p style="margin:0 0 var(--space-sm); font-size:0.92rem;" data-i18n="buyQrTip">Escanee con la cámara de su teléfono para abrir la ficha oficial en Amazon México, o amplíe el QR en 1 clic.</p>
+                <div style="display:flex; flex-direction:column; gap:var(--space-sm);">
+                  <button type="button" class="btn-navy" onclick="openLightboxById('qr_es')" data-i18n="buyMxBtn1">Acceso 1-Clic: Ampliar QR Amazon México</button>
+                  <button type="button" class="btn-secondary-outline" onclick="copyStoreGuide('mx')" data-i18n="buyMxBtn2">Copiar título para Amazon México</button>
+                </div>
+                <div class="inline-feedback" id="fb-mx" aria-live="polite"></div>
+              </div>
+            </div>
+          </article>
+
+          <article class="store-card">
+            <span class="figure-label" data-i18n="buyUsTag">English Edition · Amazon US</span>
+            <h3 style="font-family:var(--font-headline); margin:0;" data-i18n="buyUsTitle">Amazon EE.UU. (amazon.com)</h3>
+            <p data-i18n="buyUsDesc">«Developing AI with CST: The Economic and Social Renaissance» — Ariel Ivan Montenegro (2026 Edition).</p>
+            <div class="qr-showcase">
+              <img src="[SOURCE_IMAGE_25]" alt="Código QR Real Amazon EE.UU. en Inglés" onclick="openLightboxById('qr_en')">
+              <div>
+                <p style="margin:0 0 var(--space-sm); font-size:0.92rem;" data-i18n="buyUsQrTip">Escanee con su teléfono para ir directo a Amazon EE.UU. o abra el visor QR ampliado en 1 clic.</p>
+                <div style="display:flex; flex-direction:column; gap:var(--space-sm);">
+                  <button type="button" class="btn-navy" onclick="openLightboxById('qr_en')" data-i18n="buyUsBtn1">Acceso 1-Clic: Ampliar QR Amazon EE.UU.</button>
+                  <button type="button" class="btn-secondary-outline" onclick="copyStoreGuide('us')" data-i18n="buyUsBtn2">Copiar título para Amazon EE.UU.</button>
+                </div>
+                <div class="inline-feedback" id="fb-us" aria-live="polite"></div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 11: DIFFUSION, COLLABORATION & DEDICATION (ZERO MENTION OF SPOUSE) -->
+    <section id="difusion" class="section-band sec-diff">
+      <div class="container">
+        <div class="section-title-block head-diff">
+          <p class="section-kicker" data-i18n="s11Kicker">Llamado Compartido · Comunidad y Dedicatoria</p>
+          <h2 data-i18n="s11Title">Difusión Comunitaria, Colaboradores y Agradecimientos</h2>
+          <p data-i18n="s11Lead">Su lectura y difusión multiplican la construcción de una economía con rostro humano en familias, universidades, sindicatos, parroquias y municipios.</p>
+        </div>
+
+        <div class="split-grid">
+          <article class="figure-card">
+            <span class="figure-label" data-i18n="diffCard1Lbl">Palabra Final al Lector</span>
+            <h3 data-i18n="diffCard1Title">Un Llamado Compartido</h3>
+            <p data-i18n="diffCard1P1">Cada cambio histórico profundo comienza cuando un ciudadano, un docente, un trabajador, un empresario o un dirigente municipal decide no resignarse a que la técnica reemplace al alma humana.</p>
+            <p data-i18n="diffCard1P2">Comparta esta propuesta en su municipio, centro de estudios, asociación civil o comunidad de fe para que nadie quede excluido y la Inteligencia Artificial sea siempre instrumento de fraternidad y paz.</p>
+            <div style="margin-top:var(--space-md);">
+              <button type="button" class="btn-navy" onclick="copyShareMessage()" data-i18n="diffCopyBtn">Copiar mensaje de difusión comunitaria</button>
+              <div class="inline-feedback" id="fb-share" aria-live="polite"></div>
+            </div>
+          </article>
+
+          <article class="figure-card">
+            <span class="figure-label" data-i18n="diffCard2Lbl">Agradecimientos y Dedicatoria</span>
+            <h3 data-i18n="diffCard2Title">Ciencia, Fe y Gratitud</h3>
+            <p data-i18n="diffCard2P1">Agradecimiento y dedicatoria a Dios Padre Todopoderoso, a mis hijos, a mis padres Lidia y Roberto, familiares, amigos, alumnos y a cada colaborador que día a día trabaja a favor de la vida y del bien común.</p>
+            <p data-i18n="diffCard2P2">La ciencia sin Dios es una ciencia incompleta: reconciliar la razón tecnológica con la ciencia teológica y la caridad nos permite trabajar fraternalmente por una sociedad justa y duradera.</p>
+            <blockquote class="quote-rule" data-i18n="diffQuote">«Nadie puede salvarse solo: construir una economía con rostro humano es una obra que nos une a todos.» — C. P. N. y Docente Ariel Ivan Montenegro</blockquote>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container" style="display:flex; flex-wrap:wrap; justify-content:space-between; gap:var(--space-md);">
+      <span data-i18n="footerCopy">© 2026 C. P. N. y Docente Ariel Ivan Montenegro — Desarrollando la IA con DSI: El Renacimiento Económico y Social.</span>
+      <span data-i18n="footerNote">Fuentes: Texto íntegro del libro (Edición 2026), Láminas 01–23, Portada KDP, Miniatura YouTube y QR oficiales de Amazon.</span>
+    </div>
+  </footer>
+
+  <!-- LIGHTBOX MODAL FOR ALL 27 PLATES -->
+  <div id="lightbox" class="lightbox-backdrop" role="dialog" aria-modal="true" aria-labelledby="lb-title" onclick="handleLightboxBackdropClick(event)">
+    <div class="lightbox-dialog">
+      <div class="lightbox-header">
+        <div>
+          <span id="lb-index" style="font-family:var(--font-label); font-size:var(--label-size); color:var(--brass-on-navy); display:block;"></span>
+          <strong id="lb-title" style="font-family:var(--font-headline); font-size:1.15rem;"></strong>
+        </div>
+        <div style="display:flex; gap:var(--space-sm);">
+          <button type="button" class="lang-btn" id="lb-zoom-btn" onclick="toggleLightboxZoom()" data-i18n="lbZoom">Zoom</button>
+          <button type="button" class="lang-btn" onclick="closeLightbox()" data-i18n="lbClose">Cerrar</button>
+        </div>
+      </div>
+      <div class="lightbox-body">
+        <div class="lightbox-img-stage" id="lb-stage">
+          <img id="lb-img" src="" alt="">
+        </div>
+        <p id="lb-desc" style="max-width:70ch; text-align:center; margin:0; color:var(--on-surface-variant);"></p>
+      </div>
+      <div class="lightbox-footer">
+        <button type="button" class="btn-secondary-outline" onclick="stepLightbox(-1)" data-i18n="lbPrev">Anterior</button>
+        <span id="lb-cat" style="font-family:var(--font-label); font-size:var(--label-size); color:var(--primary); font-weight:600;"></span>
+        <button type="button" class="btn-navy" onclick="stepLightbox(1)" data-i18n="lbNext">Siguiente</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const PLATES = [
+      { id: 'cover', src: '[SOURCE_IMAGE_27]', cat: 'media', es: 'Portada Oficial del Libro (Alta Resolución)', en: 'Official Book Cover (High-Res)', it: 'Copertina Ufficiale del Libro', de: 'Offizielles Buchcover', ru: 'Официальная обложка книги', zh: '图书官方高清封面', desc: { es: 'Portada oficial Kindle / Tapa Blanda — C. P. N. y Docente Ariel Ivan Montenegro.', en: 'Official Kindle & Paperback Cover — Ariel Ivan Montenegro.', it: 'Copertina ufficiale Kindle e cartacea.', de: 'Offizielles Kindle- und Taschenbuch-Cover.', ru: 'Официальная обложка издания 2026 года.', zh: '2026年版官方封面。' } },
+      { id: 'p1', src: '[SOURCE_IMAGE_1]', cat: 'diag', es: 'Lámina 01 · Portadilla del Nuevo Paradigma 4.0', en: 'Plate 01 · New Paradigm 4.0 Frontispiece', it: 'Tavola 01 · Frontespizio Paradigma 4.0', de: 'Tafel 01 · Paradigma 4.0 Titelblatt', ru: 'Таблица 01 · Парадигма 4.0', zh: '图版 01 · 4.0新范式扉页', desc: { es: 'Síntesis inicial de la integración entre Inteligencia Artificial y Doctrina Social de la Iglesia.', en: 'Opening synthesis uniting Artificial Intelligence and Catholic Social Teaching.', it: 'Sintesi iniziale tra IA e Dottrina Sociale della Chiesa.', de: 'Eröffnungsübersicht zu KI und Katholischer Soziallehre.', ru: 'Синтез ИИ и Социального учения Церкви.', zh: '人工智能与教会社会训导融合总览。' } },
+      { id: 'p2', src: '[SOURCE_IMAGE_2]', cat: 'diag', es: 'Lámina 02 · Aceleración Exponencial vs. Adaptación Social', en: 'Plate 02 · Exponential Acceleration vs. Society', it: 'Tavola 02 · Accelerazione Tecnologica vs. Società', de: 'Tafel 02 · Exponentielle Beschleunigung vs. Gesellschaft', ru: 'Таблица 02 · Технологическое ускорение', zh: '图版 02 · 技术指数加速与社会滞后', desc: { es: 'Brecha creciente entre la velocidad exponencial de la tecnología y la lenta asimilación social.', en: 'Growing gap between exponential technological change and slower social assimilation.', it: 'Divario tra velocità tecnologica esponenziale e lento adattamento sociale.', de: 'Wachsende Kluft zwischen exponentieller Technik und langsamer sozialer Anpassung.', ru: 'Разрыв между экспоненциальным ростом технологий и обществом.', zh: '技术指数级增长与社会缓慢适应之间的鸿沟。' } },
+      { id: 'p3', src: '[SOURCE_IMAGE_3]', cat: 'diag', es: 'Lámina 03 · Análisis de la Problemática Era 4.0', en: 'Plate 03 · Era 4.0 Problem Analysis', it: 'Tavola 03 · Analisi della Crisi Era 4.0', de: 'Tafel 03 · Problemanalyse Ära 4.0', ru: 'Таблица 03 · Проблематика эпохи 4.0', zh: '图版 03 · 4.0时代危机分析', desc: { es: 'El peligro de anteponer la riqueza material a la dignidad humana en la cuarta revolución industrial.', en: 'Risk of prioritizing wealth over human dignity in the Fourth Industrial Revolution.', it: 'Il rischio di anteporre la ricchezza alla dignità umana.', de: 'Gefahr, Reichtum über Menschenwürde zu stellen.', ru: 'Опасность приоритета капитала над достоинством человека.', zh: '第四次工业革命中财富凌驾于人性尊严之上的风险。' } },
+      { id: 'p4', src: '[SOURCE_IMAGE_4]', cat: 'diag', es: 'Lámina 04 · Trampa del «First AI» en Empleo y Demanda', en: 'Plate 04 · First AI Trap on Jobs & Demand', it: 'Tavola 04 · Trappola First AI su Lavoro e Domanda', de: 'Tafel 04 · First-AI-Falle bei Arbeit und Nachfrage', ru: 'Таблица 04 · Ловушка First AI', zh: '图版 04 · “AI优先”对就业与需求的冲击', desc: { es: 'Despidos por automatización sin ética reducen la demanda agregada y desfinancian el sistema previsional.', en: 'Unethical automation layoffs shrink aggregate demand and undermine pension systems.', it: 'I licenziamenti da automazione riducono la domanda aggregata e le pensioni.', de: 'Stellenabbau senkt Gesamtnachfrage und gefährdet Rentensysteme.', ru: 'Сокращения снижают совокупный спрос и подрывают пенсионную систему.', zh: '无伦理自动化裁员导致总需求萎缩并动摇养老体系。' } },
+      { id: 'p5', src: '[SOURCE_IMAGE_5]', cat: 'diag', es: 'Lámina 05 · Brújula de la Dignidad Humana y Principios DSI', en: 'Plate 05 · Compass of Human Dignity & CST Principles', it: 'Tavola 05 · Bussola della Dignità Umana e DSC', de: 'Tafel 05 · Kompass der Menschenwürde & KSL', ru: 'Таблица 05 · Компас человеческого достоинства', zh: '图版 05 · 人性尊严指南针与社会训导原则', desc: { es: 'Bien común, destino universal de bienes, subsidiariedad, solidaridad, justicia social y desarrollo integral.', en: 'Common good, universal destination of goods, subsidiarity, solidarity, social justice and integral development.', it: 'Bene comune, destinazione universale, sussidiarietà, solidarietà, giustizia e sviluppo integrale.', de: 'Gemeinwohl, universelle Bestimmung der Güter, Subsidiarität, Solidarität und Gerechtigkeit.', ru: 'Общее благо, субсидиарность, солидарность и социальная справедливость.', zh: '公益、财富普遍用途、辅助性、团结、社会正义与全面发展。' } },
+      { id: 'p6', src: '[SOURCE_IMAGE_6]', cat: 'econ', es: 'Lámina 06 · Sentando las Bases en el Estado Municipal', en: 'Plate 06 · Foundations in the Municipal State', it: 'Tavola 06 · Basi nello Stato Municipale', de: 'Tafel 06 · Grundlagen im Kommunalstaat', ru: 'Таблица 06 · Муниципальная основа', zh: '图版 06 · 市政层级制度根基', desc: { es: 'El municipio y sus comunas como unidad microeconómica directa al servicio de los ciudadanos.', en: 'The municipality and its communes as the direct microeconomic unit serving citizens.', it: 'Il comune come unità microeconomica diretta al servizio dei cittadini.', de: 'Die Kommune als direkte mikroökonomische Einheit für Bürger.', ru: 'Муниципалитет как базовая экономическая единица.', zh: '以市政与社区为直接服务公民的微观经济单元。' } },
+      { id: 'p7', src: '[SOURCE_IMAGE_7]', cat: 'econ', es: 'Lámina 07 · El Estado Municipal como Agente Iniciador', en: 'Plate 07 · Municipal State as Initiating Agent', it: 'Tavola 07 · Il Comune come Agente Iniziatore', de: 'Tafel 07 · Kommune als Initiator', ru: 'Таблица 07 · Муниципалитет-инициатор', zh: '图版 07 · 市政作为发起主体', desc: { es: 'Normativas y ordenanzas locales nutridas en la DSI para detonar la reactivación económica.', en: 'Local ordinances inspired by CST to ignite equitable economic reactivation.', it: 'Ordinanze locali ispirate alla DSC per la ripresa economica.', de: 'Kommunale Verordnungen auf Basis der Soziallehre.', ru: 'Местные нормы на базе социального учения.', zh: '基于社会训导的地方条例激活经济。' } },
+      { id: 'p8', src: '[SOURCE_IMAGE_8]', cat: 'econ', es: 'Lámina 08 · Restantes Agentes Económicos y Foros Virtuales', en: 'Plate 08 · Non-State Agents & Virtual Forums', it: 'Tavola 08 · Agenti Economici e Forum Virtuali', de: 'Tafel 08 · Wirtschaftsakteure & Virtuelle Foren', ru: 'Таблица 08 · Виртуальные форумы агентов', zh: '图版 08 · 社会经济主体与虚拟论坛', desc: { es: 'Cooperación comunitaria y foros digitales comunales para cocrear normas justas con apoyo de la IA.', en: 'Community cooperation and virtual civic forums to co-create fair norms with AI.', it: 'Cooperazione comunitaria e forum civici virtuali supportati dall’IA.', de: 'Bürgerkooperation und virtuelle Foren mit KI-Unterstützung.', ru: 'Общественные и виртуальные форумы при поддержке ИИ.', zh: '社区协作与AI辅助的虚拟公民论坛。' } },
+      { id: 'p9', src: '[SOURCE_IMAGE_9]', cat: 'econ', es: 'Lámina 09 · Modelo de Desarrollo Múltiple Municipal', en: 'Plate 09 · Multiple Municipal Development Model', it: 'Tavola 09 · Modello di Sviluppo Multiplo Comunale', de: 'Tafel 09 · Multiples Kommunalentwicklungsmodell', ru: 'Таблица 09 · Муниципальная модель развития', zh: '图版 09 · 市政多元发展模型', desc: { es: 'Articulación de ONG, sindicatos, clubes barriales, parroquias y empresas en favor de los vulnerables.', en: 'Coordination of NGOs, unions, neighborhood clubs, parishes and firms for the vulnerable.', it: 'Articolazione tra ONG, sindacati, parrocchie e imprese.', de: 'Zusammenwirken von NGOs, Gewerkschaften, Vereinen und Betrieben.', ru: 'Взаимодействие НКО, профсоюзов и бизнеса.', zh: '非营利组织、工会、社区团体与企业协同扶弱。' } },
+      { id: 'p10', src: '[SOURCE_IMAGE_10]', cat: 'econ', es: 'Lámina 10 · Organización Solidaria y Puentes Fraternos', en: 'Plate 10 · Solidarity Organization & Fraternal Bridges', it: 'Tavola 10 · Organizzazione Solidale e Ponti Fraterni', de: 'Tafel 10 · Solidarische Organisation', ru: 'Таблица 10 · Солидарная организация', zh: '图版 10 · 团结组织与兄弟桥梁', desc: { es: 'Acuerdos presenciales y ejecución virtual entre municipio, universidades, escuelas técnicas y tercer sector.', en: 'In-person agreements and virtual execution linking municipality, universities and third sector.', it: 'Accordi in presenza ed esecuzione virtuale tra municipio e università.', de: 'Präsenzvereinbarungen und virtuelle Umsetzung mit Hochschulen.', ru: 'Очные соглашения и цифровая координация.', zh: '市政、高校与第三部门的线下签约与线上协同。' } },
+      { id: 'p11', src: '[SOURCE_IMAGE_11]', cat: 'econ', es: 'Lámina 11 · Esquema Dual 70/30 y Capacitación Ciudadana', en: 'Plate 11 · Dual 70/30 Scheme & Citizen Training', it: 'Tavola 11 · Schema Duale 70/30 e Formazione', de: 'Tafel 11 · Duales 70/30-Modell & Bildung', ru: 'Таблица 11 · Дуальная схема 70/30', zh: '图版 11 · 70/30双轨方案与公民培训', desc: { es: 'Bloque social del 70% (50% social + 20% preferencial inversores) y 30% a precio pleno de mercado.', en: '70% protected social block (50% social + 20% investor quota) and 30% open market block.', it: 'Blocco sociale 70% (50% sociale + 20% investitori) e 30% mercato.', de: '70% Sozialblock (50% Sozial + 20% Anleger) und 30% Marktpreis.', ru: 'Социальный блок 70% (50% + 20%) и рыночный блок 30%.', zh: '70%社会保护板块（50%社会普惠+20%投资者优惠）与30%公开市场板块。' } },
+      { id: 'p12', src: '[SOURCE_IMAGE_12]', cat: 'econ', es: 'Lámina 12 · Factor Capital: Ahorro Transformado en Crédito', en: 'Plate 12 · Capital Factor: Savings into Credit', it: 'Tavola 12 · Fattore Capitale: Risparmio in Credito', de: 'Tafel 12 · Faktor Kapital: Sparen wird Kredit', ru: 'Таблица 12 · Фактор капитала', zh: '图版 12 · 资本要素：储蓄转化为信贷', desc: { es: 'Muchos aportes pequeños en comunidad multiplican la inversión productiva y la demanda interna.', en: 'Many small community contributions multiply productive investment and local demand.', it: 'Molti piccoli apporti moltiplicano investimenti e domanda interna.', de: 'Viele kleine Beiträge steigern Investitionen und Binnennachfrage.', ru: 'Массовые малые взносы оживляют внутренний спрос.', zh: '聚沙成塔的社区微投资激发本地需求。' } },
+      { id: 'p13', src: '[SOURCE_IMAGE_13]', cat: 'econ', es: 'Lámina 13 · Igualdad de Oportunidades y Renta Ciudadana', en: 'Plate 13 · Equal Opportunity & Citizen Returns', it: 'Tavola 13 · Pari Opportunità e Rendita Cittadina', de: 'Tafel 13 · Chancengleichheit & Bürgerrendite', ru: 'Таблица 13 · Равный доступ к инвестициям', zh: '图版 13 · 机会平等与公民微投资收益', desc: { es: 'Inversión municipal sin comisiones ni barreras burocráticas, con retorno mensual auditable.', en: 'Fee-free municipal investment without bureaucratic barriers and auditable monthly returns.', it: 'Investimento comunale senza commissioni e con rendita mensile verificabile.', de: 'Gebührenfreie Bürgerbeteiligung mit monatlicher Rendite.', ru: 'Инвестиции без комиссий с прозрачной доходностью.', zh: '零佣金、低门槛且可审计的月度公民投资回报。' } },
+      { id: 'p14', src: '[SOURCE_IMAGE_14]', cat: 'econ', es: 'Lámina 14 · Reactivación de Demanda Agregada Municipal', en: 'Plate 14 · Municipal Aggregate Demand Revival', it: 'Tavola 14 · Rilancio della Domanda Aggregata', de: 'Tafel 14 · Belebung der Gesamtnachfrage', ru: 'Таблица 14 · Рост совокупного спроса', zh: '图版 14 · 市政总需求激活机制', desc: { es: 'Concursos de inventos, alianzas empresariales fraternas y crecimiento desde los sectores relegados.', en: 'Invention contests, fraternal business alliances and bottom-up demand growth.', it: 'Concorsi di invenzioni e alleanze imprenditoriali fraterne.', de: 'Erfinderwettbewerbe und solidarische Unternehmensallianzen.', ru: 'Конкурсы изобретений и рост спроса снизу вверх.', zh: '发明竞赛与企业团结联盟带动底层消费增长。' } },
+      { id: 'p15', src: '[SOURCE_IMAGE_15]', cat: 'social', es: 'Lámina 15 · Los Tres Roles del Gremio en la Era 4.0', en: 'Plate 15 · Three Roles of Unions in Era 4.0', it: 'Tavola 15 · I Tre Ruoli del Sindacato nell’Era 4.0', de: 'Tafel 15 · Drei Rollen der Gewerkschaft 4.0', ru: 'Таблица 15 · Три роли профсоюзов 4.0', zh: '图版 15 · 4.0时代工会的三大角色', desc: { es: 'Guardián del bien común, agente de alfabetización algorítmica e institución moral de cooperación.', en: 'Guardian of the common good, algorithmic literacy agent and moral cooperation institution.', it: 'Custode del bene comune, alfabetizzazione algoritmica e cooperazione morale.', de: 'Hüter des Gemeinwohls, KI-Bildung und moralische Kooperation.', ru: 'Хранитель общего блага, обучение ИИ и алгоритмический аудит.', zh: '公益守护者、算法素养培育者与道德协作机构。' } },
+      { id: 'p16', src: '[SOURCE_IMAGE_16]', cat: 'social', es: 'Lámina 16 · Consenso Social entre Entidades Intermedias', en: 'Plate 16 · Social Consensus Among Civic Bodies', it: 'Tavola 16 · Consenso Sociale tra Enti Intermedi', de: 'Tafel 16 · Sozialer Konsens der Verbände', ru: 'Таблица 16 · Общественный консенсус', zh: '图版 16 · 中间团体社会共识', desc: { es: 'Diálogo horizontal de gremios, entidades religiosas y asociaciones civiles en el territorio.', en: 'Horizontal dialogue across unions, religious bodies and civic nonprofits locally.', it: 'Dialogo orizzontale tra sindacati, chiese e associazioni civili.', de: 'Horizontaler Dialog zwischen Gewerkschaften, Kirchen und Vereinen.', ru: 'Горизонтальный диалог общин и профсоюзов.', zh: '工会、宗教团体与民间协会的横向对话。' } },
+      { id: 'p17', src: '[SOURCE_IMAGE_17]', cat: 'social', es: 'Lámina 17 · Desafío Demográfico, Natalidad y Previsión', en: 'Plate 17 · Demographic, Birthrate & Pension Challenge', it: 'Tavola 17 · Sfida Demografica e Pensionistica', de: 'Tafel 17 · Demografie-, Geburten- und Rentenfrage', ru: 'Таблица 17 · Демография и пенсии', zh: '图版 17 · 人口出生率与养老金挑战', desc: { es: 'Proyección estratégica para proteger salarios, familias, natalidad y haberes jubilatorios futuros.', en: 'Strategic vision to safeguard wages, families, birthrates and future pensions.', it: 'Visione strategica per tutelare salari, famiglie e pensioni future.', de: 'Strategie zum Schutz von Löhnen, Familien und künftigen Renten.', ru: 'Защита зарплат, семей и будущих пенсий.', zh: '保障工资、家庭生育与未来养老金的战略方案。' } },
+      { id: 'p18', src: '[SOURCE_IMAGE_18]', cat: 'social', es: 'Lámina 18 · Acuerdos Ganar-Ganar, Robótica y Art. 14 ter', en: 'Plate 18 · Win-Win Accords, Robotics & Art. 14 ter', it: 'Tavola 18 · Accordi Win-Win, Robotica e Art. 14 ter', de: 'Tafel 18 · Win-Win-Abkommen & Art. 14 ter', ru: 'Таблица 18 · Взаимовыгодные соглашения', zh: '图版 18 · 共赢协议、机器人服务与第14条之三', desc: { es: 'El trabajador opera la unidad IA+robótica conservando su salario; propuesta constitucional Art. 14 ter.', en: 'Workers deliver services via AI+robot units keeping rights; constitutional Art. 14 ter proposal.', it: 'Il lavoratore opera tramite unità IA+robotica mantenendo i diritti.', de: 'Beschäftigte arbeiten über KI+Robotik bei vollem Lohnerhalt.', ru: 'Работник сохраняет доход, управляя ИИ и роботом.', zh: '劳动者通过AI+机器人单元提供服务并保留全部薪酬权益。' } },
+      { id: 'p19', src: '[SOURCE_IMAGE_19]', cat: 'social', es: 'Lámina 19 · Uso del Tiempo Libre y Formación Integral', en: 'Plate 19 · Leisure Time & Integral Formation', it: 'Tavola 19 · Tempo Libero e Formazione Integrale', de: 'Tafel 19 · Freizeit und ganzheitliche Bildung', ru: 'Таблица 19 · Свободное время и просвещение', zh: '图版 19 · 闲暇时间与全面人文培育', desc: { es: 'Capacitación en DSI, economía, filosofía y democracia participativa para enriquecer la vida familiar.', en: 'Formation in CST, economics, philosophy and participatory democracy for family flourishing.', it: 'Formazione in DSC, economia, filosofia e democrazia partecipativa.', de: 'Bildung in Soziallehre, Ökonomie, Philosophie und Demokratie.', ru: 'Изучение экономики, философии и этики в свободное время.', zh: '将闲暇投入社会训导、经济、哲学与参与式民主教育。' } },
+      { id: 'p20', src: '[SOURCE_IMAGE_20]', cat: 'social', es: 'Lámina 20 · Arquitectura Web 3.0A y Democracia Directa', en: 'Plate 20 · Web 3.0A Architecture & Direct Democracy', it: 'Tavola 20 · Architettura Web 3.0A e Democrazia Diretta', de: 'Tafel 20 · Web-3.0A-Architektur & Direkte Demokratie', ru: 'Таблица 20 · Архитектура Web 3.0A', zh: '图版 20 · Web 3.0A架构与直接民主', desc: { es: 'Votación directa de propuestas en foros municipales (umbral 70% del padrón) superando la corrupción partidaria.', en: 'Direct proposal voting in municipal forums (70% threshold), overcoming partisan corruption.', it: 'Voto diretto delle proposte nei forum comunali (soglia 70%).', de: 'Direkte Abstimmung über Vorschläge in kommunalen Foren (70%-Hürde).', ru: 'Прямое голосование за инициативы на муниципальных форумах.', zh: '市政论坛直接对提案投票（70%选民门槛），克服政党腐败。' } },
+      { id: 'p21', src: '[SOURCE_IMAGE_21]', cat: 'social', es: 'Lámina 21 · Árbol del Nuevo Paradigma y Virtudes Cardinales', en: 'Plate 21 · Tree of the New Paradigm & Cardinal Virtues', it: 'Tavola 21 · Albero del Nuovo Paradigma e Virtù', de: 'Tafel 21 · Baum des Neuen Paradigmas & Tugenden', ru: 'Таблица 21 · Древо новой парадигмы', zh: '图版 21 · 新范式之树与四枢德', desc: { es: 'Prudencia, Justicia, Templanza y Fortaleza como raíces cívicas para educar al ciudadano que gobierna.', en: 'Prudence, Justice, Temperance and Fortitude as civic roots educating citizens to govern.', it: 'Prudenza, Giustizia, Temperanza e Fortezza come radici civiche.', de: 'Klugheit, Gerechtigkeit, Maß und Tapferkeit als bürgerliche Wurzeln.', ru: 'Благоразумие, справедливость, умеренность и мужество.', zh: '以智、义、节、勇四枢德培育具备治理能力的公民。' } },
+      { id: 'p22', src: '[SOURCE_IMAGE_22]', cat: 'social', es: 'Lámina 22 · El 5.º Factor de Producción y Ética Tecnológica', en: 'Plate 22 · 5th Production Factor & Tech Ethics', it: 'Tavola 22 · Il 5° Fattore Produttivo ed Etica Tech', de: 'Tafel 22 · 5. Produktionsfaktor & Technikethik', ru: 'Таблица 22 · Пятый фактор производства', zh: '图版 22 · 第五生产要素与技术伦理', desc: { es: 'Administración empresarial guiada por DSI e IA como herramienta, junto a patentes 30/40/27/3.', en: 'CST-guided enterprise management aided by AI tools alongside 30/40/27/3 patent splits.', it: 'Gestione d’impresa guidata da DSC e IA insieme ai brevetti 30/40/27/3.', de: 'Unternehmensführung nach Soziallehre und KI mit 30/40/27/3-Patentmodell.', ru: 'Управление на базе ИИ и этики DSI с распределением патентов.', zh: '以社会训导和AI为工具的企业管理及30/40/27/3专利分配。' } },
+      { id: 'p23', src: '[SOURCE_IMAGE_23]', cat: 'social', es: 'Lámina 23 · Capullo Organizacional y Ciencia Teológica', en: 'Plate 23 · Organizational Cocoon & Theological Science', it: 'Tavola 23 · Bozzolo Organizzativo e Scienza Teologica', de: 'Tafel 23 · Organisationskokon & Theologische Wissenschaft', ru: 'Таблица 23 · Организационный кокон и синтез', zh: '图版 23 · 组织保护茧与神学科学合流', desc: { es: 'Etapas del capullo y regulador IA con decisión humana final; reconciliación entre ciencia y fe.', en: 'Cocoon and AI-regulator stages with human ethical oversight; reconciling science and faith.', it: 'Fasi del bozzolo e regolatore IA con supervisione umana; scienza e fede.', de: 'Kokon- und KI-Regulatorphasen mit menschlicher Entscheidung.', ru: 'Этапы «кокона» и примирение науки с верой.', zh: '“保护茧”与AI预警人机决策阶段，促进科学与信仰和解。' } },
+      { id: 'yt', src: '[SOURCE_IMAGE_26]', cat: 'media', es: 'Miniatura del Video Promocional Oficial (YouTube)', en: 'Official YouTube Promotional Video Thumbnail', it: 'Miniatura Video Promozionale YouTube', de: 'Offizielles YouTube-Promovideo-Vorschaubild', ru: 'Миниатюра промо-видео YouTube', zh: 'YouTube官方宣传视频封面', desc: { es: 'Imagen principal de la presentación audiovisual en YouTube del libro «Desarrollando la IA con DSI».', en: 'Lead visual for the official YouTube presentation of «Developing AI with CST».', it: 'Immagine principale del video promozionale YouTube.', de: 'Titelbild des offiziellen YouTube-Vorstellungsvideos.', ru: 'Заставка официальной видеопрезентации на YouTube.', zh: 'YouTube官方书籍宣传视频主视觉。' } },
+      { id: 'qr_es', src: '[SOURCE_IMAGE_24]', cat: 'media', es: 'Código QR Real — Amazon México (Español)', en: 'Real QR Code — Amazon Mexico (Spanish)', it: 'Codice QR Reale — Amazon Messico (Spagnolo)', de: 'Echter QR-Code — Amazon Mexiko (Spanisch)', ru: 'QR-код — Amazon Мексика (испанский)', zh: '官方二维码 — 亚马逊墨西哥（西班牙语版）', desc: { es: 'Escanee este código QR real para acceder directamente al libro en Amazon México (amazon.com.mx).', en: 'Scan this real QR code to open the Spanish edition on Amazon Mexico (amazon.com.mx).', it: 'Scansiona questo codice QR reale per l’edizione spagnola su Amazon Messico.', de: 'Scannen Sie diesen echten QR-Code für Amazon Mexiko (Spanisch).', ru: 'Отсканируйте QR-код для перехода на Amazon Мексика.', zh: '扫描此真实二维码前往亚马逊墨西哥西班牙语版页面。' } },
+      { id: 'qr_en', src: '[SOURCE_IMAGE_25]', cat: 'media', es: 'Código QR Real — Amazon EE.UU. (Inglés)', en: 'Real QR Code — Amazon US (English)', it: 'Codice QR Reale — Amazon USA (Inglese)', de: 'Echter QR-Code — Amazon USA (Englisch)', ru: 'QR-код — Amazon США (английский)', zh: '官方二维码 — 亚马逊美国（英语版）', desc: { es: 'Escanee este código QR real para acceder directamente al libro en Amazon EE.UU. (amazon.com).', en: 'Scan this real QR code to open the English edition on Amazon US (amazon.com).', it: 'Scansiona questo codice QR reale per l’edizione inglese su Amazon USA.', de: 'Scannen Sie diesen echten QR-Code für Amazon USA (Englisch).', ru: 'Отсканируйте QR-код для перехода на Amazon США.', zh: '扫描此真实二维码前往亚马逊美国英语版页面。' } }
+    ];
+
+    const I18N = {
+      es: {
+        brandTag: 'EDICIÓN 2026 · PARADIGMA 4.0 & DSI',
+        langLabel: 'Idioma:',
+        heroKicker: 'Un Nuevo Paradigma Socioeconómico en la Era 4.0',
+        heroTitle: 'Desarrollando la IA con DSI: El Renacimiento Económico y Social',
+        heroSubtitle: 'La Doctrina Social de la Iglesia inspirando el desarrollo socioeconómico local, la democracia directa Web 3.0A y la economía solidaria con el apoyo de la Inteligencia Artificial.',
+        metaAuthorLabel: 'Autor',
+        metaPlatesLabel: 'Archivo Visual',
+        metaPlatesVal: '23 Láminas + Portada + QR + Video',
+        metaAxisLabel: 'Eje Rector',
+        metaAxisVal: 'La dignidad humana sobre el capital',
+        heroBtnSim: 'Explorar Esquema Dual 70/30',
+        heroBtnGallery: 'Ver Todas las Láminas (27)',
+        heroBtnBuy: 'Adquirir el Libro',
+        coverCaption: 'Portada Oficial en Alta Resolución',
+        zoomBtn: 'Ampliar',
+        navCrisis: '1. Crisis Era 4.0',
+        navDsi: '2. Principios DSI',
+        navMuni: '3. Modelo Municipal',
+        navDual: '4. Esquema Dual 70/30',
+        navWork: '5. Capital y Gremios',
+        navDemo: '6. Democracia Web 3.0A',
+        navF5: '7. 5.º Factor',
+        navPlates: '8. Láminas (27)',
+        navVideo: '9. Video',
+        navBuy: '10. Comprar',
+        navDiff: '11. Difusión',
+        s1Kicker: 'Capítulo I · Diagnóstico',
+        s1Title: 'La Aceleración Exponencial y el Riesgo del «First AI» sin Ética',
+        s1Lead: 'Cuando la tecnología crece de manera exponencial y la sociedad solo se adapta de forma reactiva, la dignidad humana queda subordinada a la reducción de costos.',
+        s1P1: 'En la Cuarta Revolución Industrial, la inteligencia artificial y la robótica avanzan bajo el Principio de Aceleración y la Ley de Rendimientos Acelerados: cada innovación impulsa la siguiente antes de que las comunidades puedan asimilar la anterior.',
+        s1P2: 'El modelo «First AI» —reemplazar todo proceso humano por automatización para abaratar costos— ignora su consecuencia macroeconómica: genera despidos, contrae el ingreso de los hogares, desploma la demanda agregada y debilita el financiamiento de los sistemas jubilatorios ante una baja natalidad agravada por la precariedad económica.',
+        s1Quote: '«Falta un punto de inflexión ético y moral previo que acomode las nuevas tecnologías al bien común, poniendo a la IA y la robótica al servicio del hombre y no al revés.»',
+        s1Stat1Label: 'Asimetría de Ritmos',
+        s1Stat1Val: 'Exponencial vs. Social',
+        s1Stat1Desc: 'La innovación tecnológica supera la capacidad de adaptación normativa sin marco DSI previo.',
+        s1Stat2Label: 'Trampa «First AI»',
+        s1Stat2Val: 'Menor Demanda Agregada',
+        s1Stat2Desc: 'Sin trabajadores activos ni familias sostenibles, caen el consumo, las ventas y las jubilaciones.',
+        s2Kicker: 'Capítulo II · Fundamento Ético',
+        s2Title: 'La Doctrina Social de la Iglesia como Brújula de la Dignidad Humana',
+        s2Lead: 'Desde León XIII (1891) hasta Magnifica Humanitas (2026), la DSI aporta el marco moral perenne para humanizar la economía y gobernar la IA.',
+        dsi1Title: 'Bien Común',
+        dsi1Desc: 'Conjunto de condiciones sociales que permiten a personas y asociaciones alcanzar su perfección plena sin exclusiones.',
+        dsi2Title: 'Destino Universal de los Bienes',
+        dsi2Desc: 'Los recursos naturales, culturales y tecnológicos sirven a toda la familia humana; la propiedad privada tiene función social.',
+        dsi3Title: 'Subsidiariedad',
+        dsi3Desc: 'Lo que pueden decidir familias, municipios y cuerpos intermedios no debe ser absorbido por instancias superiores.',
+        dsi4Title: 'Solidaridad',
+        dsi4Desc: 'Reconocer que nadie se salva solo: el destino propio está unido al del prójimo vulnerable, evitando asistencialismos pasivos.',
+        dsi5Title: 'Justicia Social',
+        dsi5Desc: 'Órdenes económicos y digitales que protejan el trabajo humano como fuente de dignidad e impidan nuevas exclusiones algorítmicas.',
+        dsi6Title: 'Desarrollo Humano Integral',
+        dsi6Desc: 'Promover a todo el hombre y a todos los hombres: el tiempo libre ganado con IA nutre el espíritu, la familia, las artes y la ciencia.',
+        s3Kicker: 'Capítulo III · Territorio y Gobernanza Local',
+        s3Title: 'El Estado Municipal, sus Comunas y los Puentes de Colaboración Fraterna',
+        s3Lead: 'La microeconomía justa arraiga en el municipio por su cercanía directa con los ciudadanos, articulando Estado local, ONG, universidades, gremios y empresas.',
+        s3P1: 'Tanto el Estado Municipal —mediante ordenanzas, cesión gratuita de tierras, tasa cero y transparencia— como los agentes no estatales (asociaciones civiles sin fines de lucro, gremios, parroquias, clubes barriales, universidades y escuelas secundarias) pueden iniciar esta transformación sin esperar soluciones lejanas.',
+        s3P2: 'Los acuerdos estratégicos se forjan de manera presencial y el trabajo operativo se multiplica mediante plataformas virtuales, conectando cada comuna para construir un proceso productivo circular orientado por un armador guía.',
+        s4Kicker: 'Capítulo IV · Arquitectura Económica',
+        s4Title: 'Esquema Dual de Distribución y Precios 70 / 30: Impacto Social y Sostenibilidad',
+        s4Lead: 'Desglose exacto del bloque protegido del 70% (50% cobertura social general + 20% cupo preferencial para inversores) y el bloque de mercado abierto del 30%.',
+        tblColBlock: 'Bloque / Sub-segmento',
+        tblColShare: 'Cuota',
+        tblColPrice: 'Precio',
+        tblColPurpose: 'Propósito Estratégico',
+        tblRow1Title: 'Bloque Social Protegido (70%) — Cobertura Social General',
+        tblRow1Desc: 'Costo ($100) + 10% recargo social: 5% Fondo Trabajador Socio (diferido a 3 años en banco conjunto) + 5% Fondo Reinversión Local (efecto cadena). Libera ingreso familiar hacia la demanda agregada.',
+        tblRow2Title: 'Bloque Social Protegido (70%) — Cupo Preferencial Inversores',
+        tblRow2Desc: 'Precio Promedio: ($110 Social + $200 Mercado) / 2 = $155/un. Otorga un 22.5% de beneficio directo al inversor respecto al precio de mercado.',
+        tblRow3Title: 'Bloque Mercado Abierto (30%)',
+        tblRow3Desc: 'Venta a precio pleno de mercado ($200/un) para amortización acelerada de capital e intereses mensuales a los microinversores ciudadanos.',
+        simTitle: 'Simulador Interactivo del Esquema Dual 70 / 30',
+        simCostLbl: 'Costo Unitario Base ($)',
+        simMktLbl: 'Precio Pleno de Mercado ($)',
+        simUnitsLbl: 'Lote de Producción (unidades)',
+        kpi1Lbl: 'Ingreso Total del Lote',
+        kpi2Lbl: 'Ahorro Social Liberado (50%)',
+        kpi3Lbl: 'Beneficio Cupo Inversor (20%)',
+        kpi4Lbl: 'Fondos 5% + 5% (Reserva 10%)',
+        s5Kicker: 'Capítulo V · Factores Productivos',
+        s5Title: 'Democratización del Capital y Renacimiento Gremial en la Era 4.0',
+        s5Lead: 'Muchos aportes mínimos sin comisiones, empleo rotativo con sorteo transparente y gremios transformados en guardianes del bien común y la negociación algorítmica.',
+        f5Card1Lbl: 'Factor Capital',
+        f5Card1Title: 'Microinversión Ciudadana',
+        f5Card1Desc: 'Acceso libre de comisiones y burocracia para que cada ciudadano capacitado invierta montos mínimos, percibiendo renta mensual proveniente del 30% de mercado.',
+        f5Card2Lbl: 'Factor Trabajo · Necesidades Básicas',
+        f5Card2Title: 'Rotación 70/30 y Fondo 5%',
+        f5Card2Desc: 'Plantel integrado en 70% por universitarios locales y 30% por ciudadanos sorteados (aprobando capacitación al 90%). Contratos a 3 años con reserva del 5% en cuenta bancaria conjunta.',
+        f5Card3Lbl: 'Gremios 4.0',
+        f5Card3Title: 'De Sindicato de Oficio a Escuela de IA Ética',
+        f5Card3Desc: 'El trabajador presta servicios mediante unidad IA+robótica conservando salario y derechos. El gremio audita algoritmos, crea fondos de resiliencia e impulsa cooperativas tecnológicas y el Art. 14 ter constitucional.',
+        s6Kicker: 'Capítulo VI · Ciudadanía y Democracia Directa',
+        s6Title: 'Tiempo Libre, Virtudes Cardinales y Arquitectura Web 3.0A',
+        s6Lead: 'Superar el desgaste de la democracia indirecta votando propuestas en foros virtuales comunales, con ciudadanos formados en Prudencia, Justicia, Templanza y Fortaleza.',
+        s6P1: 'La automatización liberada bajo reglas éticas devuelve tiempo libre al trabajador. Invertido en formación espiritual, familia, filosofía, derecho constitucional, economía y DSI, ese tiempo permite que cada ciudadano ejerza una soberanía intelectual real.',
+        s6P2: 'En los foros virtuales municipales de la Web 3.0A —inspirados en la democracia directa de la antigua Grecia y asistidos por IA—, la ciudadanía vota propuestas concretas y no meros candidatos, habilitando ordenanzas al alcanzar el 70% del padrón y priorizando obras públicas con seguimiento transparente.',
+        virt1: 'Prudencia', virt1D: 'Recta razón aplicada a la toma de decisiones públicas y económicas.',
+        virt2: 'Justicia', virt2D: 'Dar a cada uno lo suyo y sostener solidariamente al desamparado.',
+        virt3: 'Templanza', virt3D: 'Moderación y equilibrio frente a la idolatría del poder y del consumo.',
+        virt4: 'Fortaleza', virt4D: 'Firmeza ética para sostener los principios ante cualquier adversidad.',
+        s7Kicker: 'Capítulo VII · Síntesis Organizacional',
+        s7Title: 'Tierra, Invención Tecnológica y el 5.º Factor de Producción',
+        s7Lead: 'La unión del factor trabajo y la IA bajo la ética de la DSI da origen al 5.º factor: capacidad empresarial y administrativa asistida por software solidario.',
+        f7Card1Lbl: 'Factor Tierra',
+        f7Card1Title: 'Cesión Gratuita a 3 Años',
+        f7Card1Desc: 'El municipio u ONG cede terrenos sin costo por períodos renovables de 3 años mediante ordenanza, reduciendo casi a cero la barrera inmobiliaria inicial.',
+        f7Card2Lbl: 'Factor Tecnología',
+        f7Card2Title: 'Concursos 30 / 40 / 27 / 3',
+        f7Card2Desc: 'Patentes locales protegidas con sociedad municipal (30%), inversión ciudadana (40%), empresas locales (27%) e inventor (3%), rechazando el transhumanismo.',
+        f7Card3Lbl: '5.º Factor · Etapa 1',
+        f7Card3Title: 'El Capullo Solidario',
+        f7Card3Desc: 'Equipo interdisciplinario y aplicación IA entrenada en DSI para gestionar legalidad, impuestos, contabilidad y combinación óptima de factores a mínimo costo.',
+        f7Card4Lbl: '5.º Factor · Etapa 2',
+        f7Card4Title: 'Regulador Humano-Ético',
+        f7Card4Desc: 'La IA monitorea desvíos de costos en tiempo real y alerta al responsable humano para que decida siempre conforme a la DSI y al fin social sin lucro egoísta.',
+        s8Kicker: 'Archivo Gráfico Completo',
+        s8Title: 'Todas las Láminas, Diagramas, Infografías y Portada del Libro (27 Piezas)',
+        s8Lead: 'Haga clic en cualquier lámina para abrir el visor modal de alta resolución con zoom y navegación secuencial.',
+        fltAll: 'Todas (27)', fltDiag: 'Diagnóstico y DSI (1–5)', fltEcon: 'Modelo Municipal y 70/30 (6–14)', fltSocial: 'Gremios, Web 3.0A y 5.º Factor (15–23)', fltMedia: 'Portada, Video y QR (4)',
+        s9Kicker: 'Presentación Audiovisual',
+        s9Title: 'Video Promocional del Libro — Reproducción Automática al Desplazarse',
+        s9Lead: 'Presentación Oficial en YouTube: «Desarrollando la IA con DSI: El Renacimiento Económico y Social» · Autor: Ariel Ivan Montenegro.',
+        vidReady: 'REPRODUCCIÓN AUTOMÁTICA',
+        vidPlay: 'Reproducir', vidPause: 'Pausar', vidSoundOff: 'Activar audio guía', vidSoundOn: 'Silenciar audio guía',
+        s10Kicker: 'Adquisición Oficial · Amazon Kindle & Tapa Blanda',
+        s10Title: 'Adquiera el Libro con Acceso Directo de 1 Clic y Códigos QR Reales',
+        s10Lead: 'Disponible en edición en Español (Amazon México) y edición en Inglés (Amazon EE.UU.). Escanee el código QR con su dispositivo o utilice los accesos rápidos de 1 clic.',
+        buyMxTag: 'Edición en Español · Amazon México',
+        buyMxTitle: 'Amazon México (amazon.com.mx)',
+        buyMxDesc: '«Desarrollando la IA con DSI: El Renacimiento Económico y Social» — C. P. N. y Docente Ariel Ivan Montenegro (Edición 2026).',
+        buyQrTip: 'Escanee con la cámara de su teléfono para abrir la ficha oficial en Amazon México, o amplíe el QR en 1 clic.',
+        buyMxBtn1: 'Acceso 1-Clic: Ampliar QR Amazon México',
+        buyMxBtn2: 'Copiar título para Amazon México',
+        buyUsTag: 'English Edition · Amazon US',
+        buyUsTitle: 'Amazon EE.UU. (amazon.com)',
+        buyUsDesc: '«Developing AI with CST: The Economic and Social Renaissance» — Ariel Ivan Montenegro (2026 Edition).',
+        buyUsQrTip: 'Escanee con su teléfono para ir directo a Amazon EE.UU. o abra el visor QR ampliado en 1 clic.',
+        buyUsBtn1: 'Acceso 1-Clic: Ampliar QR Amazon EE.UU.',
+        buyUsBtn2: 'Copiar título para Amazon EE.UU.',
+        s11Kicker: 'Llamado Compartido · Comunidad y Dedicatoria',
+        s11Title: 'Difusión Comunitaria, Colaboradores y Agradecimientos',
+        s11Lead: 'Su lectura y difusión multiplican la construcción de una economía con rostro humano en familias, universidades, sindicatos, parroquias y municipios.',
+        diffCard1Lbl: 'Palabra Final al Lector',
+        diffCard1Title: 'Un Llamado Compartido',
+        diffCard1P1: 'Cada cambio histórico profundo comienza cuando un ciudadano, un docente, un trabajador, un empresario o un dirigente municipal decide no resignarse a que la técnica reemplace al alma humana.',
+        diffCard1P2: 'Comparta esta propuesta en su municipio, centro de estudios, asociación civil o comunidad de fe para que nadie quede excluido y la Inteligencia Artificial sea siempre instrumento de fraternidad y paz.',
+        diffCopyBtn: 'Copiar mensaje de difusión comunitaria',
+        diffCard2Lbl: 'Agradecimientos y Dedicatoria',
+        diffCard2Title: 'Ciencia, Fe y Gratitud',
+        diffCard2P1: 'Agradecimiento y dedicatoria a Dios Padre Todopoderoso, a mis hijos, a mis padres Lidia y Roberto, familiares, amigos, alumnos y a cada colaborador que día a día trabaja a favor de la vida y del bien común.',
+        diffCard2P2: 'La ciencia sin Dios es una ciencia incompleta: reconciliar la razón tecnológica con la ciencia teológica y la caridad nos permite trabajar fraternalmente por una sociedad justa y duradera.',
+        diffQuote: '«Nadie puede salvarse solo: construir una economía con rostro humano es una obra que nos une a todos.» — C. P. N. y Docente Ariel Ivan Montenegro',
+        footerCopy: '© 2026 C. P. N. y Docente Ariel Ivan Montenegro — Desarrollando la IA con DSI: El Renacimiento Económico y Social.',
+        footerNote: 'Fuentes: Texto íntegro del libro (Edición 2026), Láminas 01–23, Portada KDP, Miniatura YouTube y QR oficiales de Amazon.',
+        lbZoom: 'Zoom', lbClose: 'Cerrar', lbPrev: 'Anterior', lbNext: 'Siguiente'
+      },
+      en: {
+        brandTag: '2026 EDITION · PARADIGM 4.0 & CST',
+        langLabel: 'Language:',
+        heroKicker: 'A New Socioeconomic Paradigm in the 4.0 Era',
+        heroTitle: 'Developing AI with CST: The Economic and Social Renaissance',
+        heroSubtitle: 'Catholic Social Teaching inspiring local socioeconomic development, Web 3.0A direct democracy, and a solidarity economy supported by Artificial Intelligence.',
+        metaAuthorLabel: 'Author',
+        metaPlatesLabel: 'Visual Archive',
+        metaPlatesVal: '23 Plates + Cover + QR + Video',
+        metaAxisLabel: 'Core Principle',
+        metaAxisVal: 'Human dignity above capital',
+        heroBtnSim: 'Explore Dual 70/30 Scheme',
+        heroBtnGallery: 'View All Plates (27)',
+        heroBtnBuy: 'Get the Book',
+        coverCaption: 'Official High-Resolution Cover',
+        zoomBtn: 'Enlarge',
+        navCrisis: '1. Era 4.0 Crisis', navDsi: '2. CST Principles', navMuni: '3. Municipal Model',
+        navDual: '4. Dual 70/30', navWork: '5. Capital & Unions', navDemo: '6. Web 3.0A Democracy',
+        navF5: '7. 5th Factor', navPlates: '8. Plates (27)', navVideo: '9. Video', navBuy: '10. Buy', navDiff: '11. Outreach',
+        s1Kicker: 'Chapter I · Diagnosis',
+        s1Title: 'Exponential Acceleration and the Risk of Unethical "First AI"',
+        s1Lead: 'When technology accelerates exponentially while society reacts slowly, human dignity is subordinated to cost cutting.',
+        s1P1: 'In the Fourth Industrial Revolution, AI and robotics advance under the Law of Accelerating Returns: each breakthrough triggers the next before communities can assimilate the last.',
+        s1P2: 'The "First AI" mindset—replacing every human role solely to cut costs—triggers layoffs, shrinks household income, collapses aggregate demand, and strains pension systems amid falling birthrates.',
+        s1Quote: '“An ethical and moral inflection point is missing beforehand to orient new technologies toward the common good, placing AI and robotics at the service of humanity.”',
+        s1Stat1Label: 'Pace Asymmetry', s1Stat1Val: 'Exponential vs. Social', s1Stat1Desc: 'Technological velocity outpaces institutional adaptation without a CST framework.',
+        s1Stat2Label: 'First AI Trap', s1Stat2Val: 'Falling Aggregate Demand', s1Stat2Desc: 'Without active workers and supported families, sales and pensions decline.',
+        s2Kicker: 'Chapter II · Ethical Foundation',
+        s2Title: 'Catholic Social Teaching as the Compass of Human Dignity',
+        s2Lead: 'From Leo XIII (1891) to Magnifica Humanitas (2026), CST supplies the enduring moral framework to humanize economics and govern AI.',
+        dsi1Title: 'Common Good', dsi1Desc: 'Social conditions enabling persons and associations to achieve full human flourishing without exclusion.',
+        dsi2Title: 'Universal Destination of Goods', dsi2Desc: 'Natural, cultural, and technological resources serve the entire human family; private property holds a social function.',
+        dsi3Title: 'Subsidiarity', dsi3Desc: 'What families, municipalities, and intermediate bodies can accomplish must not be absorbed by higher tiers.',
+        dsi4Title: 'Solidarity', dsi4Desc: 'No one is saved alone: our destiny is tied to the vulnerable neighbor, avoiding passive dependency.',
+        dsi5Title: 'Social Justice', dsi5Desc: 'Economic and digital structures protecting human work as dignity and preventing algorithmic exclusion.',
+        dsi6Title: 'Integral Human Development', dsi6Desc: 'Promoting the whole person: leisure gained from AI nurtures spirit, family, arts, and science.',
+        s3Kicker: 'Chapter III · Territory & Local Governance',
+        s3Title: 'The Municipal State, Communes, and Fraternal Collaboration Bridges',
+        s3Lead: 'Fair microeconomics takes root in the municipality through direct proximity to citizens, uniting local government, NGOs, universities, unions, and firms.',
+        s3P1: 'Both the Municipal State—through ordinances, free land grants, zero tax rates, and audits—and civil agents (nonprofits, unions, parishes, neighborhood clubs, universities, and high schools) can initiate change immediately.',
+        s3P2: 'Strategic pacts are forged face-to-face and scaled via virtual platforms connecting every commune in a circular productive ecosystem.',
+        s4Kicker: 'Chapter IV · Economic Architecture',
+        s4Title: 'Dual 70 / 30 Distribution & Pricing Scheme: Social Impact and Sustainability',
+        s4Lead: 'Exact breakdown of the 70% protected social block (50% general social coverage + 20% preferential investor quota) and the 30% open market block.',
+        tblColBlock: 'Block / Sub-segment', tblColShare: 'Share', tblColPrice: 'Price', tblColPurpose: 'Strategic Purpose',
+        tblRow1Title: 'Protected Social Block (70%) — General Social Coverage',
+        tblRow1Desc: 'Cost ($100) + 10% social surcharge: 5% Worker-Partner Fund (3-year deferred joint bank account) + 5% Local Reinvestment Fund. Frees household income into aggregate demand.',
+        tblRow2Title: 'Protected Social Block (70%) — Preferential Investor Quota',
+        tblRow2Desc: 'Average Price: ($110 Social + $200 Market) / 2 = $155/unit. Grants investors a direct 22.5% benefit vs. market price.',
+        tblRow3Title: 'Open Market Block (30%)',
+        tblRow3Desc: 'Sold at full market price ($200/unit) to amortize capital and pay monthly returns to citizen micro-investors.',
+        simTitle: 'Interactive Dual 70 / 30 Simulator',
+        simCostLbl: 'Base Unit Cost ($)', simMktLbl: 'Full Market Price ($)', simUnitsLbl: 'Production Batch (units)',
+        kpi1Lbl: 'Total Batch Revenue', kpi2Lbl: 'Social Savings Freed (50%)', kpi3Lbl: 'Investor Quota Benefit (20%)', kpi4Lbl: '5% + 5% Funds (10% Reserve)',
+        s5Kicker: 'Chapter V · Productive Factors',
+        s5Title: 'Capital Democratization and Union Renaissance in Era 4.0',
+        s5Lead: 'Fee-free citizen micro-investments, rotating lottery employment, and unions reborn as guardians of the common good and algorithmic negotiation.',
+        f5Card1Lbl: 'Capital Factor', f5Card1Title: 'Citizen Micro-Investment', f5Card1Desc: 'Commission-free access for trained citizens to invest small amounts and earn monthly returns from the 30% market share.',
+        f5Card2Lbl: 'Labor Factor · Essential Goods', f5Card2Title: '70/30 Rotation & 5% Reserve', f5Card2Desc: 'Staffed 70% by local university students and 30% by lottery-selected citizens (90% training score), with 3-year contracts and a 5% joint bank reserve.',
+        f5Card3Lbl: 'Unions 4.0', f5Card3Title: 'From Trade Union to Ethical AI School', f5Card3Desc: 'Workers provide services via AI+robot units while keeping wages and rights. Unions audit algorithms, build resilience funds, and champion Art. 14 ter.',
+        s6Kicker: 'Chapter VI · Citizenship & Direct Democracy',
+        s6Title: 'Leisure Time, Cardinal Virtues, and Web 3.0A Architecture',
+        s6Lead: 'Overcoming indirect democracy fatigue by voting directly on proposals in virtual communal forums guided by Prudence, Justice, Temperance, and Fortitude.',
+        s6P1: 'Ethical automation restores leisure time for spiritual growth, family life, philosophy, constitutional law, economics, and CST—granting genuine intellectual freedom.',
+        s6P2: 'In Web 3.0A municipal virtual forums inspired by ancient Greek direct democracy and assisted by AI, citizens vote on concrete proposals (70% voter roll threshold) and prioritize public works.',
+        virt1: 'Prudence', virt1D: 'Right reason applied to public and economic decision-making.',
+        virt2: 'Justice', virt2D: 'Giving each their due and standing in solidarity with the vulnerable.',
+        virt3: 'Temperance', virt3D: 'Moderation and balance against the idolatry of power and consumption.',
+        virt4: 'Fortitude', virt4D: 'Moral courage to uphold ethical principles through adversity.',
+        s7Kicker: 'Chapter VII · Organizational Synthesis',
+        s7Title: 'Land, Technological Invention, and the 5th Factor of Production',
+        s7Lead: 'Labor united with AI under CST ethics creates the 5th factor: entrepreneurial and administrative capacity powered by solidarity software.',
+        f7Card1Lbl: 'Land Factor', f7Card1Title: 'Free 3-Year Municipal Grant', f7Card1Desc: 'Municipalities or NGOs grant land free of charge in renewable 3-year terms via ordinance, eliminating real-estate entry barriers.',
+        f7Card2Lbl: 'Technology Factor', f7Card2Title: '30 / 40 / 27 / 3 Contests', f7Card2Desc: 'Protected local patents shared 30% municipality, 40% citizens, 27% local firms, and 3% inventor—firmly rejecting transhumanism.',
+        f7Card3Lbl: '5th Factor · Stage 1', f7Card3Title: 'The Solidarity Cocoon', f7Card3Desc: 'Interdisciplinary teams and CST-trained AI apps handle legal, tax, accounting, and optimal factor assembly at minimal cost.',
+        f7Card4Lbl: '5th Factor · Stage 2', f7Card4Title: 'Human-Ethical Regulator', f7Card4Desc: 'AI monitors cost deviations in real time and alerts human stewards so every decision honors CST and social purpose.',
+        s8Kicker: 'Complete Visual Archive',
+        s8Title: 'All Book Plates, Diagrams, Infographics & Cover (27 Items)',
+        s8Lead: 'Click any plate to open the high-resolution lightbox viewer with zoom and keyboard navigation.',
+        fltAll: 'All (27)', fltDiag: 'Diagnosis & CST (1–5)', fltEcon: 'Municipal & 70/30 (6–14)', fltSocial: 'Unions, Web 3.0A & 5th Factor (15–23)', fltMedia: 'Cover, Video & QR (4)',
+        s9Kicker: 'Audiovisual Presentation',
+        s9Title: 'Promotional Book Video — Auto-Play on Scroll',
+        s9Lead: 'Official YouTube Presentation: “Developing AI with CST: The Economic and Social Renaissance” · Author: Ariel Ivan Montenegro.',
+        vidReady: 'AUTO-PLAY ACTIVE', vidPlay: 'Play', vidPause: 'Pause', vidSoundOff: 'Enable audio cues', vidSoundOn: 'Mute audio cues',
+        s10Kicker: 'Official Purchase · Amazon Kindle & Paperback',
+        s10Title: 'Get the Book with 1-Click Direct Access and Real QR Codes',
+        s10Lead: 'Available in Spanish (Amazon Mexico) and English (Amazon US). Scan the QR code with your phone or use 1-click quick access.',
+        buyMxTag: 'Spanish Edition · Amazon Mexico', buyMxTitle: 'Amazon Mexico (amazon.com.mx)',
+        buyMxDesc: '“Desarrollando la IA con DSI: El Renacimiento Económico y Social” — Ariel Ivan Montenegro (2026 Edition).',
+        buyQrTip: 'Scan with your camera to open the official Amazon Mexico listing, or enlarge the QR in 1 click.',
+        buyMxBtn1: '1-Click Access: Enlarge Amazon MX QR', buyMxBtn2: 'Copy Title for Amazon Mexico',
+        buyUsTag: 'English Edition · Amazon US', buyUsTitle: 'Amazon US (amazon.com)',
+        buyUsDesc: '“Developing AI with CST: The Economic and Social Renaissance” — Ariel Ivan Montenegro (2026 Edition).',
+        buyUsQrTip: 'Scan to open Amazon US directly, or enlarge the QR viewer in 1 click.',
+        buyUsBtn1: '1-Click Access: Enlarge Amazon US QR', buyUsBtn2: 'Copy Title for Amazon US',
+        s11Kicker: 'Shared Calling · Community & Dedication',
+        s11Title: 'Community Outreach, Collaborators, and Acknowledgments',
+        s11Lead: 'Reading and sharing this work strengthens a human-centered economy across families, universities, unions, parishes, and municipalities.',
+        diffCard1Lbl: 'Final Word to the Reader', diffCard1Title: 'A Shared Calling',
+        diffCard1P1: 'Every deep historical renewal begins when a citizen, teacher, worker, entrepreneur, or local leader refuses to let technique replace the human soul.',
+        diffCard1P2: 'Share this roadmap in your municipality, university, civil association, or faith community so no one is left behind and AI serves fraternity and peace.',
+        diffCopyBtn: 'Copy community outreach message',
+        diffCard2Lbl: 'Acknowledgments & Dedication', diffCard2Title: 'Science, Faith, and Gratitude',
+        diffCard2P1: 'Dedicated with gratitude to Almighty God the Father, to my children, to my parents Lidia and Roberto, relatives, friends, students, and every collaborator working daily for life and the common good.',
+        diffCard2P2: 'Science without God is incomplete: reconciling technological reason with theological science and charity allows us to build a just and lasting society together.',
+        diffQuote: '“No one is saved alone: building an economy with a human face is a shared work that unites us all.” — Ariel Ivan Montenegro',
+        footerCopy: '© 2026 Ariel Ivan Montenegro — Developing AI with CST: The Economic and Social Renaissance.',
+        footerNote: 'Sources: Full book text (2026 Edition), Plates 01–23, KDP Cover, YouTube Thumbnail & Official Amazon QR Codes.',
+        lbZoom: 'Zoom', lbClose: 'Close', lbPrev: 'Previous', lbNext: 'Next'
+      },
+      it: {
+        brandTag: 'EDIZIONE 2026 · PARADIGMA 4.0 & DSC',
+        langLabel: 'Lingua:',
+        heroKicker: 'Un Nuovo Paradigma Socioeconomico nell’Era 4.0',
+        heroTitle: 'Sviluppare l’IA con la DSC: Il Rinascimento Economico e Sociale',
+        heroSubtitle: 'La Dottrina Sociale della Chiesa ispira lo sviluppo socioeconomico locale, la democrazia diretta Web 3.0A e l’economia solidale con il supporto dell’IA.',
+        metaAuthorLabel: 'Autore', metaPlatesLabel: 'Archivio Visivo', metaPlatesVal: '23 Tavole + Copertina + QR + Video',
+        metaAxisLabel: 'Principio Guida', metaAxisVal: 'Dignità umana sopra il capitale',
+        heroBtnSim: 'Esplora Schema Duale 70/30', heroBtnGallery: 'Tutte le Tavole (27)', heroBtnBuy: 'Acquista il Libro',
+        coverCaption: 'Copertina Ufficiale ad Alta Risoluzione', zoomBtn: 'Ingrandisci',
+        navCrisis: '1. Crisi Era 4.0', navDsi: '2. Principi DSC', navMuni: '3. Modello Comunale',
+        navDual: '4. Schema 70/30', navWork: '5. Capitale e Sindacati', navDemo: '6. Democrazia Web 3.0A',
+        navF5: '7. 5° Fattore', navPlates: '8. Tavole (27)', navVideo: '9. Video', navBuy: '10. Acquista', navDiff: '11. Diffusione',
+        s1Kicker: 'Capitolo I · Diagnosi', s1Title: 'L’Accelerazione Esponenziale e il Rischio del «First AI» senza Etica',
+        s1Lead: 'Quando la tecnologia cresce in modo esponenziale e la società reagisce lentamente, la dignità umana viene subordinata alla riduzione dei costi.',
+        s1P1: 'Nella Quarta Rivoluzione Industriale, IA e robotica avanzano secondo la Legge dei Rendimenti Accelerati prima che le comunità possano assimilarle.',
+        s1P2: 'Il modello «First AI» genera licenziamenti, contrae i redditi familiari, abbatte la domanda aggregata e indebolisce le pensioni con il calo della natalità.',
+        s1Quote: '«Manca un punto di svolta etico e morale preventivo che orienti le nuove tecnologie al bene comune, al servizio dell’uomo.»',
+        s1Stat1Label: 'Asimmetria', s1Stat1Val: 'Esponenziale vs. Sociale', s1Stat1Desc: 'La velocità tecnologica supera l’adattamento normativo senza cornice DSC.',
+        s1Stat2Label: 'Trappola First AI', s1Stat2Val: 'Calo Domanda Aggregata', s1Stat2Desc: 'Senza lavoratori attivi calano consumi, vendite e sostenibilità pensionistica.',
+        s2Kicker: 'Capitolo II · Fondamento Etico', s2Title: 'La Dottrina Sociale della Chiesa come Bussola della Dignità Umana',
+        s2Lead: 'Da Leone XIII (1891) a Magnifica Humanitas (2026), la DSC offre la base morale per governare l’IA.',
+        dsi1Title: 'Bene Comune', dsi1Desc: 'Condizioni sociali che consentono a persone e associazioni la piena realizzazione senza esclusioni.',
+        dsi2Title: 'Destinazione Universale dei Beni', dsi2Desc: 'Le risorse naturali e tecnologiche appartengono a tutta la famiglia umana.',
+        dsi3Title: 'Sussidiarietà', dsi3Desc: 'Ciò che possono svolgere famiglie, comuni e corpi intermedi non va assorbito dall’alto.',
+        dsi4Title: 'Solidarietà', dsi4Desc: 'Nessuno si salva da solo: il nostro destino è legato al prossimo vulnerabile.',
+        dsi5Title: 'Giustizia Sociale', dsi5Desc: 'Strutture economiche e digitali che difendono la dignità del lavoro umano.',
+        dsi6Title: 'Sviluppo Umano Integrale', dsi6Desc: 'Il tempo libero guadagnato con l’IA nutre spirito, famiglia, arti e scienza.',
+        s3Kicker: 'Capitolo III · Territorio Locale', s3Title: 'Lo Stato Municipale, i Comuni e i Ponti di Collaborazione Fraterna',
+        s3Lead: 'La microeconomia giusta nasce nel comune per la vicinanza diretta ai cittadini, unendo ente locale, ONG, università, sindacati e imprese.',
+        s3P1: 'Comuni e agenti civili avviano la ripresa con ordinanze, terreni gratuiti e piattaforme condivise.',
+        s3P2: 'Gli accordi si stringono in presenza e il lavoro operativo si moltiplica in rete in un ciclo produttivo circolare.',
+        s4Kicker: 'Capitolo IV · Architettura Economica', s4Title: 'Schema Duale 70 / 30: Impatto Sociale e Sostenibilità Finanziaria',
+        s4Lead: 'Dettaglio corretto del blocco protetto 70% (50% copertura sociale + 20% quota investitori) e blocco mercato aperto 30%.',
+        tblColBlock: 'Blocco / Segmento', tblColShare: 'Quota', tblColPrice: 'Prezzo', tblColPurpose: 'Scopo Strategico',
+        tblRow1Title: 'Blocco Sociale Protetto (70%) — Copertura Sociale Generale',
+        tblRow1Desc: 'Costo ($100) + 10% sovrapprezzo sociale: 5% Fondo Lavoratore Socio (differito 3 anni) + 5% Fondo Reinvestimento Locale.',
+        tblRow2Title: 'Blocco Sociale Protetto (70%) — Quota Preferenziale Investitori',
+        tblRow2Desc: 'Prezzo Medio: ($110 Sociale + $200 Mercato) / 2 = $155/pz. Beneficio diretto del 22,5% rispetto al prezzo di mercato.',
+        tblRow3Title: 'Blocco Mercato Aperto (30%)',
+        tblRow3Desc: 'Vendita a prezzo pieno ($200/pz) per ammortamento del capitale e rendimento mensile agli investitori.',
+        simTitle: 'Simulatore Interattivo dello Schema Duale 70 / 30',
+        simCostLbl: 'Costo Unitario ($)', simMktLbl: 'Prezzo Pieno di Mercato ($)', simUnitsLbl: 'Lotto di Produzione (unità)',
+        kpi1Lbl: 'Ricavo Totale Lotto', kpi2Lbl: 'Risparmio Sociale (50%)', kpi3Lbl: 'Beneficio Investitori (20%)', kpi4Lbl: 'Fondi 5% + 5% (Riserva 10%)',
+        s5Kicker: 'Capitolo V · Fattori Produttivi', s5Title: 'Democratizzazione del Capitale e Rinascita Sindacale nell’Era 4.0',
+        s5Lead: 'Microinvestimenti senza commissioni, rotazione trasparente e sindacati custodi dell’etica algoritmica.',
+        f5Card1Lbl: 'Fattore Capitale', f5Card1Title: 'Microinvestimento Cittadino', f5Card1Desc: 'Accesso libero da commissioni per investire piccoli capitali con rendita mensile dal 30% di mercato.',
+        f5Card2Lbl: 'Fattore Lavoro', f5Card2Title: 'Rotazione 70/30 e Fondo 5%', f5Card2Desc: '70% studenti universitari locali e 30% cittadini estratti a sorte (90% formazione), con riserva del 5% a 3 anni.',
+        f5Card3Lbl: 'Sindacati 4.0', f5Card3Title: 'Scuola di IA Etica', f5Card3Desc: 'Il lavoratore opera tramite unità IA+robotica mantenendo stipendio e diritti; audit sugli algoritmi e proposta Art. 14 ter.',
+        s6Kicker: 'Capitolo VI · Democrazia Diretta', s6Title: 'Tempo Libero, Virtù Cardinali e Architettura Web 3.0A',
+        s6Lead: 'Votare proposte concrete nei forum comunali virtuali con cittadini formati in Prudenza, Giustizia, Temperanza e Fortezza.',
+        s6P1: 'L’automazione etica restituisce tempo libero per famiglia, filosofia, economia, diritto e DSC.',
+        s6P2: 'Nei forum Web 3.0A si votano proposte e opere pubbliche (soglia del 70% degli elettori) assistiti dall’IA.',
+        virt1: 'Prudenza', virt1D: 'Retta ragione nelle decisioni pubbliche.',
+        virt2: 'Giustizia', virt2D: 'Dare a ciascuno il suo e sostenere i più fragili.',
+        virt3: 'Temperanza', virt3D: 'Equilibrio contro l’idolatria del potere.',
+        virt4: 'Fortezza', virt4D: 'Fermezza etica nelle avversità.',
+        s7Kicker: 'Capitolo VII · Sintesi Organizzativa', s7Title: 'Terra, Tecnologia e il 5° Fattore Produttivo',
+        s7Lead: 'Lavoro e IA uniti nella DSC generano il 5° fattore: gestione imprenditoriale solidale.',
+        f7Card1Lbl: 'Fattore Terra', f7Card1Title: 'Cessione Gratuita 3 Anni', f7Card1Desc: 'Comune o ONG cedono terreni senza costi per cicli rinnovabili di 3 anni.',
+        f7Card2Lbl: 'Tecnologia', f7Card2Title: 'Concorsi 30 / 40 / 27 / 3', f7Card2Desc: 'Brevetti locali condivisi (30% comune, 40% cittadini, 27% imprese, 3% inventore), rifiutando il transumanesimo.',
+        f7Card3Lbl: '5° Fattore · Fase 1', f7Card3Title: 'Il Bozzolo Solidale', f7Card3Desc: 'App IA addestrata nella DSC per gestione legale, fiscale e contabile a costi minimi.',
+        f7Card4Lbl: '5° Fattore · Fase 2', f7Card4Title: 'Regolatore Umano-Etico', f7Card4Desc: 'L’IA segnala scostamenti di costo e l’uomo decide sempre secondo la DSC.',
+        s8Kicker: 'Archivio Grafico Completo', s8Title: 'Tutte le Tavole, Diagrammi, Infografiche e Copertina (27 Pezzi)',
+        s8Lead: 'Clicca su qualsiasi tavola per aprire il visore modale ad alta risoluzione.',
+        fltAll: 'Tutte (27)', fltDiag: 'Diagnosi & DSC (1–5)', fltEcon: 'Comune & 70/30 (6–14)', fltSocial: 'Sindacati, Web 3.0A & 5° Fattore (15–23)', fltMedia: 'Copertina, Video & QR (4)',
+        s9Kicker: 'Presentazione Audiovisiva', s9Title: 'Video Promozionale del Libro — Avvio Automatico allo Scorrimento',
+        s9Lead: 'Presentazione Ufficiale su YouTube: «Sviluppare l’IA con la DSC» · Autore: Ariel Ivan Montenegro.',
+        vidReady: 'AVVIO AUTOMATICO ATTIVO', vidPlay: 'Riproduci', vidPause: 'Pausa', vidSoundOff: 'Attiva audio guida', vidSoundOn: 'Disattiva audio guida',
+        s10Kicker: 'Acquisto Ufficiale · Amazon', s10Title: 'Acquista il Libro con Accesso 1-Clic e Codici QR Reali',
+        s10Lead: 'Disponibile in Spagnolo (Amazon Messico) e Inglese (Amazon USA). Scansiona il QR o usa i tasti rapidi.',
+        buyMxTag: 'Edizione Spagnola · Amazon Messico', buyMxTitle: 'Amazon Messico (amazon.com.mx)',
+        buyMxDesc: '«Desarrollando la IA con DSI: El Renacimiento Económico y Social» — Ariel Ivan Montenegro (2026).',
+        buyQrTip: 'Scansiona con la fotocamera o ingrandisci il QR in 1 clic.',
+        buyMxBtn1: 'Accesso 1-Clic: Ingrandisci QR Messico', buyMxBtn2: 'Copia titolo per Amazon Messico',
+        buyUsTag: 'Edizione Inglese · Amazon USA', buyUsTitle: 'Amazon USA (amazon.com)',
+        buyUsDesc: '«Developing AI with CST: The Economic and Social Renaissance» — Ariel Ivan Montenegro (2026).',
+        buyUsQrTip: 'Scansiona o apri il QR ingrandito in 1 clic.',
+        buyUsBtn1: 'Accesso 1-Clic: Ingrandisci QR USA', buyUsBtn2: 'Copia titolo per Amazon USA',
+        s11Kicker: 'Appello Condiviso · Comunità e Dedica', s11Title: 'Diffusione Comunitaria, Collaboratori e Ringraziamenti',
+        s11Lead: 'La lettura e la diffusione rafforzano un’economia dal volto umano in famiglie, scuole, sindacati e comuni.',
+        diffCard1Lbl: 'Parola Finale al Lettore', diffCard1Title: 'Un Appello Condiviso',
+        diffCard1P1: 'Ogni profondo cambiamento inizia quando un cittadino o docente decide di non lasciare che la tecnica sostituisca l’anima umana.',
+        diffCard1P2: 'Condividi questa proposta nella tua comunità affinché l’IA resti strumento di fraternità e pace.',
+        diffCopyBtn: 'Copia messaggio di diffusione',
+        diffCard2Lbl: 'Ringraziamenti e Dedica', diffCard2Title: 'Scienza, Fede e Gratitudine',
+        diffCard2P1: 'Dedica con gratitudine a Dio Padre Onnipotente, ai miei figli, ai miei genitori Lidia e Roberto, familiari, amici, studenti e collaboratori impegnati per la vita e il bene comune.',
+        diffCard2P2: 'La scienza senza Dio è incompleta: riconciliare ragione tecnologica e teologia costruisce una società giusta.',
+        diffQuote: '«Nessuno si salva da solo: costruire un’economia dal volto umano ci unisce tutti.» — Ariel Ivan Montenegro',
+        footerCopy: '© 2026 Ariel Ivan Montenegro — Sviluppare l’IA con la DSC.',
+        footerNote: 'Fonti: Testo integrale (2026), Tavole 01–23, Copertina KDP, Miniatura YouTube e QR ufficiali Amazon.',
+        lbZoom: 'Zoom', lbClose: 'Chiudi', lbPrev: 'Precedente', lbNext: 'Successiva'
+      },
+      de: {
+        brandTag: 'AUSGABE 2026 · PARADIGMA 4.0 & KSL',
+        langLabel: 'Sprache:',
+        heroKicker: 'Ein Neues Sozioökonomisches Paradigma in der Ära 4.0',
+        heroTitle: 'KI mit der Katholischen Soziallehre entwickeln: Die Wirtschafts- und Sozialrenaissance',
+        heroSubtitle: 'Die Katholische Soziallehre (KSL) als Leitstern für kommunale Entwicklung, direkte Web-3.0A-Demokratie und solidarische Ökonomie mit KI.',
+        metaAuthorLabel: 'Autor', metaPlatesLabel: 'Bildarchiv', metaPlatesVal: '23 Tafeln + Cover + QR + Video',
+        metaAxisLabel: 'Leitprinzip', metaAxisVal: 'Menschenwürde vor Kapital',
+        heroBtnSim: 'Duales 70/30-Modell testen', heroBtnGallery: 'Alle 27 Tafeln', heroBtnBuy: 'Buch erwerben',
+        coverCaption: 'Offizielles Hochauflösendes Cover', zoomBtn: 'Vergrößern',
+        navCrisis: '1. Krise 4.0', navDsi: '2. KSL-Prinzipien', navMuni: '3. Kommunalmodell',
+        navDual: '4. 70/30-Schema', navWork: '5. Kapital & Gewerkschaft', navDemo: '6. Web 3.0A',
+        navF5: '7. 5. Faktor', navPlates: '8. Tafeln (27)', navVideo: '9. Video', navBuy: '10. Kaufen', navDiff: '11. Verbreitung',
+        s1Kicker: 'Kapitel I · Diagnose', s1Title: 'Exponentielle Beschleunigung und das Risiko einer ethiklosen «First AI»',
+        s1Lead: 'Wenn Technik exponentiell wächst und die Gesellschaft nur reagiert, wird Menschenwürde der Kostensenkung geopfert.',
+        s1P1: 'KI und Robotik schreiten nach dem Gesetz beschleunigter Erträge schneller voran, als Gemeinschaften sie normativ einbetten können.',
+        s1P2: 'Reine Kostenautomatisierung führt zu Entlassungen, sinkender Gesamtnachfrage und Gefährdung der Rentensysteme.',
+        s1Quote: '«Es fehlt ein ethischer Wendepunkt im Voraus, der KI und Robotik in den Dienst des Gemeinwohls stellt.»',
+        s1Stat1Label: 'Tempo-Asymmetrie', s1Stat1Val: 'Exponentiell vs. Sozial', s1Stat1Desc: 'Technik überholt Regulierung ohne vorherigen KSL-Rahmen.',
+        s1Stat2Label: 'First-AI-Falle', s1Stat2Val: 'Sinkende Nachfrage', s1Stat2Desc: 'Ohne Beschäftigung brechen Konsum und Altersvorsorge ein.',
+        s2Kicker: 'Kapitel II · Ethikfundament', s2Title: 'Die Katholische Soziallehre als Kompass der Menschenwürde',
+        s2Lead: 'Von Leo XIII. (1891) bis Magnifica Humanitas (2026) liefert die KSL das zeitlose ethische Gerüst für KI.',
+        dsi1Title: 'Gemeinwohl', dsi1Desc: 'Gesellschaftliche Bedingungen für die volle Entfaltung aller Menschen ohne Ausgrenzung.',
+        dsi2Title: 'Universelle Bestimmung der Güter', dsi2Desc: 'Ressourcen und Wissen dienen der gesamten Menschheitsfamilie.',
+        dsi3Title: 'Subsidiarität', dsi3Desc: 'Was Familien, Kommunen und Verbände leisten können, darf nicht zentralisiert werden.',
+        dsi4Title: 'Solidarität', dsi4Desc: 'Niemand rettet sich allein: Verantwortung für Schwächere statt passiver Fürsorge.',
+        dsi5Title: 'Soziale Gerechtigkeit', dsi5Desc: 'Schutz menschlicher Arbeit und Verhinderung algorithmischer Ausgrenzung.',
+        dsi6Title: 'Ganzheitliche Entwicklung', dsi6Desc: 'Durch KI gewonnene Freizeit fördert Familie, Geist, Kunst und Wissenschaft.',
+        s3Kicker: 'Kapitel III · Kommunaler Raum', s3Title: 'Der Kommunalstaat, Gemeinden und Solidarische Brücken',
+        s3Lead: 'Gerechte Mikroökonomie wurzelt in der Gemeinde durch direkte Bürgernähe von Verwaltung, NGOs, Hochschulen und Betrieben.',
+        s3P1: 'Kommunale Verordnungen, kostenlose Grundstücke und Bürgerinitiativen starten den Wandel vor Ort.',
+        s3P2: 'Präsenzvereinbarungen und digitale Plattformen verbinden Stadtteile zu einer Kreislaufwirtschaft.',
+        s4Kicker: 'Kapitel IV · Wirtschaftsarchitektur', s4Title: 'Duales 70 / 30-Verteilungsmodell: Sozialwirkung & Tragfähigkeit',
+        s4Lead: 'Präzise Aufschlüsselung des 70%-Schutzblocks (50% Sozialabdeckung + 20% Anlegerkontingent) und des 30%-Marktblocks.',
+        tblColBlock: 'Block / Segment', tblColShare: 'Anteil', tblColPrice: 'Preis', tblColPurpose: 'Strategischer Zweck',
+        tblRow1Title: 'Sozialer Schutzblock (70%) — Allgemeine Sozialabdeckung',
+        tblRow1Desc: 'Kosten ($100) + 10% Sozialzuschlag: 5% Arbeitnehmer-Partnerfonds (3 Jahre) + 5% lokaler Reinvestitionsfonds.',
+        tblRow2Title: 'Sozialer Schutzblock (70%) — Vorzugskontingent Anleger',
+        tblRow2Desc: 'Durchschnittspreis: ($110 Sozial + $200 Markt) / 2 = $155/Stück. 22,5% Direktvorteil gegenüber Marktpreis.',
+        tblRow3Title: 'Offener Marktblock (30%)',
+        tblRow3Desc: 'Verkauf zum vollen Marktpreis ($200/Stück) zur Kapitaltilgung und Zinsausschüttung.',
+        simTitle: 'Interaktiver Simulator des Dualen 70 / 30-Modells',
+        simCostLbl: 'Basis-Stückkosten ($)', simMktLbl: 'Voller Marktpreis ($)', simUnitsLbl: 'Produktionslos (Einheiten)',
+        kpi1Lbl: 'Gesamtumsatz', kpi2Lbl: 'Soziale Ersparnis (50%)', kpi3Lbl: 'Anlegervorteil (20%)', kpi4Lbl: '5% + 5% Fonds (10% Reserve)',
+        s5Kicker: 'Kapitel V · Produktionsfaktoren', s5Title: 'Kapitaldemokratisierung und Erneuerung der Gewerkschaften 4.0',
+        s5Lead: 'Gebührenfreie Kleinstanlagen, transparente Jobrotation und Gewerkschaften als ethische KI-Schulen.',
+        f5Card1Lbl: 'Faktor Kapital', f5Card1Title: 'Bürger-Mikroinvestition', f5Card1Desc: 'Gebührenfreier Zugang für geschulte Bürger mit monatlicher Rendite aus dem 30%-Marktanteil.',
+        f5Card2Lbl: 'Faktor Arbeit', f5Card2Title: '70/30-Rotation & 5%-Fonds', f5Card2Desc: '70% lokale Studierende und 30% ausgeloste Bürger (90% Schulungsergebnis), 3-Jahres-Verträge mit 5%-Rücklage.',
+        f5Card3Lbl: 'Gewerkschaften 4.0', f5Card3Title: 'Schule für ethische KI', f5Card3Desc: 'Beschäftigte erbringen Dienste über KI+Robotik bei Lohnerhalt; Algorithmenprüfung und Vorschlag Art. 14 ter.',
+        s6Kicker: 'Kapitel VI · Direkte Demokratie', s6Title: 'Freizeit, Kardinaltugenden und Web-3.0A-Architektur',
+        s6Lead: 'Direkte Abstimmung über Sachvorschläge in digitalen Bürgerforen mit Klugheit, Gerechtigkeit, Maß und Tapferkeit.',
+        s6P1: 'Ethische Automatisierung schafft Freizeit für Familie, Philosophie, Recht, Ökonomie und KSL.',
+        s6P2: 'In Web-3.0A-Foren stimmen Bürger über konkrete Projekte (70%-Quorum) mithilfe von KI ab.',
+        virt1: 'Klugheit', virt1D: 'Rechte Vernunft für politische und ökonomische Entscheidungen.',
+        virt2: 'Gerechtigkeit', virt2D: 'Jedem das Seine geben und Schwache schützen.',
+        virt3: 'Maßhaltung', virt3D: 'Gleichgewicht gegen Macht- und Konsumgier.',
+        virt4: 'Tapferkeit', virt4D: 'Standhaftigkeit in ethischen Prinzipien.',
+        s7Kicker: 'Kapitel VII · Organisationssynthese', s7Title: 'Boden, Technologieerfindung und der 5. Produktionsfaktor',
+        s7Lead: 'Arbeit plus KI im Geist der KSL bildet den 5. Faktor: solidarische Unternehmensführung.',
+        f7Card1Lbl: 'Faktor Boden', f7Card1Title: 'Kostenlose 3-Jahres-Überlassung', f7Card1Desc: 'Kommunen oder NGOs stellen Grundstücke für 3 Jahre kostenlos per Satzung bereit.',
+        f7Card2Lbl: 'Technologie', f7Card2Title: 'Erfinderwettbewerbe 30/40/27/3', f7Card2Desc: 'Lokale Patente mit Beteiligung (30% Kommune, 40% Bürger, 27% Betriebe, 3% Erfinder), ohne Transhumanismus.',
+        f7Card3Lbl: '5. Faktor · Phase 1', f7Card3Title: 'Der Solidarische Kokon', f7Card3Desc: 'KSL-trainierte KI-App verwaltet Recht, Steuern, Buchhaltung und Faktoren effizient.',
+        f7Card4Lbl: '5. Faktor · Phase 2', f7Card4Title: 'Mensch-Ethik-Regulator', f7Card4Desc: 'KI warnt bei Kostenabweichungen; der Mensch entscheidet stets nach dem Gemeinwohl.',
+        s8Kicker: 'Vollständiges Bildarchiv', s8Title: 'Alle Tafeln, Diagramme, Infografiken und Cover (27 Stücke)',
+        s8Lead: 'Klicken Sie auf eine Tafel für die hochauflösende Lightbox-Ansicht mit Zoom.',
+        fltAll: 'Alle (27)', fltDiag: 'Diagnose & KSL (1–5)', fltEcon: 'Kommune & 70/30 (6–14)', fltSocial: 'Gewerkschaft, Web 3.0A & 5. Faktor (15–23)', fltMedia: 'Cover, Video & QR (4)',
+        s9Kicker: 'Audiovisuelle Präsentation', s9Title: 'Buch-Promovideo — Automatische Wiedergabe beim Scrollen',
+        s9Lead: 'Offizielle YouTube-Präsentation · Autor: Ariel Ivan Montenegro.',
+        vidReady: 'AUTOPLAY AKTIV', vidPlay: 'Abspielen', vidPause: 'Pause', vidSoundOff: 'Audio-Hinweise an', vidSoundOn: 'Audio-Hinweise aus',
+        s10Kicker: 'Offizieller Erwerb · Amazon', s10Title: 'Buch mit 1-Klick-Direktzugriff und echten QR-Codes erwerben',
+        s10Lead: 'Erhältlich auf Spanisch (Amazon Mexiko) und Englisch (Amazon USA). QR-Code scannen oder 1-Klick nutzen.',
+        buyMxTag: 'Spanische Ausgabe · Amazon Mexiko', buyMxTitle: 'Amazon Mexiko (amazon.com.mx)',
+        buyMxDesc: '«Desarrollando la IA con DSI» — Ariel Ivan Montenegro (Ausgabe 2026).',
+        buyQrTip: 'Mit dem Smartphone scannen oder QR mit 1 Klick vergrößern.',
+        buyMxBtn1: '1-Klick: Amazon-MX-QR vergrößern', buyMxBtn2: 'Titel für Amazon Mexiko kopieren',
+        buyUsTag: 'Englische Ausgabe · Amazon USA', buyUsTitle: 'Amazon USA (amazon.com)',
+        buyUsDesc: '«Developing AI with CST» — Ariel Ivan Montenegro (Ausgabe 2026).',
+        buyUsQrTip: 'Scannen oder QR-Ansicht mit 1 Klick öffnen.',
+        buyUsBtn1: '1-Klick: Amazon-US-QR vergrößern', buyUsBtn2: 'Titel für Amazon USA kopieren',
+        s11Kicker: 'Gemeinsamer Aufruf · Dank & Widmung', s11Title: 'Verbreitung, Mitwirkende und Danksagung',
+        s11Lead: 'Ihre Lektüre und Weitergabe stärken eine menschliche Wirtschaft in Familien, Hochschulen und Gemeinden.',
+        diffCard1Lbl: 'Schlusswort an die Leserschaft', diffCard1Title: 'Ein Gemeinsamer Aufruf',
+        diffCard1P1: 'Jeder tiefe Wandel beginnt, wenn Bürger oder Lehrende verhindern, dass Technik die menschliche Seele verdrängt.',
+        diffCard1P2: 'Teilen Sie dieses Modell in Ihrer Gemeinde und Institution für eine gerechte KI im Dienst des Friedens.',
+        diffCopyBtn: 'Verbreitungstext kopieren',
+        diffCard2Lbl: 'Dank und Widmung', diffCard2Title: 'Wissenschaft, Glaube und Dankbarkeit',
+        diffCard2P1: 'Dank und Widmung an Gott den allmächtigen Vater, meine Kinder, meine Eltern Lidia und Roberto, Verwandte, Freunde, Studierende und alle Mitwirkenden für Leben und Gemeinwohl.',
+        diffCard2P2: 'Wissenschaft ohne Gott bleibt unvollständig: Die Versöhnung von Technik, Theologie und Nächstenliebe baut eine gerechte Gesellschaft.',
+        diffQuote: '«Niemand rettet sich allein: Eine Wirtschaft mit menschlichem Antlitz eint uns alle.» — Ariel Ivan Montenegro',
+        footerCopy: '© 2026 Ariel Ivan Montenegro — KI mit Katholischer Soziallehre entwickeln.',
+        footerNote: 'Quellen: Volltext (2026), Tafeln 01–23, KDP-Cover, YouTube-Vorschau und offizielle Amazon-QR-Codes.',
+        lbZoom: 'Zoom', lbClose: 'Schließen', lbPrev: 'Zurück', lbNext: 'Weiter'
+      },
+      ru: {
+        brandTag: 'ИЗДАНИЕ 2026 · ПАРАДИГМА 4.0 И СУЦ',
+        langLabel: 'Язык:',
+        heroKicker: 'Новая социально-экономическая парадигма в эпоху 4.0',
+        heroTitle: 'Развитие ИИ с Социальным учением Церкви: экономическое и социальное возрождение',
+        heroSubtitle: 'Социальное учение Церкви (СУЦ) вдохновляет местное развитие, прямую демократию Web 3.0A и солидарную экономику с поддержкой ИИ.',
+        metaAuthorLabel: 'Автор', metaPlatesLabel: 'Визуальный архив', metaPlatesVal: '23 схемы + обложка + QR + видео',
+        metaAxisLabel: 'Главный принцип', metaAxisVal: 'Достоинство человека выше капитала',
+        heroBtnSim: 'Симулятор схемы 70/30', heroBtnGallery: 'Все 27 иллюстраций', heroBtnBuy: 'Купить книгу',
+        coverCaption: 'Официальная обложка высокого разрешения', zoomBtn: 'Увеличить',
+        navCrisis: '1. Кризис 4.0', navDsi: '2. Принципы СУЦ', navMuni: '3. Муниципалитет',
+        navDual: '4. Схема 70/30', navWork: '5. Капитал и профсоюзы', navDemo: '6. Web 3.0A',
+        navF5: '7. 5-й фактор', navPlates: '8. Схемы (27)', navVideo: '9. Видео', navBuy: '10. Купить', navDiff: '11. Распространение',
+        s1Kicker: 'Глава I · Диагноз', s1Title: 'Экспоненциальное ускорение и риск «First AI» без этики',
+        s1Lead: 'Когда технологии растут экспоненциально, а общество лишь догоняет их, человеческое достоинство приносится в жертву снижению издержек.',
+        s1P1: 'В Четвёртую промышленную революцию ИИ и робототехника ускоряются быстрее, чем общины успевают адаптироваться.',
+        s1P2: 'Подход «First AI» вызывает увольнения, падение совокупного спроса и кризис пенсионной системы на фоне низкой рождаемости.',
+        s1Quote: '«Необходима предварительная этическая точка опоры, чтобы поставить ИИ и роботов на службу общему благу.»',
+        s1Stat1Label: 'Асимметрия темпов', s1Stat1Val: 'Экспонента vs Общество', s1Stat1Desc: 'Скорость инноваций опережает нормы без этической рамки.',
+        s1Stat2Label: 'Ловушка First AI', s1Stat2Val: 'Спад спроса', s1Stat2Desc: 'Без активных работников падают продажи и пенсионные фонды.',
+        s2Kicker: 'Глава II · Этический фундамент', s2Title: 'Социальное учение Церкви как компас человеческого достоинства',
+        s2Lead: 'От Льва XIII (1891) до Magnifica Humanitas (2026) СУЦ задаёт прочную нравственную основу для ИИ.',
+        dsi1Title: 'Общее благо', dsi1Desc: 'Условия жизни, позволяющие каждому человеку и общине достичь полноты развития.',
+        dsi2Title: 'Всеобщее предназначение благ', dsi2Desc: 'Природные и технологические ресурсы служат всей человеческой семье.',
+        dsi3Title: 'Субсидиарность', dsi3Desc: 'То, что могут решать семьи и муниципалитеты, не должно забираться наверх.',
+        dsi4Title: 'Солидарность', dsi4Desc: 'Никто не спасается в одиночку: ответственность за уязвимых вместо пассивной помощи.',
+        dsi5Title: 'Социальная справедливость', dsi5Desc: 'Защита достоинства труда и предотвращение алгоритмического исключения.',
+        dsi6Title: 'Целостное развитие', dsi6Desc: 'Освобождённое ИИ время служит семье, духовности, науке и искусству.',
+        s3Kicker: 'Глава III · Местная экономика', s3Title: 'Муниципалитет, общины и мосты братского сотрудничества',
+        s3Lead: 'Справедливая микроэкономика начинается в муниципалитете благодаря прямой близости к гражданам, НКО, вузам и профсоюзам.',
+        s3P1: 'Муниципальные постановления, бесплатная земля и нулевые ставки запускают местное производство.',
+        s3P2: 'Очные соглашения и цифровые платформы объединяют районы в круговую экономику.',
+        s4Kicker: 'Глава IV · Экономическая модель', s4Title: 'Дуальная схема 70 / 30: социальный эффект и устойчивость',
+        s4Lead: 'Точный расчёт защищённого блока 70% (50% соцпокрытие + 20% квота инвесторов) и открытого рынка 30%.',
+        tblColBlock: 'Блок / Сегмент', tblColShare: 'Доля', tblColPrice: 'Цена', tblColPurpose: 'Назначение',
+        tblRow1Title: 'Социальный блок (70%) — Общее социальное покрытие',
+        tblRow1Desc: 'Себестоимость ($100) + 10% соцнадбавка: 5% фонд работника (на 3 года в совместном банке) + 5% фонд реинвестиций.',
+        tblRow2Title: 'Социальный блок (70%) — Льготная квота инвесторов',
+        tblRow2Desc: 'Средняя цена: ($110 Соц + $200 Рынок) / 2 = $155/ед. Прямая выгода 22,5% от рыночной цены.',
+        tblRow3Title: 'Открытый рынок (30%)',
+        tblRow3Desc: 'Продажа по рыночной цене ($200/ед.) для возврата капитала и выплаты дохода инвесторам.',
+        simTitle: 'Интерактивный симулятор дуальной схемы 70 / 30',
+        simCostLbl: 'Базовая себестоимость ($)', simMktLbl: 'Рыночная цена ($)', simUnitsLbl: 'Партия выпуска (шт.)',
+        kpi1Lbl: 'Общая выручка', kpi2Lbl: 'Соцэкономия семей (50%)', kpi3Lbl: 'Выгода инвестора (20%)', kpi4Lbl: 'Фонды 5% + 5% (10%)',
+        s5Kicker: 'Глава V · Факторы производства', s5Title: 'Демократизация капитала и возрождение профсоюзов 4.0',
+        s5Lead: 'Микроинвестиции без комиссий, ротация занятости по жребию и профсоюзы как школы этичного ИИ.',
+        f5Card1Lbl: 'Фактор капитала', f5Card1Title: 'Гражданские микроинвестиции', f5Card1Desc: 'Доступ без комиссий с ежемесячной рентой от рыночных 30%.',
+        f5Card2Lbl: 'Фактор труда', f5Card2Title: 'Ротация 70/30 и резерв 5%', f5Card2Desc: '70% студенты вузов и 30% граждане по жребию (90% обучения), контракты на 3 года с резервом 5%.',
+        f5Card3Lbl: 'Профсоюзы 4.0', f5Card3Title: 'Школа этичного ИИ', f5Card3Desc: 'Работник оказывает услуги через модуль ИИ+робот с сохранением зарплаты; аудит алгоритмов и ст. 14 ter.',
+        s6Kicker: 'Глава VI · Прямая демократия', s6Title: 'Свободное время, кардинальные добродетели и Web 3.0A',
+        s6Lead: 'Голосование за предложения на виртуальных форумах с воспитанием Благоразумия, Справедливости, Умеренности и Мужества.',
+        s6P1: 'Этичная автоматизация даёт время для семьи, философии, права, экономики и СУЦ.',
+        s6P2: 'На форумах Web 3.0A граждане голосуют за конкретные проекты (порог 70% избирателей) с помощью ИИ.',
+        virt1: 'Благоразумие', virt1D: 'Верное суждение в общественных решениях.',
+        virt2: 'Справедливость', virt2D: 'Воздавать должное каждому и защищать слабых.',
+        virt3: 'Умеренность', virt3D: 'Равновесие против культа власти.',
+        virt4: 'Мужество', virt4D: 'Стойкость в этических принципах.',
+        s7Kicker: 'Глава VII · Организационный синтез', s7Title: 'Земля, технологии и 5-й фактор производства',
+        s7Lead: 'Труд и ИИ на базе СУЦ формируют 5-й фактор — солидарное управление предприятием.',
+        f7Card1Lbl: 'Фактор земли', f7Card1Title: 'Бесплатная аренда на 3 года', f7Card1Desc: 'Муниципалитет или НКО предоставляют землю бесплатно на 3-летние сроки.',
+        f7Card2Lbl: 'Технологии', f7Card2Title: 'Конкурсы 30 / 40 / 27 / 3', f7Card2Desc: 'Патенты с долями 30% город, 40% граждане, 27% фирмы, 3% изобретатель; отказ от трансгуманизма.',
+        f7Card3Lbl: '5-й фактор · Этап 1', f7Card3Title: 'Солидарный кокон', f7Card3Desc: 'ИИ-приложение на базе СУЦ ведёт право, налоги и учёт с минимальными затратами.',
+        f7Card4Lbl: '5-й фактор · Этап 2', f7Card4Title: 'Человеко-этический регулятор', f7Card4Desc: 'ИИ сигнализирует о росте затрат, а решение принимает человек ради общего блага.',
+        s8Kicker: 'Полный графический архив', s8Title: 'Все иллюстрации, схемы, инфографика и обложка (27 материалов)',
+        s8Lead: 'Нажмите на любую иллюстрацию для просмотра в высоком разрешении с зумом.',
+        fltAll: 'Все (27)', fltDiag: 'Диагноз и СУЦ (1–5)', fltEcon: 'Муниципалитет и 70/30 (6–14)', fltSocial: 'Профсоюзы, Web 3.0A и 5-й фактор (15–23)', fltMedia: 'Обложка, видео и QR (4)',
+        s9Kicker: 'Видеопрезентация', s9Title: 'Промо-видео книги — автозапуск при прокрутке',
+        s9Lead: 'Официальная презентация на YouTube · Автор: Ариэль Иван Монтенегро.',
+        vidReady: 'АВТОЗАПУСК АКТИВЕН', vidPlay: 'Пуск', vidPause: 'Пауза', vidSoundOff: 'Включить звук', vidSoundOn: 'Выключить звук',
+        s10Kicker: 'Официальная покупка · Amazon', s10Title: 'Приобрести книгу в 1 клик и по реальным QR-кодам',
+        s10Lead: 'Доступно на испанском (Amazon Мексика) и английском (Amazon США). Сканируйте QR-код или используйте 1-клик.',
+        buyMxTag: 'Испанское издание · Amazon Мексика', buyMxTitle: 'Amazon Мексика (amazon.com.mx)',
+        buyMxDesc: '«Desarrollando la IA con DSI» — Ариэль Иван Монтенегро (2026).',
+        buyQrTip: 'Отсканируйте камерой телефона или увеличьте QR в 1 клик.',
+        buyMxBtn1: '1-клик: Увеличить QR Мексика', buyMxBtn2: 'Копировать название для Amazon MX',
+        buyUsTag: 'Английское издание · Amazon США', buyUsTitle: 'Amazon США (amazon.com)',
+        buyUsDesc: '«Developing AI with CST» — Ariel Ivan Montenegro (2026).',
+        buyUsQrTip: 'Отсканируйте QR или откройте увеличенный просмотр в 1 клик.',
+        buyUsBtn1: '1-клик: Увеличить QR США', buyUsBtn2: 'Копировать название для Amazon US',
+        s11Kicker: 'Общий призыв · Посвящение', s11Title: 'Распространение, соратники и благодарности',
+        s11Lead: 'Чтение и распространение книги укрепляют экономику с человеческим лицом в семьях, вузах и городах.',
+        diffCard1Lbl: 'Слово к читателю', diffCard1Title: 'Общий призыв',
+        diffCard1P1: 'Глубокие перемены начинаются тогда, когда гражданин или педагог не позволяет технике заменить человеческую душу.',
+        diffCard1P2: 'Делитесь этой идеей в общинах, университетах и муниципалитетах ради мира и братства.',
+        diffCopyBtn: 'Скопировать текст для распространения',
+        diffCard2Lbl: 'Благодарность и посвящение', diffCard2Title: 'Наука, вера и признательность',
+        diffCard2P1: 'Благодарность и посвящение Всемогущему Богу Отцу, моим детям, моим родителям Лидии и Роберто, родным, друзьям, ученикам и каждому соратнику в деле общего блага.',
+        diffCard2P2: 'Наука без Бога неполна: примирение технологического разума с теологией и любовью созидает справедливое общество.',
+        diffQuote: '«Никто не спасается в одиночку: построение экономики с человеческим лицом объединяет нас всех.» — Ариэль Иван Монтенегро',
+        footerCopy: '© 2026 Ариэль Иван Монтенегро — Развитие ИИ с СУЦ.',
+        footerNote: 'Источники: текст книги (2026), схемы 01–23, обложка KDP, миниатюра YouTube и официальные QR-коды Amazon.',
+        lbZoom: 'Зум', lbClose: 'Закрыть', lbPrev: 'Назад', lbNext: 'Далее'
+      },
+      zh: {
+        brandTag: '2026年版 · 4.0新范式与社会训导',
+        langLabel: '语言:',
+        heroKicker: '工业4.0时代的新经济社会范式',
+        heroTitle: '以教会社会训导（DSI）发展人工智能：经济与社会的复兴',
+        heroSubtitle: '以教会社会训导引领地方经济社会发展、Web 3.0A直接民主与人工智能赋能的团结经济。',
+        metaAuthorLabel: '作者', metaPlatesLabel: '视觉档案', metaPlatesVal: '23幅图版 + 封面 + 二维码 + 视频',
+        metaAxisLabel: '核心准则', metaAxisVal: '人性尊严高于资本',
+        heroBtnSim: '体验70/30双轨模拟器', heroBtnGallery: '浏览全部27幅图版', heroBtnBuy: '购买本书',
+        coverCaption: '官方高清图书封面', zoomBtn: '放大查看',
+        navCrisis: '1. 4.0危机', navDsi: '2. 社会训导原则', navMuni: '3. 市政模式',
+        navDual: '4. 70/30双轨', navWork: '5. 资本与工会', navDemo: '6. Web 3.0A民主',
+        navF5: '7. 第五要素', navPlates: '8. 全部图版(27)', navVideo: '9. 宣传视频', navBuy: '10. 购买', navDiff: '11. 传播与致谢',
+        s1Kicker: '第一章 · 时代诊断', s1Title: '指数级技术加速与缺乏伦理的“AI优先”风险',
+        s1Lead: '当技术呈指数级增长而社会只能被动适应时，人性尊严便会沦为压缩成本的牺牲品。',
+        s1P1: '在第四次工业革命中，AI与机器人按加速回报定律迭代，社区尚未消化上一代技术便迎来下一代冲击。',
+        s1P2: '盲目推行“AI优先”裁员会削减家庭收入、萎缩总需求，并在低生育率背景下动摇养老保障体系。',
+        s1Quote: '“必须事先确立伦理与道德转折点，使AI与机器人服务于人类公益，而非相反。”',
+        s1Stat1Label: '节奏失衡', s1Stat1Val: '指数技术 vs 社会', s1Stat1Desc: '缺少DSI伦理框架时，技术速度远超制度调适能力。',
+        s1Stat2Label: '“AI优先”陷阱', s1Stat2Val: '总需求萎缩', s1Stat2Desc: '失去在职劳动者与稳固家庭，消费与养老皆难以为继。',
+        s2Kicker: '第二章 · 伦理基石', s2Title: '教会社会训导：人性尊严的指南针',
+        s2Lead: '从良十三世（1891）到《Magnifica Humanitas》（2026），DSI为规范AI提供了永恒的道德坐标。',
+        dsi1Title: '公益原则', dsi1Desc: '创造使个人与团体皆能充分实现自我且无人被排斥的社会条件。',
+        dsi2Title: '财富普遍用途', dsi2Desc: '自然资源与技术成果属于全人类大家庭，私有财产负有社会职能。',
+        dsi3Title: '辅助性原则', dsi3Desc: '家庭、社区与市政能自主决定的事务，上级机构不应越俎代庖。',
+        dsi4Title: '团结原则', dsi4Desc: '没有人能独自获救：自身命运与弱势邻人相连，拒绝消极施舍。',
+        dsi5Title: '社会正义', dsi5Desc: '守护人类劳动尊严，防止算法偏见与数字排斥。',
+        dsi6Title: '人的全面发展', dsi6Desc: 'AI释放的闲暇用于滋养精神、家庭、艺术与科学。',
+        s3Kicker: '第三章 · 地方治理', s3Title: '市政政府、社区与兄弟协作桥梁',
+        s3Lead: '公正的微观经济扎根于最贴近公民的市政层级，串联地方政府、NGO、大学、工会与企业。',
+        s3P1: '市政通过法规、免费供地与零税率政策，携手民间团体共同启动地方经济复兴。',
+        s3P2: '线下达成共识、线上协同运作，将各社区连成循环生产网络。',
+        s4Kicker: '第四章 · 经济架构', s4Title: '70 / 30双轨分配与定价方案：社会效益与可持续性',
+        s4Lead: '精确解析70%社会保护板块（50%社会普惠覆盖 + 20%投资者优惠配额）与30%公开市场板块。',
+        tblColBlock: '板块 / 子项目', tblColShare: '比例', tblColPrice: '定价', tblColPurpose: '战略目标',
+        tblRow1Title: '社会保护板块 (70%) — 普惠社会覆盖',
+        tblRow1Desc: '成本($100)+10%社会附加：5%劳动者合伙基金（联名银行递延3年）+ 5%本地再投资基金，释放家庭消费力。',
+        tblRow2Title: '社会保护板块 (70%) — 投资者优惠配额',
+        tblRow2Desc: '均价：($110社会价 + $200市场价) / 2 = $155/件。直接赋予投资者22.5%的市场价差收益。',
+        tblRow3Title: '公开市场板块 (30%)',
+        tblRow3Desc: '按全额市场价($200/件)销售，用于加速偿还本金并向公民微投资者按月分红。',
+        simTitle: '70 / 30双轨方案交互式模拟器',
+        simCostLbl: '单位基础成本 ($)', simMktLbl: '公开市场全价 ($)', simUnitsLbl: '生产批量 (件)',
+        kpi1Lbl: '批次总营收', kpi2Lbl: '社会家庭节省总额 (50%)', kpi3Lbl: '投资者配额优惠 (20%)', kpi4Lbl: '5%+5%专项基金 (10%)',
+        s5Kicker: '第五章 · 生产要素', s5Title: '资本民主化与4.0时代的工会复兴',
+        s5Lead: '零佣金公民微投资、公开抽签轮岗就业，以及转型为伦理AI学校的现代工会。',
+        f5Card1Lbl: '资本要素', f5Card1Title: '公民微投资', f5Card1Desc: '受训公民零佣金投入小额资本，从30%市场份额获得月度收益。',
+        f5Card2Lbl: '劳动要素', f5Card2Title: '70/30轮岗与5%基金', f5Card2Desc: '70%本地大学生与30%抽签公民（需90%培训合格），三年期合同配5%联名储蓄。',
+        f5Card3Lbl: '工会4.0', f5Card3Title: '伦理AI学校', f5Card3Desc: '劳动者通过AI+机器人单元提供服务并保留全薪权益；工会审计算法并推动第14条之三立法。',
+        s6Kicker: '第六章 · 直接民主', s6Title: '闲暇时间、四枢德与Web 3.0A架构',
+        s6Lead: '在虚拟市政论坛直接对提案投票，以智、义、节、勇四枢德培育自治公民。',
+        s6P1: '合乎伦理的自动化归还闲暇时间，用于家庭、哲学、宪法、经济学与DSI学习。',
+        s6P2: '在AI辅助的Web 3.0A市政论坛中，公民直接表决具体提案（70%选民门槛），告别政党腐败。',
+        virt1: '明智', virt1D: '公共与经济决策中的正确理性。',
+        virt2: '正义', virt2D: '各得其所并团结扶助弱者。',
+        virt3: '节制', virt3D: '克制权力崇拜与过度消费。',
+        virt4: '刚毅', virt4D: '在逆境中坚守伦理原则。',
+        s7Kicker: '第七章 · 组织综合', s7Title: '土地、技术创新与第五生产要素',
+        s7Lead: '劳动与AI在DSI伦理下结合，孕育第五要素：团结型企业管理能力。',
+        f7Card1Lbl: '土地要素', f7Card1Title: '三年期免费供地', f7Card1Desc: '市政或NGO通过法令免费提供土地，大幅降低创业门槛。',
+        f7Card2Lbl: '技术要素', f7Card2Title: '30 / 40 / 27 / 3发明竞赛', f7Card2Desc: '本地专利按30%市政、40%公民、27%企业、3%发明人共享，坚定拒绝超人类主义。',
+        f7Card3Lbl: '第五要素 · 第一阶段', f7Card3Title: '团结保护茧', f7Card3Desc: '经DSI训练的AI应用协同专业团队处理法务、财税与要素优化。',
+        f7Card4Lbl: '第五要素 · 第二阶段', f7Card4Title: '人机伦理调节器', f7Card4Desc: 'AI实时预警成本偏差，始终由人类依据社会公益做最终决策。',
+        s8Kicker: '完整图像档案', s8Title: '全书图版、图表、信息图与封面（共27件）',
+        s8Lead: '点击任意图版即可打开高清灯箱进行缩放与连续浏览。',
+        fltAll: '全部 (27)', fltDiag: '诊断与DSI (1–5)', fltEcon: '市政与70/30 (6–14)', fltSocial: '工会、Web 3.0A与第五要素 (15–23)', fltMedia: '封面、视频与二维码 (4)',
+        s9Kicker: '视听演示', s9Title: '图书宣传视频 — 滚动至此自动播放',
+        s9Lead: 'YouTube官方宣传演示 · 作者：Ariel Ivan Montenegro。',
+        vidReady: '自动播放已激活', vidPlay: '播放', vidPause: '暂停', vidSoundOff: '开启提示音', vidSoundOn: '静音提示音',
+        s10Kicker: '官方购买 · 亚马逊', s10Title: '一键快捷购买指引与真实官方二维码',
+        s10Lead: '提供西班牙语版（亚马逊墨西哥）与英语版（亚马逊美国），请扫码或点击一键放大。',
+        buyMxTag: '西班牙语版 · 亚马逊墨西哥', buyMxTitle: '亚马逊墨西哥 (amazon.com.mx)',
+        buyMxDesc: '《Desarrollando la IA con DSI》— Ariel Ivan Montenegro（2026年版）。',
+        buyQrTip: '使用手机扫码直达亚马逊墨西哥页面，或一键放大二维码。',
+        buyMxBtn1: '一键操作：放大墨西哥站二维码', buyMxBtn2: '复制亚马逊墨西哥站书名',
+        buyUsTag: '英语版 · 亚马逊美国', buyUsTitle: '亚马逊美国 (amazon.com)',
+        buyUsDesc: '《Developing AI with CST》— Ariel Ivan Montenegro（2026年版）。',
+        buyUsQrTip: '手机扫码直达亚马逊美国页面，或一键放大查看。',
+        buyUsBtn1: '一键操作：放大美国站二维码', buyUsBtn2: '复制亚马逊美国站书名',
+        s11Kicker: '共同号召 · 献辞与致谢', s11Title: '社区传播、协作者与鸣谢',
+        s11Lead: '您的阅读与分享让以人为本的经济理念在家庭、高校、工会与社区生根发芽。',
+        diffCard1Lbl: '致读者结语', diffCard1Title: '共同的号召',
+        diffCard1P1: '每一场深刻变革都始于公民、教师或劳动者拒绝让技术取代人类灵魂。',
+        diffCard1P2: '请在您的社区、高校与团体分享这一蓝图，让AI永远服务于友爱与和平。',
+        diffCopyBtn: '复制社区传播寄语',
+        diffCard2Lbl: '致谢与献辞', diffCard2Title: '科学、信仰与感恩',
+        diffCard2P1: '谨以感恩之心将本书献给全能的天父上帝、我的孩子们、父母Lidia与Roberto、亲友、学生以及每日为生命与公益奋斗的所有伙伴。',
+        diffCard2P2: '没有上帝的科学是不完整的；让科技理性与神学及仁爱携手，共筑公正持久的社会。',
+        diffQuote: '“没有人能独自获救：建设有人情味的经济是我们共同的事业。” — Ariel Ivan Montenegro',
+        footerCopy: '© 2026 Ariel Ivan Montenegro — 以教会社会训导发展人工智能。',
+        footerNote: '资料来源：2026年版全书文本、图版01–23、KDP封面、YouTube封图与亚马逊官方二维码。',
+        lbZoom: '缩放', lbClose: '关闭', lbPrev: '上一张', lbNext: '下一张'
+      }
+    };
+
+    const VIDEO_SCENES = [
+      {
+        plateId: 'yt',
+        es: ['ESCENA 01 / 06', 'Desarrollando la IA con DSI: El Renacimiento Económico y Social', 'Presentación oficial del nuevo paradigma socioeconómico para la Era 4.0: la inteligencia artificial subordinada a la dignidad humana.'],
+        en: ['SCENE 01 / 06', 'Developing AI with CST: The Economic and Social Renaissance', 'Official presentation of the Era 4.0 socioeconomic paradigm placing artificial intelligence at the service of human dignity.'],
+        it: ['SCENA 01 / 06', 'Sviluppare l’IA con la DSC', 'Presentazione ufficiale del nuovo paradigma socioeconomico per l’Era 4.0 al servizio della dignità umana.'],
+        de: ['SZENE 01 / 06', 'KI mit KSL entwickeln', 'Offizielle Vorstellung des neuen Paradigmas 4.0 im Dienst der Menschenwürde.'],
+        ru: ['СЦЕНА 01 / 06', 'Развитие ИИ с СУЦ', 'Официальная презентация новой парадигмы эпохи 4.0 на службе достоинству человека.'],
+        zh: ['第 01 / 06 幕', '以教会社会训导发展人工智能', '工业4.0新经济社会范式官方视频导览：让AI服务于人性尊严。']
+      },
+      {
+        plateId: 'p2',
+        es: ['ESCENA 02 / 06', 'Aceleración Exponencial vs. Brecha Social', 'Sin una base ética previa, el «First AI» destruye empleo, reduce la demanda agregada y debilita los sistemas jubilatorios.'],
+        en: ['SCENE 02 / 06', 'Exponential Acceleration vs. Social Lag', 'Without a prior ethical foundation, “First AI” destroys jobs, shrinks demand, and threatens pension systems.'],
+        it: ['SCENA 02 / 06', 'Accelerazione vs. Ritardo Sociale', 'Senza base etica, il «First AI» riduce occupazione, domanda aggregata e pensioni.'],
+        de: ['SZENE 02 / 06', 'Beschleunigung vs. Gesellschaft', 'Ohne Ethik zerstört «First AI» Arbeitsplätze, Nachfrage und Rentenbasis.'],
+        ru: ['СЦЕНА 02 / 06', 'Ускорение и социальный разрыв', 'Без этической базы «First AI» снижает занятость и совокупный спрос.'],
+        zh: ['第 02 / 06 幕', '指数加速与社会滞后', '若无事先伦理框架，“AI优先”将冲击就业、总需求与养老体系。']
+      },
+      {
+        plateId: 'p5',
+        es: ['ESCENA 03 / 06', 'La Brújula de la Doctrina Social de la Iglesia', 'Bien común, destino universal de los bienes, subsidiariedad, solidaridad, justicia social y desarrollo humano integral.'],
+        en: ['SCENE 03 / 06', 'The Compass of Catholic Social Teaching', 'Common good, universal destination of goods, subsidiarity, solidarity, social justice, and integral development.'],
+        it: ['SCENA 03 / 06', 'La Bussola della DSC', 'Bene comune, destinazione universale, sussidiarietà, solidarietà e sviluppo integrale.'],
+        de: ['SZENE 03 / 06', 'Kompass der Soziallehre', 'Gemeinwohl, Subsidiarität, Solidarität, soziale Gerechtigkeit und ganzheitliche Entwicklung.'],
+        ru: ['СЦЕНА 03 / 06', 'Компас Социального учения', 'Общее благо, субсидиарность, солидарность и целостное развитие человека.'],
+        zh: ['第 03 / 06 幕', '教会社会训导指南针', '以公益、普遍用途、辅助性、团结、社会正义与全面发展指引技术方向。']
+      },
+      {
+        plateId: 'p11',
+        es: ['ESCENA 04 / 06', 'Esquema Dual 70 / 30 en el Territorio Municipal', '50% a Precio Social ($110) + 20% Cupo Inversor ($155, 22.5% beneficio) + 30% Mercado Abierto ($200) para retorno sostenible.'],
+        en: ['SCENE 04 / 06', 'Dual 70 / 30 Municipal Production Scheme', '50% Social Price ($110) + 20% Investor Quota ($155, 22.5% benefit) + 30% Open Market ($200) for sustainable returns.'],
+        it: ['SCENA 04 / 06', 'Schema Duale 70 / 30 Comunale', '50% Prezzo Sociale ($110) + 20% Quota Investitori ($155) + 30% Mercato ($200).'],
+        de: ['SZENE 04 / 06', 'Duales 70/30-Modell', '50% Sozialpreis ($110) + 20% Anlegerkontingent ($155) + 30% Markt ($200).'],
+        ru: ['СЦЕНА 04 / 06', 'Дуальная схема 70 / 30', '50% соццена ($110) + 20% квота инвесторов ($155) + 30% рынок ($200).'],
+        zh: ['第 04 / 06 幕', '市政70/30双轨模式', '50%社会价($110) + 20%投资者优惠($155) + 30%公开市场($200)，兼顾民生与回报。']
+      },
+      {
+        plateId: 'p20',
+        es: ['ESCENA 05 / 06', 'Gremios 4.0, Tiempo Libre y Democracia Web 3.0A', 'Trabajadores operando robótica e IA sin perder derechos y votando propuestas en foros virtuales comunales al 70% del padrón.'],
+        en: ['SCENE 05 / 06', 'Unions 4.0, Leisure & Web 3.0A Democracy', 'Workers operating AI+robotics with full rights and voting proposals in virtual forums at a 70% voter threshold.'],
+        it: ['SCENA 05 / 06', 'Sindacati 4.0 e Democrazia Web 3.0A', 'Lavoratori con unità IA+robotica e voto diretto nei forum comunali.'],
+        de: ['SZENE 05 / 06', 'Gewerkschaft 4.0 & Web 3.0A', 'Beschäftigte mit KI+Robotik bei vollen Rechten und direkter Abstimmung.'],
+        ru: ['СЦЕНА 05 / 06', 'Профсоюзы 4.0 и Web 3.0A', 'Сохранение прав при работе с ИИ и прямое голосование на форумах.'],
+        zh: ['第 05 / 06 幕', '工会4.0与Web 3.0A直接民主', '劳动者掌控AI机器人且保留权益，并在社区论坛直接表决提案。']
+      },
+      {
+        plateId: 'cover',
+        es: ['ESCENA 06 / 06', 'El 5.º Factor y el Llamado a la Acción', 'Disponible en Amazon México (Español) y Amazon EE.UU. (Inglés). ¡Construyamos juntos una economía con rostro humano!'],
+        en: ['SCENE 06 / 06', 'The 5th Factor & Call to Action', 'Available on Amazon Mexico (Spanish) and Amazon US (English). Let us build an economy with a human face!'],
+        it: ['SCENA 06 / 06', 'Il 5° Fattore e Appello Finale', 'Disponibile su Amazon Messico e Amazon USA. Costruiamo un’economia dal volto umano!'],
+        de: ['SZENE 06 / 06', 'Der 5. Faktor & Aufruf', 'Erhältlich bei Amazon Mexiko und Amazon USA. Für eine Wirtschaft mit menschlichem Antlitz!'],
+        ru: ['СЦЕНА 06 / 06', '5-й фактор и призыв к действию', 'Доступно на Amazon Мексика и Amazon США. Построим экономику с человеческим лицом!'],
+        zh: ['第 06 / 06 幕', '第五要素与行动号召', '现已上架亚马逊墨西哥与美国站，让我们共同建设有人情味的经济！']
+      }
+    ];
+
+    let currentLang = 'es';
+    let currentFilter = 'all';
+    let currentLbIdx = 0;
+    let dualChart = null;
+
+    let videoSceneIdx = 0;
+    let videoPlaying = false;
+    let videoTimer = null;
+    let videoSoundOn = false;
+    let audioCtx = null;
+
+    function getPlateById(id) {
+      return PLATES.find(function (p) { return p.id === id; }) || PLATES[0];
+    }
+
+    function setLanguage(lang) {
+      if (!I18N[lang]) return;
+      currentLang = lang;
+      document.documentElement.lang = lang;
+
+      const btns = document.querySelectorAll('.lang-btn[data-lang]');
+      btns.forEach(function (b) {
+        b.classList.toggle('active', b.getAttribute('data-lang') === lang);
+      });
+
+      const dict = I18N[lang];
+      const nodes = document.querySelectorAll('[data-i18n]');
+      nodes.forEach(function (el) {
+        const key = el.getAttribute('data-i18n');
+        if (dict[key]) el.textContent = dict[key];
+      });
+
+      PLATES.forEach(function (p) {
+        const inlineBtn = document.querySelector('[data-i18n="' + p.id + 'Title"]');
+        if (inlineBtn) inlineBtn.textContent = p[lang] || p.es;
+        const btn = document.querySelector('[data-plate-label="' + p.id + '"]');
+        if (btn) btn.textContent = p[lang] || p.es;
+      });
+
+      renderGallery();
+      updateDualCalculations();
+      renderVideoScene();
+    }
+
+    function renderGallery() {
+      const grid = document.getElementById('gallery-grid');
+      if (!grid) return;
+
+      const items = currentFilter === 'all'
+        ? PLATES
+        : PLATES.filter(function (p) { return p.cat === currentFilter; });
+
+      grid.innerHTML = '';
+      items.forEach(function (p) {
+        const fig = document.createElement('figure');
+        fig.className = 'plate-figure';
+
+        const wrap = document.createElement('div');
+        wrap.className = 'plate-img-wrap';
+        wrap.onclick = function () { openLightboxById(p.id); };
+
+        const img = document.createElement('img');
+        img.src = p.src;
+        img.alt = p[currentLang] || p.es;
+        img.loading = 'lazy';
+        wrap.appendChild(img);
+
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'plate-zoom-btn';
+        btn.onclick = function () { openLightboxById(p.id); };
+
+        const titleSpan = document.createElement('span');
+        titleSpan.textContent = p[currentLang] || p.es;
+        const plusSpan = document.createElement('span');
+        plusSpan.textContent = '+';
+        btn.appendChild(titleSpan);
+        btn.appendChild(plusSpan);
+
+        const cap = document.createElement('figcaption');
+        cap.className = 'plate-caption';
+        cap.textContent = (p.desc && (p.desc[currentLang] || p.desc.es)) || '';
+
+        fig.appendChild(wrap);
+        fig.appendChild(btn);
+        fig.appendChild(cap);
+        grid.appendChild(fig);
+      });
+    }
+
+    function filterGallery(cat, btnEl) {
+      currentFilter = cat;
+      document.querySelectorAll('.filter-btn').forEach(function (b) {
+        b.classList.remove('active');
+      });
+      if (btnEl) btnEl.classList.add('active');
+      renderGallery();
+    }
+
+    function openLightboxById(id) {
+      const idx = PLATES.findIndex(function (p) { return p.id === id; });
+      currentLbIdx = idx >= 0 ? idx : 0;
+      showLightbox();
+    }
+
+    function showLightbox() {
+      const lb = document.getElementById('lightbox');
+      const img = document.getElementById('lb-img');
+      const title = document.getElementById('lb-title');
+      const idxEl = document.getElementById('lb-index');
+      const desc = document.getElementById('lb-desc');
+      const catEl = document.getElementById('lb-cat');
+      const stage = document.getElementById('lb-stage');
+      if (!lb || !img || !title || !idxEl || !desc || !catEl || !stage) return;
+
+      const p = PLATES[currentLbIdx];
+      img.src = p.src;
+      img.alt = p[currentLang] || p.es;
+      title.textContent = p[currentLang] || p.es;
+      idxEl.textContent = (currentLbIdx + 1) + ' / ' + PLATES.length;
+      desc.textContent = (p.desc && (p.desc[currentLang] || p.desc.es)) || '';
+      catEl.textContent = p.cat.toUpperCase();
+      stage.classList.remove('zoomed');
+      lb.classList.add('open');
+    }
+
+    function closeLightbox() {
+      const lb = document.getElementById('lightbox');
+      if (lb) lb.classList.remove('open');
+    }
+
+    function handleLightboxBackdropClick(evt) {
+      if (evt.target && evt.target.id === 'lightbox') closeLightbox();
+    }
+
+    function stepLightbox(delta) {
+      currentLbIdx = (currentLbIdx + delta + PLATES.length) % PLATES.length;
+      showLightbox();
+    }
+
+    function toggleLightboxZoom() {
+      const stage = document.getElementById('lb-stage');
+      if (stage) stage.classList.toggle('zoomed');
+    }
+
+    /* Dual 70/30 Simulator (Dedicated Handlers per Control) */
+    function syncCostFromSlider(val) {
+      const num = document.getElementById('num-cost');
+      if (num) num.value = val;
+      updateDualCalculations();
+    }
+    function syncCostFromNumber(val) {
+      const sl = document.getElementById('slider-cost');
+      if (sl) sl.value = val;
+      updateDualCalculations();
+    }
+    function syncMarketFromSlider(val) {
+      const num = document.getElementById('num-market');
+      if (num) num.value = val;
+      updateDualCalculations();
+    }
+    function syncMarketFromNumber(val) {
+      const sl = document.getElementById('slider-market');
+      if (sl) sl.value = val;
+      updateDualCalculations();
+    }
+    function syncUnitsFromSlider(val) {
+      const num = document.getElementById('num-units');
+      if (num) num.value = val;
+      updateDualCalculations();
+    }
+    function syncUnitsFromNumber(val) {
+      const sl = document.getElementById('slider-units');
+      if (sl) sl.value = val;
+      updateDualCalculations();
+    }
+
+    function fmtMoney(n) {
+      return '$' + Math.round(n).toLocaleString('en-US');
+    }
+
+    function updateDualCalculations() {
+      const costEl = document.getElementById('num-cost');
+      const mktEl = document.getElementById('num-market');
+      const unitsEl = document.getElementById('num-units');
+      if (!costEl || !mktEl || !unitsEl) return;
+
+      const cost = Math.max(1, parseFloat(costEl.value) || 100);
+      const mkt = Math.max(cost * 1.15, parseFloat(mktEl.value) || 200);
+      const units = Math.max(10, parseFloat(unitsEl.value) || 1000);
+
+      const socialPrice = cost * 1.10;
+      const invPrice = (socialPrice + mkt) / 2;
+      const invBenefitPct = ((mkt - invPrice) / mkt) * 100;
+      const socialDiscountPct = ((mkt - socialPrice) / mkt) * 100;
+
+      const uSocial = units * 0.50;
+      const uInv = units * 0.20;
+      const uMkt = units * 0.30;
+
+      const revSocial = uSocial * socialPrice;
+      const revInv = uInv * invPrice;
+      const revMkt = uMkt * mkt;
+      const totalRev = revSocial + revInv + revMkt;
+      const totalCost = units * cost;
+
+      const socialSavings = uSocial * (mkt - socialPrice);
+      const invSavings = uInv * (mkt - invPrice);
+      const workerFund5 = uSocial * (cost * 0.05);
+      const localFund5 = uSocial * (cost * 0.05);
+
+      const tSoc = document.getElementById('tbl-social-price');
+      const tInv = document.getElementById('tbl-inv-price');
+      const tMkt = document.getElementById('tbl-mkt-price');
+      if (tSoc) tSoc.textContent = '$' + socialPrice.toFixed(0) + ' / un.';
+      if (tInv) tInv.textContent = '$' + invPrice.toFixed(1).replace(/\.0$/, '') + ' / un.';
+      if (tMkt) tMkt.textContent = '$' + mkt.toFixed(0) + ' / un.';
+
+      const kpiRev = document.getElementById('kpi-total-rev');
+      const kpiMargin = document.getElementById('kpi-margin');
+      const kpiSave = document.getElementById('kpi-social-save');
+      const kpiSavePct = document.getElementById('kpi-social-pct');
+      const kpiInvBen = document.getElementById('kpi-inv-benefit');
+      const kpiInvSave = document.getElementById('kpi-inv-save');
+      const kpiRes = document.getElementById('kpi-reserves');
+      const kpiResSub = document.getElementById('kpi-reserves-sub');
+
+      const kpiText = {
+        es: ['Superávit sobre costo: ', '% ahorro vs. mercado', 'Beneficio directo: ', '5% Trab.', '5% Local'],
+        en: ['Surplus over cost: ', '% savings vs. market', 'Direct benefit: ', '5% Worker', '5% Local'],
+        it: ['Avanzo sul costo: ', '% risparmio vs. mercato', 'Beneficio diretto: ', '5% Lav.', '5% Locale'],
+        de: ['Überschuss über Kosten: ', '% Ersparnis vs. Markt', 'Direktvorteil: ', '5% Arb.', '5% Lokal'],
+        ru: ['Профицит сверх затрат: ', '% экономии к рынку', 'Прямая выгода: ', '5% Раб.', '5% Местн.'],
+        zh: ['超成本盈余: ', '% 较市场节省', '直接收益: ', '5% 员工', '5% 本地']
+      }[currentLang] || ['Superávit sobre costo: ', '% ahorro vs. mercado', 'Beneficio directo: ', '5% Trab.', '5% Local'];
+
+      if (kpiRev) kpiRev.textContent = fmtMoney(totalRev);
+      if (kpiMargin) kpiMargin.textContent = kpiText[0] + fmtMoney(totalRev - totalCost);
+      if (kpiSave) kpiSave.textContent = fmtMoney(socialSavings);
+      if (kpiSavePct) kpiSavePct.textContent = socialDiscountPct.toFixed(1) + kpiText[1];
+      if (kpiInvBen) kpiInvBen.textContent = invBenefitPct.toFixed(1) + '%';
+      if (kpiInvSave) kpiInvSave.textContent = kpiText[2] + fmtMoney(invSavings);
+      if (kpiRes) kpiRes.textContent = fmtMoney(workerFund5 + localFund5);
+      if (kpiResSub) kpiResSub.textContent = fmtMoney(workerFund5) + ' (' + kpiText[3] + ') + ' + fmtMoney(localFund5) + ' (' + kpiText[4] + ')';
+
+      renderDualChart(revSocial, revInv, revMkt, socialSavings);
+    }
+
+    function renderDualChart(revSocial, revInv, revMkt, socialSavings) {
+      const canvas = document.getElementById('dualSchemeChart');
+      if (!canvas || typeof Chart === 'undefined') return;
+
+      const styles = getComputedStyle(document.documentElement);
+      const c1 = styles.getPropertyValue('--data-3').trim();
+      const c2 = styles.getPropertyValue('--data-2').trim();
+      const c3 = styles.getPropertyValue('--data-1').trim();
+      const c4 = styles.getPropertyValue('--data-4').trim();
+
+      const labelMap = {
+        es: ['50% Social', '20% Inversor', '30% Mercado', 'Ahorro Social'],
+        en: ['50% Social', '20% Investor', '30% Market', 'Social Savings'],
+        it: ['50% Sociale', '20% Investitori', '30% Mercato', 'Risparmio Soc.'],
+        de: ['50% Sozial', '20% Anleger', '30% Markt', 'Sozialersparnis'],
+        ru: ['50% Соц.', '20% Инвестор', '30% Рынок', 'Соц. экономия'],
+        zh: ['50% 社会覆盖', '20% 投资者配额', '30% 公开市场', '社会节省额']
+      };
+      const labels = labelMap[currentLang] || labelMap.es;
+      const values = [Math.round(revSocial), Math.round(revInv), Math.round(revMkt), Math.round(socialSavings)];
+
+      if (dualChart) {
+        dualChart.data.labels = labels;
+        dualChart.data.datasets[0].data = values;
+        dualChart.update();
+        return;
+      }
+
+      dualChart = new Chart(canvas.getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'USD',
+            data: values,
+            backgroundColor: [c1, c2, c3, c4],
+            borderWidth: 0
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            y: { beginAtZero: true }
+          }
+        }
+      });
+    }
+
+    /* Auto-playing Promotional Video Presentation Stage */
+    function renderVideoScene() {
+      const scene = VIDEO_SCENES[videoSceneIdx];
+      if (!scene) return;
+      const plate = getPlateById(scene.plateId);
+      const pack = scene[currentLang] || scene.es;
+
+      const img = document.getElementById('video-frame-img');
+      const tag = document.getElementById('video-chapter-tag');
+      const title = document.getElementById('video-scene-title');
+      const sub = document.getElementById('video-scene-subtitle');
+      const fill = document.getElementById('video-progress-fill');
+      const timeLbl = document.getElementById('video-time-label');
+
+      if (img) img.src = plate.src;
+      if (tag) tag.textContent = pack[0];
+      if (title) title.textContent = pack[1];
+      if (sub) sub.textContent = pack[2];
+      if (fill) fill.style.width = (((videoSceneIdx + 1) / VIDEO_SCENES.length) * 100) + '%';
+      if (timeLbl) {
+        const sec = String((videoSceneIdx + 1) * 6).padStart(2, '0');
+        timeLbl.textContent = '00:' + sec + ' / 00:36';
+      }
+    }
+
+    function playChime() {
+      if (!videoSoundOn) return;
+      try {
+        const AudioCtor = window.AudioContext || window.webkitAudioContext;
+        if (!AudioCtor) return;
+        if (!audioCtx) audioCtx = new AudioCtor();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.value = 392 + (videoSceneIdx * 36);
+        gain.gain.setValueAtTime(0.04, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.35);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.36);
+      } catch (e) {}
+    }
+
+    function startVideoPlayback() {
+      if (videoPlaying) return;
+      videoPlaying = true;
+      const btn = document.getElementById('video-play-btn');
+      if (btn) btn.textContent = I18N[currentLang].vidPause || 'Pausar';
+      videoTimer = setInterval(function () {
+        videoSceneIdx = (videoSceneIdx + 1) % VIDEO_SCENES.length;
+        renderVideoScene();
+        playChime();
+      }, 6000);
+    }
+
+    function stopVideoPlayback() {
+      videoPlaying = false;
+      clearInterval(videoTimer);
+      videoTimer = null;
+      const btn = document.getElementById('video-play-btn');
+      if (btn) btn.textContent = I18N[currentLang].vidPlay || 'Reproducir';
+    }
+
+    function toggleVideoPlayback() {
+      if (videoPlaying) stopVideoPlayback();
+      else startVideoPlayback();
+    }
+
+    function jumpVideoScene(idx) {
+      videoSceneIdx = idx;
+      renderVideoScene();
+      playChime();
+    }
+
+    function toggleVideoSound() {
+      videoSoundOn = !videoSoundOn;
+      const btn = document.getElementById('video-sound-btn');
+      if (btn) {
+        btn.textContent = videoSoundOn
+          ? (I18N[currentLang].vidSoundOn || 'Silenciar')
+          : (I18N[currentLang].vidSoundOff || 'Activar audio');
+      }
+      if (videoSoundOn) playChime();
+    }
+
+    /* 1-Click Copy Helpers */
+    function copyStoreGuide(store) {
+      const txt = store === 'mx'
+        ? `Desarrollando la IA con DSI: El Renacimiento Económico y Social — Ariel Ivan Montenegro (Amazon México: amazon.com.mx)`
+        : `Developing AI with CST: The Economic and Social Renaissance — Ariel Ivan Montenegro (Amazon US: amazon.com)`;
+      const fbId = store === 'mx' ? 'fb-mx' : 'fb-us';
+      const fb = document.getElementById(fbId);
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(txt).catch(function () {});
+      }
+      if (fb) fb.textContent = '✓ Copiado al portapapeles: ' + txt;
+    }
+
+    function copyShareMessage() {
+      const txt = `Recomiendo el libro «Desarrollando la IA con DSI: El Renacimiento Económico y Social» de Ariel Ivan Montenegro (Edición 2026): IA al servicio de la dignidad humana, el esquema dual 70/30 municipal y la democracia directa Web 3.0A.`;
+      const fb = document.getElementById('fb-share');
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(txt).catch(function () {});
+      }
+      if (fb) fb.textContent = '✓ Mensaje de difusión copiado para compartir en su comunidad.';
+    }
+
+    document.addEventListener('keydown', function (e) {
+      const lb = document.getElementById('lightbox');
+      if (!lb || !lb.classList.contains('open')) return;
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowRight') stepLightbox(1);
+      if (e.key === 'ArrowLeft') stepLightbox(-1);
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+      renderGallery();
+      updateDualCalculations();
+      renderVideoScene();
+
+      const stage = document.getElementById('video-stage');
+      if (stage && typeof IntersectionObserver !== 'undefined') {
+        const obs = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) startVideoPlayback();
+            else stopVideoPlayback();
+          });
+        }, { threshold: 0.35 });
+        obs.observe(stage);
+      }
+    });
+  </script>
+</body>
+</html>

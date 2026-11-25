@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Galería de Láminas | IA y DSI</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <a href="index.html" class="nav-brand">
+      <span>IA & DSI</span> | Galería de Láminas HD
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="esquema_dual_7030.html">Esquema Dual 70/30</a></li>
+      <li><a href="galeria_laminas.html" class="active">Galería de Láminas</a></li>
+      <li><a href="democracia_web30a.html">Democracia Web 3.0A</a></li>
+    </ul>
+    <div class="lang-select-container">
+      🌐
+      <select id="langSelect" onchange="changeLanguage(this.value)">
+        <option value="es">Español</option>
+        <option value="en">English</option>
+        <option value="it">Italiano</option>
+        <option value="de">Deutsch</option>
+        <option value="ru">Русский</option>
+        <option value="zh">中文</option>
+      </select>
+    </div>
+  </nav>
+
+  <!-- Main Container -->
+  <main class="container">
+    <div class="section-title">
+      <h2 data-i18n="galleryTitle">Galería de Láminas e Infografías Conceptuales</h2>
+      <p data-i18n="gallerySub">Haz clic en cualquier lámina para ampliarla en alta resolución HD a pantalla completa</p>
+    </div>
+
+    <div class="grid-3">
+      <!-- Figure Cards -->
+      <div class="card" onclick="openModal('lamina_esquema_dual_7030_hd.png')" style="cursor:pointer;">
+        <img src="lamina_esquema_dual_7030_hd.png" alt="Lámina Esquema Dual 70/30" style="width:100%; border-radius:8px; margin-bottom:1rem;">
+        <h3>Figura 01: Matriz del Esquema Dual 70/30</h3>
+        <p>Estructura de precios, recargo social del 10% y cupo del 20% a precio promedio ($155/un).</p>
+      </div>
+
+      <div class="card" onclick="openModal('lamina_quinto_factor_dsi_hd.png')" style="cursor:pointer;">
+        <img src="lamina_quinto_factor_dsi_hd.png" alt="Lámina Quinto Factor DSI" style="width:100%; border-radius:8px; margin-bottom:1rem;">
+        <h3>Figura 02: El Quinto Factor de Producción</h3>
+        <p>Integración armónica de Trabajo + IA + DSI + Capacidad Empresarial.</p>
+      </div>
+
+      <div class="card" onclick="openModal('fig01-cover-highres.png')" style="cursor:pointer;">
+        <img src="fig01-cover-highres.png" alt="Portada de la Obra" style="width:100%; border-radius:8px; margin-bottom:1rem;">
+        <h3>Figura 03: Síntesis de Portada y Visión 4.0</h3>
+        <p>Juxtaposición de la arquitectura clásica y el horizonte tecnológico.</p>
+      </div>
+
+      <div class="card" onclick="openModal('fig11-scheme-7030-model-highres.png')" style="cursor:pointer;">
+        <img src="fig11-scheme-7030-model-highres.png" alt="Flujo de Agentes 70/30" style="width:100%; border-radius:8px; margin-bottom:1rem;">
+        <h3>Figura 04: Flujo de Agentes e Impacto Local</h3>
+        <p>Relación entre el Fideicomiso Municipal, microinversores y la demanda familiar.</p>
+      </div>
+
+      <div class="card" onclick="openModal('fig21-web30a-architecture-highres.png')" style="cursor:pointer;">
+        <img src="fig21-web30a-architecture-highres.png" alt="Arquitectura Web 3.0A" style="width:100%; border-radius:8px; margin-bottom:1rem;">
+        <h3>Figura 05: Arquitectura Web 3.0A y Gobernanza</h3>
+        <p>Infraestructura descentralizada para la votación de proyectos y presupuestos participativos.</p>
+      </div>
+
+      <div class="card" onclick="openModal('fig17-union40-matrix-highres.png')" style="cursor:pointer;">
+        <img src="fig17-union40-matrix-highres.png" alt="Matriz Gremios 4.0" style="width:100%; border-radius:8px; margin-bottom:1rem;">
+        <h3>Figura 06: Matriz de Evolución a Gremios 4.0</h3>
+        <p>Reconversión del sindicato tradicional hacia escuelas de IA y defensa de competencias.</p>
+      </div>
+    </div>
+  </main>
+
+  <!-- Modal Viewer for HD Images -->
+  <div id="imageModal" class="modal">
+    <span class="modal-close">&times;</span>
+    <img id="modalImg" class="modal-content" src="" alt="Lámina Ampliada HD">
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2026 Inteligencia Artificial y Doctrina Social para el Desarrollo. Obra registrada por Ariel Iván Montenegro.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
